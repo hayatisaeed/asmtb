@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d260c7e8-656c-4f9f-84b0-a5960c783201" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/handlers/admin_handlers/start_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/handlers/admin_handlers/start_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/handlers/start_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/handlers/start_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/handlers/user_handlers/start_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/handlers/user_handlers/start_handler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/utils/chat_member.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/utils/chat_member.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +19,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2bp01Go2DE4GHtC73OtwBJuVBfD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -36,7 +32,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Faze1",
+    "git-widget-placeholder": "Faze1-Channel__Lock",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

@@ -23,7 +23,7 @@ async def channel_lock_button_pressed(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     query = update.callback_query
 
-    if user_joined_channel(context, user_id, Config.CHANNEL_ID):
+    if await user_joined_channel(context, user_id, Config.CHANNEL_ID):
         await query.answer("✅ عضویت شما تایید شد ✅")
         await context.bot.delete_message(chat_id=user_id, message_id=query.message.message_id)
         await core.handlers.start_handler.handle(update, context)
