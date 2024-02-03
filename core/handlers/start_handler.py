@@ -4,6 +4,7 @@ from core.config import Config
 import core.handlers.admin_handlers.start_handler as admin_start_handler
 import core.utils.chat_member
 import core.handlers.user_handlers.start_handler
+import core.data_handler
 
 
 async def handle(update: Update, context: CallbackContext) -> None:
@@ -12,6 +13,8 @@ async def handle(update: Update, context: CallbackContext) -> None:
         await admin_start_handler.handle(update, context)
 
     else:  # load user panel
+        if not await core.data_handler.user_is_saved(user_id):
+            await core.data_handler.save_user(user_id)
         if not Config.BOT_POWER_ON:
             await context.bot.send_message(chat_id=user_id,
                                            text="در حال حاضر ربات غیر فعال است. لطفا پس از فعال سازی /start را بزنید.")
