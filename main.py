@@ -2,8 +2,7 @@
 
 import logging
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
-
+from telegram.ext import ApplicationBuilder, CallbackContext, ContextTypes, CommandHandler
 from core.config import Config
 
 
