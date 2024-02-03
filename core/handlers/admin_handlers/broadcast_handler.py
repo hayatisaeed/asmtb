@@ -43,6 +43,7 @@ async def do_the_broadcast(update: Update, context: CallbackContext):
 🟢 ارسال با موفقیت به {done} کاربر
 عدم ارسال موفق به {failed} کاربر 
     """
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=message)
     await core.handlers.admin_handlers.start_handler.handle(update, context)
     return ConversationHandler.END
 
