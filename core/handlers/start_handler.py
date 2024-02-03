@@ -12,7 +12,10 @@ async def handle(update: Update, context: CallbackContext) -> None:
         await admin_start_handler.handle(update, context)
 
     else:  # load user panel
-        if not await core.utils.chat_member.user_joined_channel(context, user_id, Config.CHANNEL_ID):
+        if not Config.BOT_POWER_ON:
+            await context.bot.send_message(chat_id=user_id,
+                                           text="در حال حاضر ربات غیر فعال است. لطفا پس از فعال سازی /start را بزنید.")
+        elif not await core.utils.chat_member.user_joined_channel(context, user_id, Config.CHANNEL_ID):
             # user not joined the channel
             await core.utils.chat_member.channel_lock(update, context)
         else:
