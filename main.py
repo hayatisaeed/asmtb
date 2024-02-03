@@ -37,7 +37,7 @@ def main():
                                                   pattern='^joined channel$')
 
     admin_bot_general_settings = ConversationHandler(
-        entry_points=[MessageHandler(filters.Regex('^⚙️ | تنظیمات کلی بات$'),
+        entry_points=[MessageHandler(filters.Regex('^⚙️ | تنظیمات کلی بات&'),
                                      core.handlers.admin_handlers.general_settings_handler.handle)],
         states={
             'CHOOSING': [
