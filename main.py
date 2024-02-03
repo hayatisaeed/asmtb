@@ -60,6 +60,8 @@ def main():
     # Run Application Forever
     application.run_polling()
 
+    print('-- Bot started and running ... --')
+
 
 if __name__ == '__main__':
     main()
