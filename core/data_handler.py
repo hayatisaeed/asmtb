@@ -29,3 +29,13 @@ async def save_user(user_id):
     with open('data/user_data.json', 'w') as f:
         json.dump(data, f)
 
+
+async def get_all_user_data():
+    with open('data/user_data.json', 'r') as f:
+        data = json.load(f)
+
+    result = []
+    for i in data:
+        result.append(i)
+
+    return result

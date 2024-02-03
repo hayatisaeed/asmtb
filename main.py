@@ -16,6 +16,9 @@ from core.config import Config
 import core.handlers.start_handler
 import core.handlers.admin_handlers.general_settings_handler
 import core.utils.chat_member
+import core.handlers.admin_handlers.broadcast_handler
+import core.handlers.admin_handlers.start_handler
+
 
 
 logging.basicConfig(
@@ -47,6 +50,21 @@ def main():
                                core.handlers.admin_handlers.general_settings_handler.return_home),
                 MessageHandler(filters.ALL,
                                core.handlers.admin_handlers.general_settings_handler.unknown_command)
+            ]
+        },
+        fallbacks=[]
+    )
+
+    admin_broadcast_message_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^📣 | ارسال اطلاعیه$'),
+                           core.handlers.admin_handlers.broadcast_handler.handle)
+        ],
+        states={
+            'SEND_MESSAGE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.admin_handlers.broadcast_handler.return_home),
+                MessageHandler(filters.ALL, core.handlers.admin_handlers.broadcast_handler.do_the_broadcast)
             ]
         },
         fallbacks=[]
