@@ -74,12 +74,12 @@ def main():
     application.add_handler(start_handler)
     application.add_handler(joined_channel_handler)
     application.add_handler(admin_bot_general_settings)
+    application.add_handler(admin_broadcast_message_handler)
 
     # Run Application Forever
     application.run_polling()
 
-    print('-- Bot started and running ... --')
-
 
 if __name__ == '__main__':
+    print('-- Bot started and running ... --')
     main()
