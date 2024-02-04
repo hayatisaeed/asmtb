@@ -19,6 +19,7 @@ import core.utils.chat_member
 import core.handlers.admin_handlers.broadcast_handler
 import core.handlers.admin_handlers.start_handler
 import core.handlers.user_handlers.basic_settings_handler
+import core.handlers.admin_handlers.uploader_handler
 
 
 
@@ -133,12 +134,31 @@ def main():
         ]
     )
 
+    admin_uploader_handler = ConversationHandler(
+        entry_points=[MessageHandler(filters.Regex('^📤 آپلودر$'),
+                                     core.handlers.admin_handlers.uploader_handler.handle)],
+        states={
+            'NEW_UPLOAD': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.ALL, core.handlers.admin_handlers.uploader_handler.new_file)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.uploader_handler.return_home)
+        ]
+    )
+
     # Add Handlers To Application
     application.add_handler(start_handler)
     application.add_handler(joined_channel_handler)
     application.add_handler(admin_bot_general_settings)
     application.add_handler(admin_broadcast_message_handler)
     application.add_handler(user_basic_settings_handler)
+    application.add_handler(admin_uploader_handler)
 
     # Run Application Forever
     application.run_polling()

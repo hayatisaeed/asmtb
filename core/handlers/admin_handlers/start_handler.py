@@ -2,7 +2,7 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import CallbackContext
 from core.config import Config
 
-admin_main_keyboard = [['⚙️ | تنظیمات کلی بات'], ['📣 | ارسال اطلاعیه']]
+admin_main_keyboard = [['⚙️ | تنظیمات کلی بات'], ['📣 | ارسال اطلاعیه'], ['📤 آپلودر']]
 admin_main_reply_markup = ReplyKeyboardMarkup(admin_main_keyboard, one_time_keyboard=True)
 
 
