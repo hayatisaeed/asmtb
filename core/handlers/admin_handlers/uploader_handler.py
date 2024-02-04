@@ -33,7 +33,7 @@ async def new_file(update: Update, context: CallbackContext):
 
 🔗 لینک فایل:
 
-https://t.me/{Config.BOT_USERNAME}?start={encoded_string}
+https://t.me/{Config.BOT_USER_NAME}?start={encoded_string}
 
     """
     await update.message.reply_text(message)
