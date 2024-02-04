@@ -30,7 +30,6 @@ async def handle(update: Update, context: CallbackContext) -> None:
         args = context.args
         if args:
             await core.utils.send_uploaded_file.send(update, context, user_id, args[0])
-            return
 
         await core.handlers.user_handlers.start_handler.handle(update, context)
 
