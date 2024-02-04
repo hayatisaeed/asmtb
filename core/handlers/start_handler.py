@@ -10,7 +10,10 @@ import core.utils.send_uploaded_file
 
 async def handle(update: Update, context: CallbackContext) -> None:
     user_id = update.effective_user.id
+    args = context.args
     if user_id == Config.ADMIN_ID:  # load admin panel
+        if args:
+            await core.utils.send_uploaded_file.send(update, context, user_id, args[0])
         await admin_start_handler.handle(update, context)
 
     else:  # load user panel
@@ -27,7 +30,6 @@ async def handle(update: Update, context: CallbackContext) -> None:
             await core.utils.chat_member.channel_lock(update, context)
             return
 
-        args = context.args
         if args:
             await core.utils.send_uploaded_file.send(update, context, user_id, args[0])
 
