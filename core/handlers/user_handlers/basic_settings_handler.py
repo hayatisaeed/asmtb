@@ -173,6 +173,7 @@ async def save_name(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     name = update.message.text
     user_data = await core.data_handler.get_user_data(user_id)
+    user_data['name'] = name
 
     if await core.data_handler.save_user_data(user_id, user_data):
         await context.bot.send_message(chat_id=user_id, text="نام و نام خانوادگی با موفقیت تنظیم شد")
