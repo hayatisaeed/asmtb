@@ -13,8 +13,7 @@ async def user_is_saved(user_id):
 
 
 TEMPLATE_USER_DATA = {
-    'first_name': '',
-    'last_name': '',
+    'name': '',
     'gender': 'پسر',
     'grade': '12',
     'reshte': 'ریاضی',
@@ -28,6 +27,23 @@ async def save_user(user_id):
     data[str(user_id)] = TEMPLATE_USER_DATA
     with open('data/user_data.json', 'w') as f:
         json.dump(data, f)
+
+
+async def get_user_data(user_id):
+    with open('data/user_data.json', 'r') as f:
+        data = json.load(f)
+        return data[str(user_id)]
+
+
+async def save_user_data(user_id, user_data):
+    try:
+        with open('data/user_data.json', 'w') as f:
+            data = json.load(f)
+            data[str(user_id)] = user_data
+            json.dump(data, f)
+            return True
+    except:
+        return False
 
 
 async def get_all_user_data():

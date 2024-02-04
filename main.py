@@ -18,6 +18,7 @@ import core.handlers.admin_handlers.general_settings_handler
 import core.utils.chat_member
 import core.handlers.admin_handlers.broadcast_handler
 import core.handlers.admin_handlers.start_handler
+import core.handlers.user_handlers.basic_settings_handler
 
 
 
@@ -48,7 +49,7 @@ def main():
                                core.handlers.admin_handlers.general_settings_handler.change_power_status),
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
                                core.handlers.admin_handlers.general_settings_handler.return_home),
-                MessageHandler(filters.ALL,
+                MessageHandler(filters.TEXT,
                                core.handlers.admin_handlers.general_settings_handler.unknown_command)
             ]
         },
@@ -70,11 +71,59 @@ def main():
         fallbacks=[]
     )
 
+    user_basic_settings_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^تنظیمات کاربری 🔧$'),
+                           core.handlers.user_handlers.basic_settings_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^تنظیم نام و نام خانوادگی$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_name),
+                MessageHandler(filters.Regex('^تنظیم وضعیت تحصیل$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_status),
+                MessageHandler(filters.Regex('^تنظیم جنسیت$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_gender),
+                MessageHandler(filters.Regex('^تنظیم رشته$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_reshte),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.choose_what_to_edit)
+            ],
+            'CHOOSING_GENDER': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_gender),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_gender)
+            ],
+            'CHOOSING_RESHTE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_reshte),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_reshte)
+            ],
+            'CHOOSING_STATUS': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_status),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_status)
+            ],
+            'CHOOSING_NAME': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_name),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_name)
+            ],
+        },
+        fallbacks=[]
+    )
+
     # Add Handlers To Application
     application.add_handler(start_handler)
     application.add_handler(joined_channel_handler)
     application.add_handler(admin_bot_general_settings)
     application.add_handler(admin_broadcast_message_handler)
+    application.add_handler(user_basic_settings_handler)
 
     # Run Application Forever
     application.run_polling()
