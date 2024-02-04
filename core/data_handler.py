@@ -15,7 +15,7 @@ async def user_is_saved(user_id):
 TEMPLATE_USER_DATA = {
     'name': 'تعیین نشده',
     'gender': 'تعیین نشده',
-    'grade': 'تعیین نشده',
+    'grade': '12',
     'reshte': 'تعیین نشده',
     'status': 'تعیین نشده'
 }
