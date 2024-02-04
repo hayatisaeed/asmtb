@@ -166,7 +166,7 @@ async def wrong_reshte(update: Update, context: CallbackContext):
 async def change_name(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     await context.bot.send_message(chat_id=user_id, text="لطفا نام خود را ارسال کنید", reply_markup=cancel_markup)
-    return 'CHANGE_NAME'
+    return 'CHOSSING_NAME'
 
 
 async def save_name(update: Update, context: CallbackContext):
