@@ -53,7 +53,12 @@ def main():
                                core.handlers.admin_handlers.general_settings_handler.unknown_command)
             ]
         },
-        fallbacks=[]
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.admin_handlers.general_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.general_settings_handler.return_home)
+        ]
     )
 
     admin_broadcast_message_handler = ConversationHandler(
@@ -68,7 +73,12 @@ def main():
                 MessageHandler(filters.ALL, core.handlers.admin_handlers.broadcast_handler.do_the_broadcast)
             ]
         },
-        fallbacks=[]
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.admin_handlers.broadcast_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.broadcast_handler.return_home)
+        ]
     )
 
     user_basic_settings_handler = ConversationHandler(
@@ -115,7 +125,12 @@ def main():
                 MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_name)
             ],
         },
-        fallbacks=[]
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.user_handlers.basic_settings_handler.return_home)
+        ]
     )
 
     # Add Handlers To Application
