@@ -1,11 +1,8 @@
 # in the name of Allah
 
 import logging
-from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
-    CallbackContext,
-    ContextTypes,
     CommandHandler,
     MessageHandler,
     CallbackQueryHandler,
@@ -20,7 +17,7 @@ import core.handlers.admin_handlers.broadcast_handler
 import core.handlers.admin_handlers.start_handler
 import core.handlers.user_handlers.basic_settings_handler
 import core.handlers.admin_handlers.uploader_handler
-
+import core.handlers.admin_handlers.data_bank_handler
 
 
 logging.basicConfig(
@@ -152,6 +149,18 @@ def main():
         ]
     )
 
+    data_bank_handler = MessageHandler(filters.Regex('^🏦 بانک فایل$'),
+                                       core.handlers.admin_handlers.data_bank_handler.handle)
+
+    #    # CallbackQueryHandlers (file bank)
+    previous_page_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.pre_page,
+                                                 pattern="^previous-page")
+    next_page_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.next_page,
+                                             pattern="^next-page")
+    show_file_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_file,
+                                             pattern="^show-file")
+    none_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_none, pattern="^none")
+
     # Add Handlers To Application
     application.add_handler(start_handler)
     application.add_handler(joined_channel_handler)
@@ -159,6 +168,11 @@ def main():
     application.add_handler(admin_broadcast_message_handler)
     application.add_handler(user_basic_settings_handler)
     application.add_handler(admin_uploader_handler)
+    application.add_handler(data_bank_handler)
+    application.add_handler(previous_page_handler)
+    application.add_handler(next_page_handler)
+    application.add_handler(show_file_handler)
+    application.add_handler(none_handler)
 
     # Run Application Forever
     application.run_polling()

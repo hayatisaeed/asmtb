@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d260c7e8-656c-4f9f-84b0-a5960c783201" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/core/handlers/start_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/handlers/start_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/utils/send_uploaded_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/utils/send_uploaded_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +44,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Faze1-Uploader&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,6 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706896495880</updated>
       <workItem from="1706896498918" duration="7409000" />
+      <workItem from="1707201390472" duration="236000" />
     </task>
     <servers />
   </component>

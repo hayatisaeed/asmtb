@@ -60,3 +60,40 @@ async def get_all_user_data():
         result.append(i)
 
     return result
+
+
+async def get_all_file_bank():
+    with open('data/file_bank.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
+async def new_file_in_bank(message_id, title):
+    try:
+        with open('data/file_bank.json', 'r') as f:
+            data = json.load(f)
+
+        data["titles"][str(message_id)] = title
+        data["ids"].append(str(message_id))
+
+        with open('data/file_bank.json', 'w') as f:
+            json.dump(data, f)
+
+        return True
+    except:
+        return False
+
+
+async def delete_file_in_bank(message_id):
+    try:
+        with open('data/file_bank.json', 'r') as f:
+            data = json.load(f)
+        del data["titles"][str(message_id)]
+        while message_id in data["ids"]:
+            for i in range(0, len(data["ids"])):
+                if data["ids"][i] == message_id:
+                    del data["titles"][i]
+                    break
+        return True
+    except:
+        return False
