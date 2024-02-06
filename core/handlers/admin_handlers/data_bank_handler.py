@@ -17,15 +17,15 @@ async def handle(update: Update, context: CallbackContext):
     else:
         file_bank = await core.data_handler.get_all_file_bank()
         inline_keyboard = []
-        for message_id in file_bank["ids"][0:10+1]:
+        for message_id in file_bank["ids"][0:min(10, len(file_bank["ids"]))]:
             inline_keyboard.append(
                 [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
         inline_keyboard.append(
             [
-                InlineKeyboardButton(">>", callback_data="previous-page 1"),
+                InlineKeyboardButton("قبلی >>", callback_data="previous-page 1"),
                 InlineKeyboardButton(f"Page 1", callback_data="none 1"),
-                InlineKeyboardButton("<<", callback_data="next-page 1")
+                InlineKeyboardButton("<< بعدی", callback_data="next-page 1")
             ]
         )
         inline_markup = InlineKeyboardMarkup(inline_keyboard)
@@ -50,16 +50,16 @@ async def pre_page(update: Update, context: CallbackContext):
 
         total_length = len(file_bank["ids"])
 
-        for message_id in file_bank["ids"][(query_data - 1) * 10 + 1: min(total_length, query_data * 10) + 1]:
+        for message_id in file_bank["ids"][(query_data - 2) * 10: min(total_length, query_data * 10 - 10)]:
             inline_keyboard.append(
                 [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
 
         inline_keyboard.append(
             [
-                InlineKeyboardButton(">>", callback_data=f"previous-page {query_data - 1}"),
-                InlineKeyboardButton(f"Page 1", callback_data=f"none {query_data - 1}"),
-                InlineKeyboardButton("<<", callback_data=f"next-page {query_data - 1}")
+                InlineKeyboardButton("قبلی >>", callback_data=f"previous-page {query_data - 1}"),
+                InlineKeyboardButton(f"Page {query_data - 1}", callback_data=f"none {query_data - 1}"),
+                InlineKeyboardButton("<< بعدی", callback_data=f"next-page {query_data - 1}")
             ]
         )
         inline_markup = InlineKeyboardMarkup(inline_keyboard)
@@ -89,16 +89,16 @@ async def next_page(update: Update, context: CallbackContext):
 
         total_length = len(file_bank["ids"])
 
-        for message_id in file_bank["ids"][query_data * 10 + 1: min(total_length, query_data * 10) + 1]:
+        for message_id in file_bank["ids"][query_data * 10: min(total_length, query_data * 10 + 10)]:
             inline_keyboard.append(
                 [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
 
         inline_keyboard.append(
             [
-                InlineKeyboardButton("<<", callback_data=f"next-page {query_data + 1}"),
-                InlineKeyboardButton(f"Page 1", callback_data=f"none {query_data + 1}"),
-                InlineKeyboardButton(">>", callback_data=f"previous-page {query_data + 1}")
+                InlineKeyboardButton("قبلی >>", callback_data=f"previous-page {query_data + 1}"),
+                InlineKeyboardButton(f"Page {query_data + 1}", callback_data=f"none {query_data + 1}"),
+                InlineKeyboardButton("<< بعدی", callback_data=f"next-page {query_data + 1}")
             ]
         )
         inline_markup = InlineKeyboardMarkup(inline_keyboard)
