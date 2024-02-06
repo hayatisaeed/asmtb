@@ -19,7 +19,7 @@ async def handle(update: Update, context: CallbackContext):
         inline_keyboard = []
         for message_id in file_bank["ids"][0:10+1]:
             inline_keyboard.append(
-                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show_file {message_id}")]
+                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
         inline_keyboard.append(
             [
@@ -52,7 +52,7 @@ async def pre_page(update: Update, context: CallbackContext):
 
         for message_id in file_bank["ids"][(query_data - 1) * 10 + 1: min(total_length, query_data * 10) + 1]:
             inline_keyboard.append(
-                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show_file {message_id}")]
+                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
 
         inline_keyboard.append(
@@ -91,7 +91,7 @@ async def next_page(update: Update, context: CallbackContext):
 
         for message_id in file_bank["ids"][query_data * 10 + 1: min(total_length, query_data * 10) + 1]:
             inline_keyboard.append(
-                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show_file {message_id}")]
+                [InlineKeyboardButton(f"{file_bank['titles'][message_id]}", callback_data=f"show-file {message_id}")]
             )
 
         inline_keyboard.append(
@@ -117,7 +117,7 @@ async def next_page(update: Update, context: CallbackContext):
 
 async def show_file(update: Update, context: CallbackContext):
     query = update.callback_query
-    message_id = query.message.message_id
+    message_id = query.data.split()[1]
     delete_keyboard = [
         [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
         [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
@@ -142,11 +142,11 @@ link for file {data["title"]}:
 {data["link"]}
     """
     inline_keyboard = [
-        [InlineKeyboardButton("بازگشت", callback_data=f"show_file {message_id}")]
+        [InlineKeyboardButton("بازگشت", callback_data=f"show-file {message_id}")]
     ]
     inline_markup = InlineKeyboardMarkup(inline_keyboard)
-    await query.edit_message_text(text="text")
-    await query.edit_message_reply_markup(reply_markup=inline_markup)
+    await query.delete_message()
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=inline_markup)
     await query.answer("🔗 لینک")
 
 

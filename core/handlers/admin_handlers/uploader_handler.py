@@ -27,6 +27,7 @@ async def set_title(update: Update, context: CallbackContext):
     context.user_data['title'] = title
     await context.bot.send_message(chat_id=Config.ADMIN_ID, text="لطفا فایل خود را آپلود کرده یا فوروارد نمایید.",
                                    reply_markup=cancel_markup)
+    return 'NEW_UPLOAD'
 
 
 async def new_file(update: Update, context: CallbackContext):
