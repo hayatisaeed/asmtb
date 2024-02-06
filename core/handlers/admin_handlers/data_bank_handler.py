@@ -96,9 +96,9 @@ async def next_page(update: Update, context: CallbackContext):
 
         inline_keyboard.append(
             [
-                InlineKeyboardButton(">>", callback_data=f"previous-page {query_data + 1}"),
+                InlineKeyboardButton("<<", callback_data=f"next-page {query_data + 1}"),
                 InlineKeyboardButton(f"Page 1", callback_data=f"none {query_data + 1}"),
-                InlineKeyboardButton("<<", callback_data=f"next-page {query_data + 1}")
+                InlineKeyboardButton(">>", callback_data=f"previous-page {query_data + 1}")
             ]
         )
         inline_markup = InlineKeyboardMarkup(inline_keyboard)
@@ -118,9 +118,10 @@ async def next_page(update: Update, context: CallbackContext):
 async def show_file(update: Update, context: CallbackContext):
     query = update.callback_query
     message_id = query.message.message_id
-    delete_keyboard = [[
-        InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")
-    ]]
+    delete_keyboard = [
+        [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
+        [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
+    ]
     delete_markup = InlineKeyboardMarkup(delete_keyboard)
     await query.delete_message()
     try:
@@ -129,6 +130,24 @@ async def show_file(update: Update, context: CallbackContext):
         await query.answer("✅")
     except:
         await query.answer("❌ خطا")
+
+
+async def show_link(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+    data = await core.data_handler.get_file_in_file_bank(message_id)
+    text = f"""
+link for file {data["title"]}:
+
+{data["link"]}
+    """
+    inline_keyboard = [
+        [InlineKeyboardButton("بازگشت", callback_data=f"show_file {message_id}")]
+    ]
+    inline_markup = InlineKeyboardMarkup(inline_keyboard)
+    await query.edit_message_text(text="text")
+    await query.edit_message_reply_markup(reply_markup=inline_markup)
+    await query.answer("🔗 لینک")
 
 
 async def show_none(update: Update, context: CallbackContext):

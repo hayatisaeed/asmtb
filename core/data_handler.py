@@ -68,13 +68,25 @@ async def get_all_file_bank():
         return data
 
 
-async def new_file_in_bank(message_id, title):
+async def get_file_in_file_bank(message_id):
+    with open('data/file_bank.json', 'r') as f:
+        data = json.load(f)
+    try:
+        new_data = {"title": data["titles"][str(message_id)], "link": data["links"][str(message_id)]}
+        return new_data
+
+    except:
+        False
+
+
+async def new_file_in_bank(message_id, title, link):
     try:
         with open('data/file_bank.json', 'r') as f:
             data = json.load(f)
 
         data["titles"][str(message_id)] = title
         data["ids"].append(str(message_id))
+        data["links"][str(message_id)] = link
 
         with open('data/file_bank.json', 'w') as f:
             json.dump(data, f)

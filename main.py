@@ -139,6 +139,12 @@ def main():
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
                                core.handlers.user_handlers.basic_settings_handler.return_home),
                 MessageHandler(filters.ALL, core.handlers.admin_handlers.uploader_handler.new_file)
+            ],
+            'SET_TITLE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.admin_handlers.uploader_handler.set_title),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.return_home)
             ]
         },
         fallbacks=[
@@ -160,6 +166,8 @@ def main():
     show_file_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_file,
                                              pattern="^show-file")
     none_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_none, pattern="^none")
+    show_link_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_link,
+                                             pattern="^show-link")
 
     # Add Handlers To Application
     application.add_handler(start_handler)
@@ -173,6 +181,7 @@ def main():
     application.add_handler(next_page_handler)
     application.add_handler(show_file_handler)
     application.add_handler(none_handler)
+    application.add_handler(show_link_handler)
 
     # Run Application Forever
     application.run_polling()
