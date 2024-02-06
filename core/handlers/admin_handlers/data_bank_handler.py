@@ -160,7 +160,7 @@ async def delete_file(update: Update, context: CallbackContext):
     query = update.callback_query
     message_id = query.data.split()[1]
 
-    if core.data_handler.delete_file_in_bank(message_id):
+    if await core.data_handler.delete_file_in_bank(message_id):
         await query.delete_message()
         await query.answer("✅ فایل حذف شد")
         await core.handlers.start_handler.handle(update, context)

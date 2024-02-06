@@ -101,11 +101,14 @@ async def delete_file_in_bank(message_id):
         with open('data/file_bank.json', 'r') as f:
             data = json.load(f)
         del data["titles"][str(message_id)]
+        del data["links"][str(message_id)]
         while message_id in data["ids"]:
             for i in range(0, len(data["ids"])):
                 if data["ids"][i] == message_id:
                     del data["titles"][i]
                     break
+        with open('data/file_bank.json', 'w') as f:
+            json.dump(data, f)
         return True
     except:
         return False

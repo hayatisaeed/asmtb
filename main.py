@@ -168,6 +168,8 @@ def main():
     none_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_none, pattern="^none")
     show_link_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.show_link,
                                              pattern="^show-link")
+    delete_file_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.delete_file,
+                                               pattern="^delete-file")
 
     # Add Handlers To Application
     application.add_handler(start_handler)
@@ -182,6 +184,7 @@ def main():
     application.add_handler(show_file_handler)
     application.add_handler(none_handler)
     application.add_handler(show_link_handler)
+    application.add_handler(delete_file_handler)
 
     # Run Application Forever
     application.run_polling()
