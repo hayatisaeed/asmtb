@@ -105,7 +105,7 @@ async def delete_file_in_bank(message_id):
         while message_id in data["ids"]:
             for i in range(0, len(data["ids"])):
                 if data["ids"][i] == message_id:
-                    del data["titles"][i]
+                    del data["ids"][i]
                     break
         with open('data/file_bank.json', 'w') as f:
             json.dump(data, f)
