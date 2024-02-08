@@ -7,3 +7,5 @@ class Config:
     CHANNEL_LINK = "channel_link_here"
     BOT_POWER_ON = True
     BOT_USER_NAME = "bot_username_here"
+    MOTIVATION_HOUR = 5
+    MOTIVATION_MINUTE = 30

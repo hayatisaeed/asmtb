@@ -118,15 +118,21 @@ async def next_page(update: Update, context: CallbackContext):
 async def show_file(update: Update, context: CallbackContext):
     query = update.callback_query
     message_id = query.data.split()[1]
+    if await core.data_handler.file_in_motivation(message_id):
+        motivation_button_text = "حذف از محتوای انگیزشی"
+    else:
+        motivation_button_text = "⭐️ اضافه کردن به محتوای انگیزشی"
+
     delete_keyboard = [
         [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
+        [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
         [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
     ]
     delete_markup = InlineKeyboardMarkup(delete_keyboard)
     await query.delete_message()
     try:
-        await context.bot.copy_message(from_chat_id=Config.ADMIN_ID, chat_id=Config.ADMIN_ID, message_id=message_id,
-                                       reply_markup=delete_markup)
+        await context.bot.copy_message(from_chat_id=Config.ADMIN_ID, chat_id=Config.ADMIN_ID,
+                                       message_id=int(message_id), reply_markup=delete_markup)
         await query.answer("✅")
     except:
         await query.answer("❌ خطا")
@@ -166,3 +172,34 @@ async def delete_file(update: Update, context: CallbackContext):
         await core.handlers.start_handler.handle(update, context)
     else:
         await query.answer("❌ خطا")
+
+
+async def change_motivation_status(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+
+    if await core.data_handler.file_in_motivation(message_id):
+        await core.data_handler.delete_from_motivation(message_id)
+
+        motivation_button_text = "⭐️ اضافه کردن به محتوای انگیزشی"
+
+        delete_keyboard = [
+            [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
+            [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
+            [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
+        ]
+        delete_markup = InlineKeyboardMarkup(delete_keyboard)
+        await query.edit_message_reply_markup(reply_markup=delete_markup)
+        await query.answer("حذف شد از لیست انگیزشی")
+    else:
+        await core.data_handler.add_motivation_message(message_id)
+        motivation_button_text = "حذف از محتوای انگیزشی"
+
+        delete_keyboard = [
+            [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
+            [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
+            [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
+        ]
+        delete_markup = InlineKeyboardMarkup(delete_keyboard)
+        await query.edit_message_reply_markup(reply_markup=delete_markup)
+        await query.answer("اضافه شد به محتوای انگیزشی")

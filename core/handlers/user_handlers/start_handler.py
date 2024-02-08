@@ -1,7 +1,10 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import CallbackContext
 
-user_main_keyboard = [['تنظیمات کاربری 🔧']]
+user_main_keyboard = [
+    ['تنظیمات کاربری 🔧'],
+    ['⭐️ انگیزه بگیر!']
+]
 user_main_reply_markup = ReplyKeyboardMarkup(user_main_keyboard, one_time_keyboard=True)
 
 

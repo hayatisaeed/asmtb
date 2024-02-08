@@ -18,6 +18,9 @@ import core.handlers.admin_handlers.start_handler
 import core.handlers.user_handlers.basic_settings_handler
 import core.handlers.admin_handlers.uploader_handler
 import core.handlers.admin_handlers.data_bank_handler
+import core.handlers.user_handlers.motivation_handler
+import core.handlers.admin_handlers.motivation_handler
+from datetime import time
 
 
 logging.basicConfig(
@@ -32,6 +35,7 @@ ADMIN_ID = Config.ADMIN_ID
 
 def main():
     application = ApplicationBuilder().token(TOKEN).build()
+    job_queue = application.job_queue
 
     # Define Handlers
     start_handler = CommandHandler('start', core.handlers.start_handler.handle)
@@ -158,6 +162,9 @@ def main():
     data_bank_handler = MessageHandler(filters.Regex('^🏦 بانک فایل$'),
                                        core.handlers.admin_handlers.data_bank_handler.handle)
 
+    user_motivation_handler = MessageHandler(filters.Regex('^⭐️ انگیزه بگیر!$'),
+                                             core.handlers.user_handlers.motivation_handler.handle)
+
     #    # CallbackQueryHandlers (file bank)
     previous_page_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.pre_page,
                                                  pattern="^previous-page")
@@ -170,6 +177,32 @@ def main():
                                              pattern="^show-link")
     delete_file_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.delete_file,
                                                pattern="^delete-file")
+    change_motivation_status = CallbackQueryHandler(
+        core.handlers.admin_handlers.data_bank_handler.change_motivation_status,
+        pattern="^change-motivation-status"
+    )
+
+    admin_motivation_handler = ConversationHandler(
+        entry_points=[MessageHandler(filters.Regex('^⭐ بخش انگیزشی$'),
+                                     core.handlers.admin_handlers.motivation_handler.handle)],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.admin_handlers.motivation_handler.return_home),
+                MessageHandler(filters.Regex('^زمان ارسال خودکار$'),
+                               core.handlers.admin_handlers.motivation_handler.handle_time),
+                MessageHandler(filters.Regex('^فایل‌های انگیزشی$'),
+                               core.handlers.admin_handlers.motivation_handler.handle_files),
+                MessageHandler(filters.ALL, core.handlers.admin_handlers.motivation_handler.return_home)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.uploader_handler.return_home)
+        ]
+    )
 
     # Add Handlers To Application
     application.add_handler(start_handler)
@@ -185,6 +218,13 @@ def main():
     application.add_handler(none_handler)
     application.add_handler(show_link_handler)
     application.add_handler(delete_file_handler)
+    application.add_handler(change_motivation_status)
+    application.add_handler(user_motivation_handler)
+    application.add_handler(admin_motivation_handler)
+
+    # set schedules
+    job_queue.run_daily(core.handlers.user_handlers.motivation_handler.send_motivation_for_all,
+                        time(hour=Config.MOTIVATION_HOUR, minute=Config.MOTIVATION_MINUTE), days=(0, 1, 2, 3, 4, 5, 6))
 
     # Run Application Forever
     application.run_polling()

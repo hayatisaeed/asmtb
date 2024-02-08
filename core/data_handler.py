@@ -76,7 +76,7 @@ async def get_file_in_file_bank(message_id):
         return new_data
 
     except:
-        False
+        return False
 
 
 async def new_file_in_bank(message_id, title, link):
@@ -112,3 +112,43 @@ async def delete_file_in_bank(message_id):
         return True
     except:
         return False
+
+
+async def get_motivation_messages():
+    try:
+        with open('data/motivation.json', 'r') as f:
+            data = json.load(f)
+            return data["ids"]
+    except:
+        return False
+
+
+async def file_in_motivation(message_id):
+    with open('data/motivation.json', 'r') as f:
+        data = json.load(f)
+    if message_id in data["ids"]:
+        return True
+    else:
+        return False
+
+
+async def add_motivation_message(message_id):
+    with open('data/motivation.json', 'r') as f:
+        data = json.load(f)
+
+    data["ids"].append(message_id)
+    with open('data/motivation.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def delete_from_motivation(message_id):
+    with open('data/motivation.json', 'r') as f:
+        data = json.load(f)
+
+    while message_id in data:
+        for i in range(0, len(data["ids"])):
+            if data["ids"][i] == message_id:
+                del data["ids"][i]
+
+    with open('data/motivation.json', 'w') as f:
+        json.dump(data, f)
