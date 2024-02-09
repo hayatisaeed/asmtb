@@ -161,9 +161,6 @@ def main():
     data_bank_handler = MessageHandler(filters.Regex('^🏦 بانک فایل$'),
                                        core.handlers.admin_handlers.data_bank_handler.handle)
 
-    user_motivation_handler = MessageHandler(filters.Regex('^⭐️ انگیزه بگیر!$'),
-                                             core.handlers.user_handlers.motivation_handler.handle)
-
     #    # CallbackQueryHandlers (file bank)
     previous_page_handler = CallbackQueryHandler(core.handlers.admin_handlers.data_bank_handler.pre_page,
                                                  pattern="^previous-page")
@@ -206,7 +203,9 @@ def main():
     user_motivation_settings_handler = ConversationHandler(
         entry_points=[
             MessageHandler(filters.Regex('^⭐ تنظیمات انگیزشی$'),
-                           core.handlers.user_handlers.motivation_settings_handler.handle)
+                           core.handlers.user_handlers.motivation_settings_handler.handle),
+            MessageHandler(filters.Regex('^⭐️ انگیزه بگیر!$'),
+                           core.handlers.user_handlers.motivation_handler.handle)
         ],
         states={
             'CHOOSING': [
@@ -233,11 +232,9 @@ def main():
     )
 
     handlers = [
-        start_handler, joined_channel_handler, admin_bot_general_settings,
-        admin_broadcast_message_handler, user_basic_settings_handler,
-        admin_uploader_handler, data_bank_handler, previous_page_handler,
-        next_page_handler, show_file_handler, none_handler, show_link_handler,
-        delete_file_handler, change_motivation_status, user_motivation_handler,
+        start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
+        user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,next_page_handler,
+        show_file_handler, none_handler, show_link_handler, delete_file_handler, change_motivation_status,
         admin_motivation_handler, user_motivation_settings_handler
     ]
 
