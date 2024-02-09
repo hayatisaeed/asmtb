@@ -64,7 +64,7 @@ async def set_motivation_job_queue(update: Update, context: CallbackContext):
                                 chat_id=user_id, name=str(user_id))
 
     user_data = await core.data_handler.get_user_data(user_id)
-    user_data['motivation'] = 1
+    user_data['auto_motivation'] = 1
     await core.data_handler.save_user_data(user_id, user_data)
 
     await context.bot.send_message(chat_id=user_id, text="ارسال خودکار پیام انگیزشی 🟢 فعال شد")

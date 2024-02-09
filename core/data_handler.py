@@ -156,3 +156,23 @@ async def delete_from_motivation(message_id):
 
     with open('data/motivation.json', 'w') as f:
         json.dump(data, f)
+
+
+async def get_all_advice():
+    with open('data/advice.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
+async def new_advice(key, title, message_id):
+    with open('data/advice.json', 'r') as f:
+        data = json.load(f)
+
+    data[str(key)][str(message_id)] = str(title)
+
+    with open('data/advice.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def delete_advice(message_id):
+    pass

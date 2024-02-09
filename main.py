@@ -21,6 +21,7 @@ import core.handlers.admin_handlers.data_bank_handler
 import core.handlers.user_handlers.motivation_handler
 import core.handlers.admin_handlers.motivation_handler
 import core.handlers.user_handlers.motivation_settings_handler
+import core.handlers.user_handlers.advice_handler
 
 
 logging.basicConfig(
@@ -231,11 +232,20 @@ def main():
         ]
     )
 
+    user_advice_handler = MessageHandler(filters.Regex('^نکات مشاوره‌ای$'),
+                                         core.handlers.user_handlers.advice_handler.handle)
+
+    return_to_advice_key_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.advice_handler.return_to_advice_key,
+        pattern="^return-to-advice-key$"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,next_page_handler,
         show_file_handler, none_handler, show_link_handler, delete_file_handler, change_motivation_status,
-        admin_motivation_handler, user_motivation_settings_handler
+        admin_motivation_handler, user_motivation_settings_handler, user_advice_handler, return_to_advice_key_handler,
+
     ]
 
     # Add Handlers To Application
