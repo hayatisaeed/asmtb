@@ -145,7 +145,7 @@ async def delete_from_motivation(message_id):
     with open('data/motivation.json', 'r') as f:
         data = json.load(f)
 
-    while message_id in data:
+    while message_id in data["ids"]:
         for i in range(0, len(data["ids"])):
             if data["ids"][i] == message_id:
                 del data["ids"][i]

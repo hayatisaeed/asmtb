@@ -35,7 +35,6 @@ ADMIN_ID = Config.ADMIN_ID
 
 def main():
     application = ApplicationBuilder().token(TOKEN).build()
-    job_queue = application.job_queue
 
     # Define Handlers
     start_handler = CommandHandler('start', core.handlers.start_handler.handle)
@@ -204,27 +203,18 @@ def main():
         ]
     )
 
-    # Add Handlers To Application
-    application.add_handler(start_handler)
-    application.add_handler(joined_channel_handler)
-    application.add_handler(admin_bot_general_settings)
-    application.add_handler(admin_broadcast_message_handler)
-    application.add_handler(user_basic_settings_handler)
-    application.add_handler(admin_uploader_handler)
-    application.add_handler(data_bank_handler)
-    application.add_handler(previous_page_handler)
-    application.add_handler(next_page_handler)
-    application.add_handler(show_file_handler)
-    application.add_handler(none_handler)
-    application.add_handler(show_link_handler)
-    application.add_handler(delete_file_handler)
-    application.add_handler(change_motivation_status)
-    application.add_handler(user_motivation_handler)
-    application.add_handler(admin_motivation_handler)
+    handlers = [
+        start_handler, joined_channel_handler, admin_bot_general_settings,
+        admin_broadcast_message_handler, user_basic_settings_handler,
+        admin_uploader_handler, data_bank_handler, previous_page_handler,
+        next_page_handler, show_file_handler, none_handler, show_link_handler,
+        delete_file_handler, change_motivation_status, user_motivation_handler,
+        admin_motivation_handler
+    ]
 
-    # set schedules
-    job_queue.run_daily(core.handlers.user_handlers.motivation_handler.send_motivation_for_all,
-                        time(hour=Config.MOTIVATION_HOUR, minute=Config.MOTIVATION_MINUTE), days=(0, 1, 2, 3, 4, 5, 6))
+    # Add Handlers To Application
+    for handler in handlers:
+        application.add_handler(handler)
 
     # Run Application Forever
     application.run_polling()
