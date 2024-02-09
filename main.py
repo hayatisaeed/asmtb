@@ -22,6 +22,7 @@ import core.handlers.user_handlers.motivation_handler
 import core.handlers.admin_handlers.motivation_handler
 import core.handlers.user_handlers.motivation_settings_handler
 import core.handlers.user_handlers.advice_handler
+import core.handlers.admin_handlers.advice_handler
 
 
 logging.basicConfig(
@@ -240,12 +241,89 @@ def main():
         pattern="^return-to-advice-key$"
     )
 
+    admin_advice_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^تنظیمات نکات مشاوره‌ای$'),
+                           core.handlers.admin_handlers.advice_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^مشاهده دسته بندی‌ها$'),
+                               core.handlers.admin_handlers.advice_handler.show_categories),
+                MessageHandler(filters.Regex('^دسته بندی جدید$'),
+                               core.handlers.admin_handlers.advice_handler.new_category),
+            ],
+            'GET_CATEGORY_TITLE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.advice_handler.save_new_category),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ],
+            'SEND_TITLE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.advice_handler.new_message_get_file),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ],
+            'SEND_FILE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.ALL,
+                               core.handlers.admin_handlers.advice_handler.save_advice),
+            ],
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.uploader_handler.return_home)
+        ]
+    )
+
+    admin_show_advice_message_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.admin_show_advice_message,
+        pattern="^admin-show-advice-message"
+    )
+
+    admin_show_advice_category_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.admin_show_advice_category,
+        pattern="^admin-show-advice-category"
+    )
+
+    admin_delete_advice_category_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.delete_category,
+        pattern="^admin-delete-advice-category"
+    )
+
+    admin_yes_delete_advice_category = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.yes_delete_category,
+        pattern="^yes-delete"
+    )
+
+    admin_return_advice_categories = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.admin_return_advice_categories,
+        pattern="^admin-return-advice-categories"
+    )
+
+    admin_delete_advice = CallbackQueryHandler(
+        core.handlers.admin_handlers.advice_handler.admin_delete_advice,
+        pattern="^admin-delete-advice"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,next_page_handler,
         show_file_handler, none_handler, show_link_handler, delete_file_handler, change_motivation_status,
         admin_motivation_handler, user_motivation_settings_handler, user_advice_handler, return_to_advice_key_handler,
-
+        admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler,
+        admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
+        admin_delete_advice
     ]
 
     # Add Handlers To Application

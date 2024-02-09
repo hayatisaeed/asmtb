@@ -5,7 +5,7 @@ from core.config import Config
 admin_main_keyboard = [
     ['⚙️ | تنظیمات کلی بات', '📣 | ارسال اطلاعیه'],
     ['📤 آپلودر', '🏦 بانک فایل'],
-    ['⭐ بخش انگیزشی']
+    ['⭐ بخش انگیزشی', 'نکات مشاوره‌ای']
 ]
 admin_main_reply_markup = ReplyKeyboardMarkup(admin_main_keyboard, one_time_keyboard=True)
 
