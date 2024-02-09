@@ -36,6 +36,7 @@ async def handle(update: Update, context: CallbackContext):
 صفحه اول
         """
         await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=inline_markup)
+        await core.handlers.start_handler.handle(update, context)
 
 
 async def pre_page(update: Update, context: CallbackContext):
@@ -136,6 +137,8 @@ async def show_file(update: Update, context: CallbackContext):
         await query.answer("✅")
     except:
         await query.answer("❌ خطا")
+
+    await core.handlers.start_handler.handle(update, context)
 
 
 async def show_link(update: Update, context: CallbackContext):

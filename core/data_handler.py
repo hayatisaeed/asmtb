@@ -17,7 +17,8 @@ TEMPLATE_USER_DATA = {
     'gender': 'تعیین نشده',
     'grade': '12',
     'reshte': 'تعیین نشده',
-    'status': 'تعیین نشده'
+    'status': 'تعیین نشده',
+    'auto_motivation': 0
 }
 
 
@@ -118,7 +119,10 @@ async def get_motivation_messages():
     try:
         with open('data/motivation.json', 'r') as f:
             data = json.load(f)
-            return data["ids"]
+            if len(data["ids"]):
+                return data["ids"]
+            else:
+                return False
     except:
         return False
 

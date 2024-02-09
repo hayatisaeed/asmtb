@@ -20,7 +20,7 @@ import core.handlers.admin_handlers.uploader_handler
 import core.handlers.admin_handlers.data_bank_handler
 import core.handlers.user_handlers.motivation_handler
 import core.handlers.admin_handlers.motivation_handler
-from datetime import time
+import core.handlers.user_handlers.motivation_settings_handler
 
 
 logging.basicConfig(
@@ -203,13 +203,42 @@ def main():
         ]
     )
 
+    user_motivation_settings_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^⭐ تنظیمات انگیزشی$'),
+                           core.handlers.user_handlers.motivation_settings_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^ارسال خودکار پیام انگیزشی$'),
+                               core.handlers.user_handlers.motivation_settings_handler.auto_motivation)
+            ],
+            'AUTO_MOTIVATION': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^غیر فعال کردن ارسال خودکار$'),
+                               core.handlers.user_handlers.motivation_settings_handler.remove_motivation_job_queue),
+                MessageHandler(filters.Regex('^فعال کردن ارسال خودکار$'),
+                               core.handlers.user_handlers.motivation_settings_handler.set_motivation_job_queue)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.user_handlers.basic_settings_handler.return_home)
+        ]
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings,
         admin_broadcast_message_handler, user_basic_settings_handler,
         admin_uploader_handler, data_bank_handler, previous_page_handler,
         next_page_handler, show_file_handler, none_handler, show_link_handler,
         delete_file_handler, change_motivation_status, user_motivation_handler,
-        admin_motivation_handler
+        admin_motivation_handler, user_motivation_settings_handler
     ]
 
     # Add Handlers To Application
