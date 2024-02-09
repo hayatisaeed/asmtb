@@ -5,6 +5,7 @@ import core.handlers.user_handlers.motivation_handler
 import random
 from core.config import Config
 import core.handlers.start_handler
+from datetime import time
 
 motivation_settings_keyboard = [
     ['ارسال خودکار پیام انگیزشی'],
@@ -57,8 +58,14 @@ async def set_motivation_job_queue(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     await remove_job_if_exists(str(user_id), context)
 
-    context.job_queue.run_once(core.handlers.user_handlers.motivation_settings_handler.new_motivation_job_queue,
-                               1, chat_id=user_id, name=str(user_id))
+    context.job_queue.run_daily(core.handlers.user_handlers.motivation_settings_handler.new_motivation_job_queue,
+                                time(hour=Config.MOTIVATION_HOUR, minute=Config.MOTIVATION_MINUTE),
+                                days=(0, 1, 2, 3, 4, 5, 6),
+                                chat_id=user_id, name=str(user_id))
+
+    user_data = await core.data_handler.get_user_data(user_id)
+    user_data['motivation'] = 1
+    await core.data_handler.save_user_data(user_id, user_data)
 
     await context.bot.send_message(chat_id=user_id, text="ارسال خودکار پیام انگیزشی 🟢 فعال شد")
     await context.bot.send_message(chat_id=user_id, text="تنظیمات پیام انگیزشی. لطفا از منوی زیر انتخاب کنید:",
