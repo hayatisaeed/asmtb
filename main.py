@@ -326,6 +326,11 @@ def main():
         pattern="^admin-db-add-advice-to-category"
     )
 
+    user_show_advice_list_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.advice_handler.show_advice_message,
+        pattern="^show-advice-list"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -333,7 +338,8 @@ def main():
         admin_motivation_handler, user_motivation_settings_handler, user_advice_handler, return_to_advice_key_handler,
         admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler, next_page_handler,
         admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
-        admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler
+        admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler,
+        user_show_advice_list_handler
     ]
 
     # Add Handlers To Application
