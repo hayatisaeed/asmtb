@@ -28,8 +28,8 @@ async def show_advice_list(update: Update, context: CallbackContext):
 
     advices = await core.data_handler.get_all_advice()
     advices = advices[advice_hash]
-    advice_category_title = advices[advice_hash][advice_hash]
-    del advices[advice_hash][advice_hash]
+    advice_category_title = advices[advice_hash]
+    del advices[advice_hash]
 
     keyboard = []
     for advice in advices:
