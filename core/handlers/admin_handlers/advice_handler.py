@@ -134,7 +134,6 @@ async def admin_show_advice_category(update: Update, context: CallbackContext):
     for advice in advices:
         buttons.append([
             InlineKeyboardButton(advices[advice], callback_data=f"admin-show-advice-message {advice}"),
-            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice {category_title} {advice}")
         ])
     buttons.append([InlineKeyboardButton(text="بازگشت", callback_data="admin-return-advice-categories")])
     await query.delete_message()
@@ -161,7 +160,6 @@ async def admin_delete_advice(update: Update, context: CallbackContext):
     for _ in advices:
         buttons.append([
             InlineKeyboardButton(advices[_], callback_data=f"admin-show-advice-message {_}"),
-            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice {category_hash} {advice}")
         ])
     buttons.append([InlineKeyboardButton(text="بازگشت", callback_data="admin-return-advice-categories")])
     await query.delete_message()
