@@ -363,7 +363,11 @@ def main():
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
                                core.handlers.user_handlers.basic_settings_handler.return_home),
                 MessageHandler(filters.Regex('^تنظیم هزینه$'),
-                               core.handlers.admin_handlers.call_handler.set_price)
+                               core.handlers.admin_handlers.call_handler.set_price),
+                MessageHandler(filters.Regex('^تنظیم برنامه هفتگی$'),
+                               core.handlers.admin_handlers.call_handler.show_weekly_plan),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
             ],
             'SEND_PRICE': [
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
