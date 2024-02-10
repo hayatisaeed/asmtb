@@ -291,6 +291,11 @@ def main():
         pattern="^admin-show-advice-message"
     )
 
+    user_show_advice_message_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.advice_handler.show_advice_message,
+        pattern="^show-advice-message"
+    )
+
     admin_show_advice_category_handler = CallbackQueryHandler(
         core.handlers.admin_handlers.advice_handler.admin_show_advice_category,
         pattern="^admin-show-advice-category"
@@ -327,7 +332,7 @@ def main():
     )
 
     user_show_advice_list_handler = CallbackQueryHandler(
-        core.handlers.user_handlers.advice_handler.show_advice_message,
+        core.handlers.user_handlers.advice_handler.show_advice_list,
         pattern="^show-advice-list"
     )
 
@@ -339,7 +344,7 @@ def main():
         admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler, next_page_handler,
         admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
         admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler,
-        user_show_advice_list_handler
+        user_show_advice_list_handler, user_show_advice_message_handler
     ]
 
     # Add Handlers To Application
