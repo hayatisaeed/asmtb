@@ -127,6 +127,7 @@ async def show_file(update: Update, context: CallbackContext):
     delete_keyboard = [
         [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
         [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
+        [InlineKeyboardButton("نکات مشاوره‌ای", callback_data=f"data-bank-advice {message_id}")],
         [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
     ]
     delete_markup = InlineKeyboardMarkup(delete_keyboard)
@@ -189,6 +190,7 @@ async def change_motivation_status(update: Update, context: CallbackContext):
         delete_keyboard = [
             [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
             [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
+            [InlineKeyboardButton("نکات مشاوره‌ای", callback_data=f"data-bank-advice {message_id}")],
             [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
         ]
         delete_markup = InlineKeyboardMarkup(delete_keyboard)
@@ -206,3 +208,45 @@ async def change_motivation_status(update: Update, context: CallbackContext):
         delete_markup = InlineKeyboardMarkup(delete_keyboard)
         await query.edit_message_reply_markup(reply_markup=delete_markup)
         await query.answer("اضافه شد به محتوای انگیزشی")
+
+
+# advice file bank
+async def show_advice_categories(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+    advices = await core.data_handler.get_all_advice()
+    keyboard = []
+
+    for category_hash in advices:
+        text = ""
+        if str(message_id) in advices[category_hash]:
+            text += "✅"
+        else:
+            text += "➕"
+        text += advices[category_hash][category_hash]
+        keyboard.append(
+            [InlineKeyboardButton(text, callback_data=f"admin-db-add-advice-to-category {message_id} {category_hash}")]
+        )
+
+    keyboard.append([InlineKeyboardButton("بازگشت", callback_data=f"show-file {message_id}")])
+    markup = InlineKeyboardMarkup(keyboard)
+    await query.edit_message_text(text="دسته بندی‌ها", reply_markup=markup)
+    await query.answer("✅")
+
+
+async def add_file_to_advice_category(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+    category_hash = query.data.split()[2]
+
+    advices = await core.data_handler.get_all_advice()
+
+    if message_id in advices[category_hash]:  # delete advice from category
+        await core.data_handler.delete_advice(category_hash, message_id)
+
+    else:  # add advice to category
+        title = await core.data_handler.get_file_in_file_bank(message_id)
+        title = title["title"]
+        await core.data_handler.new_advice(category_hash, title, message_id)
+
+    await show_advice_categories(update, context)
