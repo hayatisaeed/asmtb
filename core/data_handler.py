@@ -219,3 +219,19 @@ async def save_new_price(price):
 
     with open('data/call_config.json', 'w') as f:
         json.dump(data, f)
+
+
+async def get_weekly_plan():
+    with open('data/call_config.json', 'r') as f:
+        data = json.load(f)
+        return data["weekly_plan"]
+
+
+async def edit_weekly_plan(day, value):
+    with open('data/call_config.json', 'r') as f:
+        data = json.load(f)
+
+    data['weekly_plan'][day] = value
+
+    with open('data/call_config.json', 'w') as f:
+        json.dump(data, f)

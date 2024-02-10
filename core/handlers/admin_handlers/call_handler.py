@@ -1,4 +1,4 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, ConversationHandler
 from core.config import Config
 import core.handlers.start_handler
@@ -12,6 +12,9 @@ call_handler_main_keybaord = [
     ['🔙 | بازگشت به منوی اصلی']
 ]
 call_handler_main_markup = ReplyKeyboardMarkup(call_handler_main_keybaord, one_time_keyboard=True)
+
+translate = {"Sat": "شنبه", "Sun": "یکشنبه", "Mon": "دوشنبه", "Tue": "سه شنبه", "Wed": "چهارشنبه",
+                 "Thu": "پنجشنبه", "Fri": "جمعه"}
 
 
 async def handle(update: Update, context: CallbackContext):
@@ -61,3 +64,52 @@ async def save_price(update: Update, context: CallbackContext):
         await context.bot.send_message(chat_id=Config.ADMIN_ID, text="عدد وارد شده نامعتبر است. دوباره وارد کنید",
                                        reply_markup=markup)
         return 'SEND_PRICE'
+
+
+async def show_weekly_plan(update: Update, context: CallbackContext):
+    weekly_plan = await core.data_handler.get_weekly_plan()
+
+    keyboard = []
+
+    for day in weekly_plan:
+        keyboard.append([
+            InlineKeyboardButton("➕", callback_data=f"call-handler-weekly-plan-plus-one {day}"),
+            InlineKeyboardButton(f"{translate[day]} ({weekly_plan[day]})", callback_data="none none"),
+            InlineKeyboardButton("➖", callback_data=f"call-handler-weekly-plan-minus-one {day}")
+        ])
+
+    inline_markup = InlineKeyboardMarkup(keyboard)
+
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text="تنظیم تعداد تماس روزانه", reply_markup=inline_markup)
+    await core.handlers.start_handler.handle(update, context)
+    return ConversationHandler.END
+
+
+async def change_weekly_plan(update: Update, context: CallbackContext):
+    query = update.callback_query
+    command = query.data.split()[0]
+    day = query.data.split()[1]
+    weekly_plan = await core.data_handler.get_weekly_plan()
+
+    if command == "call-handler-weekly-plan-plus-one":
+        value = weekly_plan[day] + 1
+        await core.data_handler.edit_weekly_plan(day, value)
+    else:
+        if weekly_plan[day] > 0:
+            value = weekly_plan[day] - 1
+            await core.data_handler.edit_weekly_plan(day, value)
+
+    weekly_plan = await core.data_handler.get_weekly_plan()
+    keyboard = []
+
+    for day in weekly_plan:
+        keyboard.append([
+            InlineKeyboardButton("➕", callback_data=f"call-handler-weekly-plan-plus-one {day}"),
+            InlineKeyboardButton(f"{translate[day]} ({weekly_plan[day]})", callback_data="none none"),
+            InlineKeyboardButton("➖", callback_data=f"call-handler-weekly-plan-minus-one {day}")
+        ])
+
+    inline_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_reply_markup(reply_markup=inline_markup)
+    await query.answer("✅")
