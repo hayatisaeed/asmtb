@@ -386,6 +386,11 @@ def main():
         ]
     )
 
+    weekly_plan_edit_day = CallbackQueryHandler(
+        core.handlers.admin_handlers.call_handler.change_weekly_plan,
+        pattern="^call-handler-weekly-plan-plus-one|^call-handler-weekly-plan-minus-one"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -394,7 +399,7 @@ def main():
         admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler, next_page_handler,
         admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
         admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler, admin_call_handler,
-        user_show_advice_list_handler, user_show_advice_message_handler
+        user_show_advice_list_handler, user_show_advice_message_handler, weekly_plan_edit_day
     ]
 
     # Add Handlers To Application
