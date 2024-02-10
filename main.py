@@ -24,6 +24,7 @@ import core.handlers.user_handlers.motivation_settings_handler
 import core.handlers.user_handlers.advice_handler
 import core.handlers.admin_handlers.advice_handler
 import core.handlers.admin_handlers.call_handler
+import core.handlers.user_handlers.call_handler
 
 
 logging.basicConfig(
@@ -391,6 +392,35 @@ def main():
         pattern="^call-handler-weekly-plan-plus-one|^call-handler-weekly-plan-minus-one"
     )
 
+    user_call_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^📞 جلسه تلفنی$'),
+                           core.handlers.user_handlers.call_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.user_handlers.basic_settings_handler.return_home)
+        ]
+    )
+
+    user_call_reservation_choose_day = CallbackQueryHandler(
+        core.handlers.user_handlers.call_handler.new_reserve_choose_day,
+        pattern="^user-call-new-reservation"
+    )
+
+    user_call_confirm_reservation_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.call_handler.confirm_reservation,
+        pattern="^user-call-confirm-reservation"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -399,7 +429,8 @@ def main():
         admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler, next_page_handler,
         admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
         admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler, admin_call_handler,
-        user_show_advice_list_handler, user_show_advice_message_handler, weekly_plan_edit_day
+        user_show_advice_list_handler, user_show_advice_message_handler, weekly_plan_edit_day, user_call_handler,
+        user_call_reservation_choose_day, user_call_confirm_reservation_handler
     ]
 
     # Add Handlers To Application

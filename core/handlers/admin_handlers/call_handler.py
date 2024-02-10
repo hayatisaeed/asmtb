@@ -6,15 +6,14 @@ import core.data_handler
 import core.utils.work_with_strings
 
 call_handler_main_keybaord = [
-    ['رزرو های امروز و فردا'],
-    ['تنظیم برنامه هفتگی'],
-    ['تنظیم هزینه', 'سابقه تماس‌ها'],
+    ['رزرو های امروز و فردا', 'سابقه تماس‌ها'],
+    ['تنظیم برنامه هفتگی', 'تنظیم هزینه'],
     ['🔙 | بازگشت به منوی اصلی']
 ]
 call_handler_main_markup = ReplyKeyboardMarkup(call_handler_main_keybaord, one_time_keyboard=True)
 
-translate = {"Sat": "شنبه", "Sun": "یکشنبه", "Mon": "دوشنبه", "Tue": "سه شنبه", "Wed": "چهارشنبه",
-                 "Thu": "پنجشنبه", "Fri": "جمعه"}
+translate = {"Sat": "شنبه", "Sun": "یکشنبه", "Mon": "دوشنبه", "Tue": "سه شنبه", "Wed": "چهارشنبه", "Thu": "پنجشنبه",
+             "Fri": "جمعه"}
 
 
 async def handle(update: Update, context: CallbackContext):
