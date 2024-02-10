@@ -230,7 +230,8 @@ async def show_advice_categories(update: Update, context: CallbackContext):
 
     keyboard.append([InlineKeyboardButton("بازگشت", callback_data=f"show-file {message_id}")])
     markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(text="دسته بندی‌ها", reply_markup=markup)
+    await query.delete_message()
+    await context.bot.send_message(text="دسته بندی‌ها", reply_markup=markup)
     await query.answer("✅")
 
 
