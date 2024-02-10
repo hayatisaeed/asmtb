@@ -33,8 +33,10 @@ async def show_advice_list(update: Update, context: CallbackContext):
 
     keyboard = []
     for advice in advices:
+        title = await core.data_handler.get_file_in_file_bank(str(advice))
+        title = title["title"]
         keyboard.append([
-            InlineKeyboardButton(advice, callback_data=f"show-advice-message {advice}")
+            InlineKeyboardButton(title, callback_data=f"show-advice-message {advice}")
         ])
     keyboard.append([
         InlineKeyboardButton("بازگشت", callback_data="return-to-advice-key")
