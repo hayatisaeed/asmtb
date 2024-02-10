@@ -83,7 +83,7 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
     user_id = query.from_user.id
     day = query.data.split()[1]
 
-    date = get_day_name('date')
+    date = await get_day_name('date')
 
     keyboard = [
         [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date}')]
