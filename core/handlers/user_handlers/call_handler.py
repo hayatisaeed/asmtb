@@ -85,18 +85,28 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
 
     date = await get_day_name('date')
 
-    keyboard = [
-        [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date}')]
-    ]
-    markup = InlineKeyboardMarkup(keyboard)
-
     user_data = await core.data_handler.get_user_data(user_id)
     phone_number = user_data['phone_number']
 
-    text = f"""
-رزرو جلسه تلفنی برای {'امروز' if day == 'today' else 'فردا'} با شماره تلفن {phone_number} مورد تایید است؟
-    """
-    await query.edit_message_text(text=text, reply_markup=markup)
+    if phone_number == 'تعیین نشده':
+        text = """
+        مشخصات کاربری شما کامل نیست!
+        لطفا ابتدا از بخش تنظیمات کاربری مشخصات خود را کامل کنید و سپس روی دکمه زیر بزنید.
+        """
+        inline_markup = InlineKeyboardMarkup([[InlineKeyboardButton('کلیک برای رزرو', callback_data=query.data)]])
+        await query.edit_message_text(
+            text=text,
+            reply_markup=inline_markup)
+    else:
+        keyboard = [
+            [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date}')]
+        ]
+        markup = InlineKeyboardMarkup(keyboard)
+        text = f"""
+    رزرو جلسه تلفنی برای {'امروز' if day == 'today' else 'فردا'} با شماره تلفن {phone_number} مورد تایید است؟
+        """
+        await query.edit_message_text(text=text, reply_markup=markup)
+
     await query.answer()
 
 
