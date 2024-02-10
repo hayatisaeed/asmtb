@@ -4,6 +4,7 @@ from core.config import Config
 import core.handlers.user_handlers.basic_settings_handler
 import core.data_handler
 import core.handlers.start_handler
+import core.utils.hash_funcs
 
 
 advice_settings_keyboard = [
@@ -31,10 +32,11 @@ async def show_categories(update: Update, context: CallbackContext):
     buttons = []
     advices = await core.data_handler.get_all_advice()
 
-    for category in advices:
+    for category_hash in advices:
         buttons.append([
-            InlineKeyboardButton(str(category), callback_data=f"admin-show-advice-category {category}"),
-            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice-category {category}")
+            InlineKeyboardButton(str(advices[category_hash][category_hash]),
+                                 callback_data=f"admin-show-advice-category {category_hash}"),
+            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice-category {category_hash}")
         ])
 
     inline_markup = InlineKeyboardMarkup(buttons)
@@ -58,7 +60,8 @@ async def new_category(update: Update, context: CallbackContext):
 
 async def save_new_category(update: Update, context: CallbackContext):
     title = update.message.text
-    await core.data_handler.new_advice_category(title)
+    title_hash = await core.utils.hash_funcs.truncated_md5(title)
+    await core.data_handler.new_advice_category(title, title_hash)
 
     await context.bot.send_message(chat_id=Config.ADMIN_ID, text="انجام شد!", reply_markup=advice_settings_markup)
     return 'CHOOSING'
@@ -66,17 +69,19 @@ async def save_new_category(update: Update, context: CallbackContext):
 
 async def delete_category(update: Update, context: CallbackContext):
     query = update.callback_query
-    category = query.data.split()[1]
+    category_hash = query.data.split()[1]
+    categories = await core.data_handler.get_all_advice()
+    category_title = categories[category_hash][category_hash]
 
     keyboard = [
-        [InlineKeyboardButton(text="بله حذف شود", callback_data=f"yes-delete {category}")],
+        [InlineKeyboardButton(text="بله حذف شود", callback_data=f"yes-delete {category_hash}")],
         [InlineKeyboardButton(text="خیر! بازگشت", callback_data="admin-return-advice-categories")]
     ]
     inline_markup = InlineKeyboardMarkup(keyboard)
-    text = """
+    text = f"""
 آیا تمایل دارید دسته بندی زیر و همه‌ی فایل‌های مربوطه حذف شود؟
 
-{category}
+{category_title}
     """
     await query.edit_message_text(text=text, reply_markup=inline_markup)
     await query.answer()
@@ -84,12 +89,15 @@ async def delete_category(update: Update, context: CallbackContext):
 
 async def yes_delete_category(update: Update, context: CallbackContext):
     query = update.callback_query
-    category = query.data.split()[1]
-    await core.data_handler.delete_advice_category(category)
+    category_hash = query.data.split()[1]
+    categories = await core.data_handler.get_all_advice()
+    category_title = categories[category_hash][category_hash]
+    await core.data_handler.delete_advice_category(category_hash)
     await query.answer("✅")
     keyboard = [[InlineKeyboardButton(text="بازگشت", callback_data="admin-return-advice-categories")]]
     inline_markup = InlineKeyboardMarkup(keyboard)
-    await query.edit_message_text(text=f"دسته بندی {category} و همه فایل‌های آن حذف شدند.", reply_markup=inline_markup)
+    await query.edit_message_text(text=f"دسته بندی {category_title} و همه فایل‌های آن حذف شدند.",
+                                  reply_markup=inline_markup)
 
 
 async def admin_return_advice_categories(update: Update, context: CallbackContext):
@@ -100,10 +108,11 @@ async def admin_return_advice_categories(update: Update, context: CallbackContex
     keyboard = []
     advice_categories = await core.data_handler.get_all_advice()
 
-    for category in advice_categories:
+    for category_hash in advice_categories:
+        category_title = advice_categories[category_hash][category_hash]
         keyboard.append([
-            InlineKeyboardButton(str(category), callback_data=f"admin-show-advice-category {category}"),
-            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice-category {category}")
+            InlineKeyboardButton(str(category_title), callback_data=f"admin-show-advice-category {category_hash}"),
+            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice-category {category_hash}")
         ])
 
     inline_markup = InlineKeyboardMarkup(keyboard)
@@ -114,16 +123,18 @@ async def admin_return_advice_categories(update: Update, context: CallbackContex
 
 async def admin_show_advice_category(update: Update, context: CallbackContext):
     query = update.callback_query
-    category = query.data.split()[1]
+    category_hash = query.data.split()[1]
     advices = await core.data_handler.get_all_advice()
-    advices = advices[str(category)]
+    category_title = advices[category_hash][category_hash]
+    del advices[category_hash][category_hash]
+    advices = advices[str(category_hash)]
 
     buttons = []
 
     for advice in advices:
         buttons.append([
             InlineKeyboardButton(advices[advice], callback_data=f"admin-show-advice-message {advice}"),
-            InlineKeyboardButton("❌", callback_data="admin-delete-advice {category} {advice}")
+            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice {category_title} {advice}")
         ])
     buttons.append([InlineKeyboardButton(text="بازگشت", callback_data="admin-return-advice-categories")])
     await query.delete_message()
@@ -131,25 +142,26 @@ async def admin_show_advice_category(update: Update, context: CallbackContext):
 
     markup = InlineKeyboardMarkup(buttons)
 
-    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=f"{category}", reply_markup=markup)
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=f"{category_title}", reply_markup=markup)
 
 
 async def admin_delete_advice(update: Update, context: CallbackContext):
     query = update.callback_query
-    category = query.data.split()[1]
+    category_hash = query.data.split()[1]
     advice = query.data.split()[2]
 
-    await core.data_handler.delete_advice(category, advice)
+    await core.data_handler.delete_advice(category_hash, advice)
     await query.answer("با موفقیت حذف شد ✅")
 
     advices = await core.data_handler.get_all_advice()
-    advices = advices[category]
+    advices = advices[category_hash]
+    del advices[category_hash]
     buttons = []
 
     for _ in advices:
         buttons.append([
             InlineKeyboardButton(advices[_], callback_data=f"admin-show-advice-message {_}"),
-            InlineKeyboardButton("❌", callback_data="admin-delete-advice {category} {advice}")
+            InlineKeyboardButton("❌", callback_data=f"admin-delete-advice {category_hash} {advice}")
         ])
     buttons.append([InlineKeyboardButton(text="بازگشت", callback_data="admin-return-advice-categories")])
     await query.delete_message()

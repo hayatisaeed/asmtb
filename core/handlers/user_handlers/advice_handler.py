@@ -11,9 +11,9 @@ async def handle(update: Update, context: CallbackContext):
     advices = await core.data_handler.get_all_advice()
 
     buttons = []
-    for advice_key in advices:
+    for advice_hash in advices:
         buttons.append([
-            InlineKeyboardButton(advice_key, callback_data=f"show-advice-list {advice_key}")
+            InlineKeyboardButton(advices[advice_hash][advice_hash], callback_data=f"show-advice-list {advice_hash}")
         ])
     reply_markup = InlineKeyboardMarkup(buttons)
 
@@ -24,10 +24,12 @@ async def handle(update: Update, context: CallbackContext):
 
 async def show_advice_list(update: Update, context: CallbackContext):
     query = update.callback_query
-    advice_key = query.data.split()[1]
+    advice_hash = query.data.split()[1]
 
     advices = await core.data_handler.get_all_advice()
-    advices = advices[advice_key]
+    advices = advices[advice_hash]
+    advice_category_title = advices[advice_hash][advice_hash]
+    del advices[advice_hash][advice_hash]
 
     keyboard = []
     for advice in advices:
@@ -39,7 +41,7 @@ async def show_advice_list(update: Update, context: CallbackContext):
     ])
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await query.message.edit_text(f"{advice_key}")
+    await query.message.edit_text(f"{advice_category_title}")
     await query.message.edit_reply_markup(reply_markup=reply_markup)
     await query.answer("✅")
 

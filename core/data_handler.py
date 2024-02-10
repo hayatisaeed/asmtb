@@ -164,11 +164,11 @@ async def get_all_advice():
         return data
 
 
-async def new_advice_category(title):
+async def new_advice_category(title, category_hash):
     with open('data/advice.json', 'r') as f:
         data = json.load(f)
 
-    data[str(title)] = {}
+    data[str(category_hash)] = {f"{category_hash}": f"{title}"}
 
     with open('data/advice.json', 'w') as f:
         json.dump(data, f)
@@ -184,21 +184,21 @@ async def new_advice(key, title, message_id):
         json.dump(data, f)
 
 
-async def delete_advice_category(category):
+async def delete_advice_category(category_hash):
     with open('data/advice.json', 'r') as f:
         data = json.load(f)
 
-    if category in data:
-        del data[category]
+    if category_hash in data:
+        del data[category_hash]
         with open('data/advice.json', 'w') as f:
             json.dump(data, f)
 
 
-async def delete_advice(category, advice):
+async def delete_advice(category_hash, advice):
     with open('data/advice.json', 'r') as f:
         data = json.load(f)
 
-    del data[category][advice]
+    del data[category_hash][advice]
 
     with open('data/advice.json', 'w') as f:
         json.dump(data, f)
