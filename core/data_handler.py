@@ -203,3 +203,19 @@ async def delete_advice(category_hash, advice):
 
     with open('data/advice.json', 'w') as f:
         json.dump(data, f)
+
+
+async def get_price():
+    with open('data/call_config.json', 'r') as f:
+        data = json.load(f)
+        return data["price"]
+
+
+async def save_new_price(price):
+    with open('data/call_config.json', 'r') as f:
+        data = json.load(f)
+
+    data['price'] = price
+
+    with open('data/call_config.json', 'w') as f:
+        json.dump(data, f)

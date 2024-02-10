@@ -23,6 +23,7 @@ import core.handlers.admin_handlers.motivation_handler
 import core.handlers.user_handlers.motivation_settings_handler
 import core.handlers.user_handlers.advice_handler
 import core.handlers.admin_handlers.advice_handler
+import core.handlers.admin_handlers.call_handler
 
 
 logging.basicConfig(
@@ -352,6 +353,35 @@ def main():
         pattern="^show-advice-list"
     )
 
+    admin_call_handler = ConversationHandler (
+        entry_points=[
+            MessageHandler(filters.Regex('^تنظیمات جلسه تلفنی$'),
+                           core.handlers.admin_handlers.call_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^تنظیم هزینه$'),
+                               core.handlers.admin_handlers.call_handler.set_price)
+            ],
+            'SEND_PRICE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.call_handler.save_price),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.admin_handlers.uploader_handler.return_home)
+        ]
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -359,7 +389,7 @@ def main():
         admin_motivation_handler, user_motivation_settings_handler, user_advice_handler, return_to_advice_key_handler,
         admin_advice_handler, admin_show_advice_message_handler, admin_show_advice_category_handler, next_page_handler,
         admin_delete_advice_category_handler, admin_yes_delete_advice_category, admin_return_advice_categories,
-        admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler,
+        admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler, admin_call_handler,
         user_show_advice_list_handler, user_show_advice_message_handler
     ]
 
