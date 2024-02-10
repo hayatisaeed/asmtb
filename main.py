@@ -401,6 +401,8 @@ def main():
             'CHOOSING': [
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
                                core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^رزرو جدید$'),
+                               core.handlers.user_handlers.call_handler.new_reserve)
             ]
         },
         fallbacks=[
