@@ -2,12 +2,13 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import CallbackContext, ConversationHandler
 import core.data_handler
 import core.handlers.start_handler
+import core.utils.validator
 
 
 user_basic_settings_keyboard = [
-    ['تنظیم نام و نام خانوادگی'],
-    ['تنظیم وضعیت تحصیل'],
-    ['تنظیم رشته', 'تنظیم جنسیت'],
+    ['تنظیم نام و نام خانوادگی', 'تنظیم رشته'],
+    ['تنظیم وضعیت تحصیل', 'تنظیم جنسیت'],
+    ['تنظیم پایه', 'شماره تلفن'],
     ['🔙 | بازگشت به منوی اصلی']
 ]
 user_basic_settings_markup = ReplyKeyboardMarkup(user_basic_settings_keyboard, one_time_keyboard=True)
@@ -28,8 +29,12 @@ async def handle(update: Update, context: CallbackContext):
 جنسیت: {user_data['gender']}
 
 رشته تحصیلی: {user_data['reshte']}
+
 پایه: {user_data['grade']}
+
 وضعیت تحصیل: {user_data['status']}
+
+شماره تلفن: {user_data['phone_number']}
 
 برای ویرایش اطلاعات از منوی زیر استفاده کنید:
 
@@ -198,6 +203,99 @@ async def choose_what_to_edit(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     await context.bot.send_message(chat_id=user_id, text="لطفا از منوی زیر یک گزینه را انتخاب کنید:",
                                    reply_markup=user_basic_settings_markup)
+    return 'CHOOSING'
+
+
+# phone number
+async def change_phone_number(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    keyboard = [
+        ['🔙 | بازگشت به منوی اصلی']
+    ]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
+    await context.bot.send_message(chat_id=user_id, text="لطفا شماره تلفن خود را ارسال کنید", reply_markup=markup)
+    return 'CHOOSING_PHONE'
+
+
+async def save_phone_number(update: Update, context: CallbackContext):
+    user_id = update.message.from_user.id
+    phone_number = update.message.text
+
+    if await core.utils.validator.mobile_number_is_valid(phone_number):
+        user_data = await core.data_handler.get_user_data(user_id)
+        user_data['phone_number'] = phone_number
+        if await core.data_handler.save_user_data(user_id, user_data):
+            await context.bot.send_message(chat_id=user_id, text="شماره تلفن با موفقیت تنظیم شد")
+            await context.bot.send_message(chat_id=user_id, text="لطفا از منوی زیر یک گزینه انتخاب کنید",
+                                           reply_markup=user_basic_settings_markup)
+            return 'CHOOSING'
+        else:
+            await context.bot.send_message(chat_id=user_id, text="❌ خطا در عملیات، لطفا بعدا تلاش کنید")
+            await context.bot.send_message(chat_id=user_id, text="لطفا از منوی زیر یک گزینه انتخاب کنید",
+                                           reply_markup=user_basic_settings_markup)
+            return 'CHOOSING'
+    else:
+        keyboard = [
+            ['🔙 | بازگشت به منوی اصلی']
+        ]
+        markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
+        text = """
+        شماره تلفن نا معتبر است. لطفا در فرمت زیر ارسال کنید:
+        09xxxxxxxxx
+        """
+        await context.bot.send_message(chat_id=user_id, text=text, reply_markup=markup)
+        return 'CHOOSING_PHONE'
+
+
+async def wrong_phone_number(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    await context.bot.send_message(chat_id=user_id, text="❌ خطا", reply_markup=user_basic_settings_markup)
+    return 'CHOOSING'
+
+
+# Grade
+async def change_grade(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    keyboard = [
+        ['10', '11', '12'],
+        ['🔙 | بازگشت به منوی اصلی']
+    ]
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
+    await context.bot.send_message(chat_id=user_id, text="پایه تحصیلی خود را انتخاب کنید:", reply_markup=markup)
+    return 'CHOOSING_GRADE'
+
+
+async def save_grade(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    grade = update.message.text
+
+    if grade not in ['10', '11', '12']:
+        keyboard = [
+            ['10', '11', '12'],
+            ['🔙 | بازگشت به منوی اصلی']
+        ]
+        markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
+        await context.bot.send_message(chat_id=user_id, text="پایه تحصیلی اشتباه است. لطفا از منوی زیر انتخاب کنید:",
+                                       reply_markup=markup)
+        return 'CHOOSING_GRADE'
+    else:
+        user_data = await core.data_handler.get_user_data(user_id)
+        user_data['grade'] = grade
+        if await core.data_handler.save_user_data(user_id, user_data):
+            await context.bot.send_message(chat_id=user_id, text="پایه تحصیلی با موفقیت تنظیم شد")
+            await context.bot.send_message(chat_id=user_id, text="لطفا از منوی زیر یک گزینه انتخاب کنید",
+                                           reply_markup=user_basic_settings_markup)
+            return 'CHOOSING'
+        else:
+            await context.bot.send_message(chat_id=user_id, text="❌ خطا در عملیات، لطفا بعدا تلاش کنید")
+            await context.bot.send_message(chat_id=user_id, text="لطفا از منوی زیر یک گزینه انتخاب کنید",
+                                           reply_markup=user_basic_settings_markup)
+            return 'CHOOSING'
+
+
+async def wrong_grade(update: Update, context: CallbackContext):
+    user_id = update.effective_user.id
+    await context.bot.send_message(chat_id=user_id, text="❌ خطا", reply_markup=user_basic_settings_markup)
     return 'CHOOSING'
 
 

@@ -18,6 +18,7 @@ TEMPLATE_USER_DATA = {
     'grade': '12',
     'reshte': 'تعیین نشده',
     'status': 'تعیین نشده',
+    'phone_number': 'تعیین نشده',
     'auto_motivation': 0
 }
 

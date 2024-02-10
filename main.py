@@ -101,6 +101,10 @@ def main():
                                core.handlers.user_handlers.basic_settings_handler.change_gender),
                 MessageHandler(filters.Regex('^تنظیم رشته$'),
                                core.handlers.user_handlers.basic_settings_handler.change_reshte),
+                MessageHandler(filters.Regex('^تنظیم پایه$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_grade),
+                MessageHandler(filters.Regex('^شماره تلفن$'),
+                               core.handlers.user_handlers.basic_settings_handler.change_phone_number),
                 MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.choose_what_to_edit)
             ],
             'CHOOSING_GENDER': [
@@ -127,6 +131,18 @@ def main():
                 MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_name),
                 MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_name)
             ],
+            'CHOOSING_GRADE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_grade),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_grade)
+            ],
+            'CHOOSING_PHONE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT, core.handlers.user_handlers.basic_settings_handler.save_phone_number),
+                MessageHandler(filters.ALL, core.handlers.user_handlers.basic_settings_handler.wrong_phone_number)
+            ]
         },
         fallbacks=[
             MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
