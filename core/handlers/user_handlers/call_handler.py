@@ -6,6 +6,7 @@ import datetime
 import core.data_handler
 import core.utils.work_with_strings
 import core.handlers.user_handlers.wallet_handler
+import core.utils.date_and_time
 
 user_main_call_handler_keyboard = [
     ['رزرو جدید', 'سابقه رزروها'],
@@ -47,41 +48,13 @@ async def show_reserve_history(update: Update, context: CallbackContext):
         return 'CHOOSING'
 
 
-async def get_day_name(day, need_date=False):
-    today = datetime.date.today()
-
-    # Get tomorrow's date
-    tomorrow = today + datetime.timedelta(days=1)
-
-    # Get the name of tomorrow's day of the week
-    today_name = today.strftime("%A")[:3]
-    tomorrow_name = tomorrow.strftime('%A')[:3]
-
-    current_datetime = datetime.datetime.now()
-
-    # Extract date from datetime object
-    current_date = current_datetime.date()
-
-    if need_date:
-        if day == "tomorrow":
-            return f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}"
-        else:
-            return f"{today.year}-{today.month}-{today.day}"
-    elif day == 'today':
-        return today_name
-    elif day == 'tomorrow':
-        return tomorrow_name
-    elif day == 'date':
-        return current_date
-
-
 async def new_reserve(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
 
     weekly_plan = await core.data_handler.get_weekly_plan()
 
-    today_name = await get_day_name('today')
-    tomorrow_name = await get_day_name('tomorrow')
+    today_name = await core.utils.date_and_time.get_day_name('today')
+    tomorrow_name = await core.utils.date_and_time.get_day_name('tomorrow')
 
     day_keyboard = []
 
@@ -115,8 +88,8 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
 
     price = await core.data_handler.get_price()
 
-    day = await get_day_name(day)
-    date = await get_day_name(day, need_date=True)
+    day = await core.utils.date_and_time.get_day_name(day)
+    date = await core.utils.date_and_time.get_date(day)
 
     user_data = await core.data_handler.get_user_data(user_id)
     phone_number = user_data['phone_number']
