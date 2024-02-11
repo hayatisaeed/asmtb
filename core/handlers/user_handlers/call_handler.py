@@ -60,11 +60,11 @@ async def new_reserve(update: Update, context: CallbackContext):
     available_to_reserve = False
 
     if weekly_plan[today_name]:
-        day_keyboard.append([InlineKeyboardButton('امروز', callback_data='user-call-new-reservation today')])
+        day_keyboard.append([InlineKeyboardButton('امروز', callback_data='user-call-nr today')])
         available_to_reserve = True
 
     if weekly_plan[tomorrow_name]:
-        day_keyboard.append([InlineKeyboardButton('فردا', callback_data='user-call-new-reservation tomorrow')])
+        day_keyboard.append([InlineKeyboardButton('فردا', callback_data='user-call-nr tomorrow')])
         available_to_reserve = True
 
     if available_to_reserve:
@@ -103,7 +103,7 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
             reply_markup=inline_markup)
     else:
         keyboard = [
-            [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date} {price}\
+            [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-cr {date} {price}\
              {day}')]
         ]
         markup = InlineKeyboardMarkup(keyboard)

@@ -420,12 +420,12 @@ def main():
 
     user_call_reservation_choose_day = CallbackQueryHandler(
         core.handlers.user_handlers.call_handler.new_reserve_choose_day,
-        pattern="^user-call-new-reservation"
+        pattern="^user-call-nr"
     )
 
     user_call_confirm_reservation_handler = CallbackQueryHandler(
         core.handlers.user_handlers.call_handler.confirm_reservation,
-        pattern="^user-call-confirm-reservation"
+        pattern="^user-call-cr"
     )
 
     user_wallet_handler = ConversationHandler(
