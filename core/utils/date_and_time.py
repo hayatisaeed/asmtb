@@ -1,7 +1,7 @@
 import datetime
 
 
-async def get_date(day="today"):
+async def get_date(day):  # day must be today or tomorrow
     today = datetime.date.today()
     tomorrow = today + datetime.timedelta(days=1)
 
@@ -11,7 +11,7 @@ async def get_date(day="today"):
         return f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}"
 
 
-async def get_day_name(day="today"):
+async def get_day_name(day):
     today = datetime.date.today()
     tomorrow = today + datetime.timedelta(days=1)
     today_name = today.strftime("%A")[:3]
