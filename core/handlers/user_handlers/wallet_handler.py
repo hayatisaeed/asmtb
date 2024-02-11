@@ -57,7 +57,7 @@ async def add_credit_get_price(update: Update, context: CallbackContext):
         else:
             button = [[InlineKeyboardButton('✅ تایید', callback_data=f'user-new-payment {price}')]]
             inline_keyboard = InlineKeyboardMarkup(button)
-            price = core.utils.work_with_strings.beautify_numbers(price)
+            price = await core.utils.work_with_strings.beautify_numbers(price)
             await context.bot.send_message(chat_id=user_id,
                                            text=f"آیا افزایش موجودی با مبلغ زیر مورد تایید است؟\n{price} ریال",
                                            reply_markup=inline_keyboard)
