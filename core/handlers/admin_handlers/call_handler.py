@@ -1,4 +1,5 @@
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, ConversationHandler
 from core.config import Config
 import core.handlers.start_handler
@@ -192,5 +193,5 @@ async def display_reservation_details(update: Update, context: CallbackContext):
     ]
     markup = InlineKeyboardMarkup(keyboard)
 
-    await query.edit_message_text(text=text, reply_markup=markup)
+    await query.edit_message_text(text=text, reply_markup=markup, parse_mode=ParseMode.HTML)
     await query.answer()
