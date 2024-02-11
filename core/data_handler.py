@@ -268,3 +268,45 @@ async def edit_wallet_credit(user_id, credit):
 
     with open('data/wallet.json', 'w') as f:
         json.dump(data, f)
+
+
+async def day_has_capacity(day, date):
+    with open('data/call_reserved.json', 'r') as f:
+        data = json.load(f)
+
+    capacity = await get_weekly_plan()
+    capacity = capacity[day]
+
+    if date not in data and capacity:
+        return True
+    elif date in data and capacity - data[date]:
+        return True
+    else:
+        return False
+
+
+async def new_reservation(date):
+    with open('data/call_reserved.json', 'r') as f:
+        data = json.load(f)
+
+    if date not in date:
+        data['date'] = 1
+
+    else:
+        data['date'] += 1
+
+    with open('data/call_reserved.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def new_reservations_save_data(user_id, date, day):
+    with open('data/call_reservations.json', 'r') as f:
+        data = json.load(f)
+
+    if date not in data:
+        data[date] = {'day': day, 'reservations': []}
+
+    data[date]['reservations'].append(str(user_id))
+
+    with open('data/call_reserved.json', 'w') as f:
+        json.dump(data, f)

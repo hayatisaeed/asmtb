@@ -3,6 +3,8 @@ from telegram.ext import CallbackContext, ConversationHandler
 import core.handlers.start_handler
 import datetime
 import core.data_handler
+import core.utils.work_with_strings
+import core.handlers.user_handlers.wallet_handler
 
 user_main_call_handler_keyboard = [
     ['رزرو جدید', 'سابقه رزروها'],
@@ -83,6 +85,8 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
     user_id = query.from_user.id
     day = query.data.split()[1]
 
+    price = await core.data_handler.get_price()
+
     date = await get_day_name('date')
 
     user_data = await core.data_handler.get_user_data(user_id)
@@ -99,11 +103,15 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
             reply_markup=inline_markup)
     else:
         keyboard = [
-            [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date}')]
+            [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-confirm-reservation {date} {price}\
+             {day}')]
         ]
         markup = InlineKeyboardMarkup(keyboard)
+        price_bea = await core.utils.work_with_strings.beautify_numbers(price)
         text = f"""
     رزرو جلسه تلفنی برای {'امروز' if day == 'today' else 'فردا'} با شماره تلفن {phone_number} مورد تایید است؟
+        
+        هزینه این جلسه  {price_bea} است.
         """
         await query.edit_message_text(text=text, reply_markup=markup)
 
@@ -112,13 +120,20 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
 
 async def confirm_reservation(update: Update, context: CallbackContext):
     query = update.callback_query
+    user_id = query.from_user.id
+    date = query.data.split()[1]
+    price = int(query.data.split()[2])
+    day = query.data.split()[3]
 
-    await query.answer("✅")
-
-
-async def show_payment(update: Update, context: CallbackContext):
-    pass
-
-
-async def save_reservation(update: Update, context: CallbackContext):
-    pass
+    if await core.data_handler.day_has_capacity(day, date):
+        if await core.handlers.user_handlers.wallet_handler.spend_credit(user_id, price):
+            await core.data_handler.new_reservation(date)
+            await core.data_handler.new_reservations_save_data(user_id, date, day)
+            await query.answer("✅")
+        else:
+            markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌", callback_data="none ❌")]])
+            await query.edit_message_text(text="موجودی کافی نیست. لطفا ابتدا کیف پول خود را شارژ کنید.",
+                                          reply_markup=markup)
+            await query.answer("موجودی کافی نیست ❌")
+    else:
+        await query.answer("❌ ظرفیت تکمیل شده است")

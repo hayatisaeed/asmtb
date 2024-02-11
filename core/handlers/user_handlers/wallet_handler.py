@@ -121,3 +121,13 @@ async def payment_confirmation(update: Update, context: CallbackContext):
         await query.answer("❌ تراکنش تایید نشد")
 
 
+async def spend_credit(user_id, price):
+    credit = await core.data_handler.get_wallet_data(user_id)
+    credit = credit['credit']
+
+    if price > credit:
+        return False
+    else:
+        new_credit = credit - price
+        await core.data_handler.edit_wallet_credit(user_id, new_credit)
+        return True
