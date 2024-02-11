@@ -235,3 +235,36 @@ async def edit_weekly_plan(day, value):
 
     with open('data/call_config.json', 'w') as f:
         json.dump(data, f)
+
+
+async def get_wallet_data(user_id):
+    with open('data/wallet.json', 'r') as f:
+        data = json.load(f)
+        if str(user_id) in data:
+            return data[str(user_id)]
+        else:
+            return False
+
+
+wallet_template = {
+    "credit": 0
+}
+
+
+async def new_wallet(user_id):
+    with open('data/wallet.json', 'r') as f:
+        data = json.load(f)
+    data[str(user_id)] = wallet_template
+    with open('data/wallet.json', 'w') as f:
+        json.dump(data, f)
+    return wallet_template
+
+
+async def edit_wallet_credit(user_id, credit):
+    with open('data/wallet.json', 'r') as f:
+        data = json.load(f)
+
+    data[str(user_id)]['credit'] = credit
+
+    with open('data/wallet.json', 'w') as f:
+        json.dump(data, f)

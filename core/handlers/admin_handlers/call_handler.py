@@ -29,14 +29,14 @@ async def handle(update: Update, context: CallbackContext):
 
 
 async def set_price(update: Update, context: CallbackContext):
-    currunt_price = await core.data_handler.get_price()
-    currunt_price = await core.utils.work_with_strings.beautify_numbers(currunt_price)
-    keybaord = [
+    current_price = await core.data_handler.get_price()
+    current_price = await core.utils.work_with_strings.beautify_numbers(current_price)
+    keyboard = [
         ['🔙 | بازگشت به منوی اصلی']
     ]
-    markup = ReplyKeyboardMarkup(keybaord, one_time_keyboard=True)
+    markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True)
     text = f"""
-قیمت فعلی:  {currunt_price} ریال.
+قیمت فعلی:  {current_price} ریال.
 
 قیمت جدید را ارسال کنید (اعداد لاتین و به ریال)    
     """
