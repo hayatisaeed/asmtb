@@ -160,7 +160,6 @@ async def display_reservation_details(update: Update, context: CallbackContext):
     user_reservations = await core.data_handler.get_user_reserve_history(user_id)
     user_related_reservation_count = user_reservations[date]
 
-    table_data = [['*', '*']]
     key_translate = {
         "name": "نام و نام خانوادگی",
         "gender": "جنسیت",
@@ -169,18 +168,17 @@ async def display_reservation_details(update: Update, context: CallbackContext):
         "status": "وضعیت تحصیل",
         "phone_number": "شماره تلفن",
     }
-    for key in user_data:
-        if key == "auto_motivation":
-            pass
-        else:
-            table_data.append([key_translate[key], user_data[key]])
 
-    table = await core.utils.work_with_strings.generate_formatted_table(table_data)
+    user_details = ""
+
+    for key in user_data:
+        if key != "auto_motivation":
+            user_details += f"{key_translate[key]}: {user_data[key]}\n"
 
     text = f"""
 کاربر با مشخصات زیر:
 
-<pre>{table}</pre>
+{user_details}
 
 به تعداد زیر جلسه رزرو کرده است:
 {user_related_reservation_count}
