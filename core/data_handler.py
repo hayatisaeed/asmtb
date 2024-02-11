@@ -316,7 +316,7 @@ async def save_reservation_history(user_id, date):
     with open('data/user_call_reserve_history.json', 'r') as f:
         data = json.load(f)
 
-    if user_id not in data:
+    if str(user_id) not in data:
         data[str(user_id)] = {date: 0}
 
     if date not in data[str(user_id)]:
