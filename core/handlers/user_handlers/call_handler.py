@@ -1,4 +1,5 @@
 from telegram import ReplyKeyboardMarkup, Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, ConversationHandler
 import core.handlers.start_handler
 import datetime
@@ -39,9 +40,10 @@ async def show_reserve_history(update: Update, context: CallbackContext):
         table_of_history = await core.utils.work_with_strings.generate_formatted_table(data)
         text = f"""
         سابقه‌ی رزرو جلسه تلفنی شما:
-        {table_of_history}
+        <pre>{table_of_history}</pre>
         """
-        await context.bot.send_message(chat_id=user_id, text=text, reply_markup=user_main_call_handler_markup)
+        await context.bot.send_message(chat_id=user_id, text=text, reply_markup=user_main_call_handler_markup,
+                                       parse_mode=ParseMode.HTML)
         return 'CHOOSING'
 
 
