@@ -317,12 +317,12 @@ async def save_reservation_history(user_id, date):
         data = json.load(f)
 
     if user_id not in data:
-        data[user_id] = {date: 0}
+        data[str(user_id)] = {date: 0}
 
-    if date not in data[user_id]:
-        data[user_id][date] = 1
+    if date not in data[str(user_id)]:
+        data[str(user_id)][date] = 1
     else:
-        data[user_id][date] += 1
+        data[str(user_id)][date] += 1
 
     with open('data/user_call_reserve_history.json', 'w') as f:
         json.dump(data, f)
@@ -342,6 +342,7 @@ async def save_payment_history(user_id, time, payment_id):
 
 
 async def get_user_reserve_history(user_id):
+    user_id = str(user_id)
     with open('data/user_call_reserve_history.json', 'r') as f:
         data = json.load(f)
 
