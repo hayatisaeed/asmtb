@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext, ConversationHandler
 import core.data_handler
 import core.utils.work_with_strings
 import core.utils.payment
+import core.handlers.start_handler
 
 main_wallet_keyboard = [
     ['➕ افزایش موجودی'],
@@ -51,9 +52,10 @@ async def add_credit_get_price(update: Update, context: CallbackContext):
         price = int(price)
         if price < 100000:
             text = """
-            حداقل مقدار قابل شارژ ۱۰ هزار تومان (معادل 100,000 ریال) میباشد.
+            حداقل مقدار قابل شارژ 10 هزار تومان (معادل 100,000 ریال) میباشد.
             """
             await context.bot.send_message(chat_id=user_id, text=text, reply_markup=cancel_markup)
+            return 'SEND_PRICE'
         else:
             button = [[InlineKeyboardButton('✅ تایید', callback_data=f'user-new-payment {price}')]]
             inline_keyboard = InlineKeyboardMarkup(button)
@@ -61,6 +63,7 @@ async def add_credit_get_price(update: Update, context: CallbackContext):
             await context.bot.send_message(chat_id=user_id,
                                            text=f"آیا افزایش موجودی با مبلغ زیر مورد تایید است؟\n{price} ریال",
                                            reply_markup=inline_keyboard)
+            await core.handlers.start_handler.handle(update, context)
             return ConversationHandler.END
 
     except ValueError:
@@ -78,7 +81,7 @@ async def new_payment(update: Update, context: CallbackContext):
 
     buttons = [
         [InlineKeyboardButton('🔗 پرداخت', url=payment_link)],
-        [InlineKeyboardButton('✅ پرداخت کردم', callback_data=f'user-configrm-payment {payment_id} {price}')]
+        [InlineKeyboardButton('✅ پرداخت کردم', callback_data=f'user-confirm-payment {payment_id} {price}')]
     ]
     markup = InlineKeyboardMarkup(buttons)
 

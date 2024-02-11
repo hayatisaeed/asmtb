@@ -464,7 +464,7 @@ def main():
 
     user_confirm_payment = CallbackQueryHandler(
         core.handlers.user_handlers.wallet_handler.payment_confirmation,
-        pattern="^user-configrm-payment"
+        pattern="^user-confirm-payment"
     )
 
     handlers = [
