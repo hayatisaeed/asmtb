@@ -88,6 +88,7 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
     price = await core.data_handler.get_price()
 
     date = await get_day_name('date')
+    day = await get_day_name(day)
 
     user_data = await core.data_handler.get_user_data(user_id)
     phone_number = user_data['phone_number']
