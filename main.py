@@ -505,6 +505,16 @@ def main():
         ]
     )
 
+    admin_show_reservations = CallbackQueryHandler(
+        core.handlers.admin_handlers.call_handler.display_reservations,
+        pattern="^admin-show-res"
+    )
+
+    admin_show_reservation_details = CallbackQueryHandler(
+        core.handlers.admin_handlers.call_handler.display_reservation_details,
+        pattern="^admin-show-res-det"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -515,7 +525,8 @@ def main():
         admin_delete_advice, data_bank_advice_handler, data_bank_add_advice_to_category_handler, admin_call_handler,
         user_show_advice_list_handler, user_show_advice_message_handler, weekly_plan_edit_day, user_call_handler,
         user_call_reservation_choose_day, user_call_confirm_reservation_handler, user_wallet_handler,
-        user_new_payment_handler, user_confirm_payment, admin_wallet_handler
+        user_new_payment_handler, user_confirm_payment, admin_wallet_handler, admin_show_reservations,
+        admin_show_reservation_details
     ]
 
     # Add Handlers To Application

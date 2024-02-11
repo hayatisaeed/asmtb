@@ -4,6 +4,7 @@ from core.config import Config
 import core.handlers.start_handler
 import core.data_handler
 import core.utils.work_with_strings
+import core.utils.date_and_time
 
 call_handler_main_keybaord = [
     ['رزرو های امروز و فردا'],
@@ -115,4 +116,82 @@ async def change_weekly_plan(update: Update, context: CallbackContext):
 
 
 async def show_reservations(update: Update, context: CallbackContext):
-    pass
+    today_date = await core.utils.date_and_time.get_date('today')
+    tomorrow_date = await core.utils.date_and_time.get_date('tomorrow')
+
+    keyboard = [
+        [InlineKeyboardButton("امروز", callback_data=f"admin-show-res {today_date}")],
+        [InlineKeyboardButton("فردا", callback_data=f"admin-show-res {tomorrow_date}")]
+    ]
+    markup = InlineKeyboardMarkup(keyboard)
+
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text="کدام رو نمایش بدم؟", reply_markup=markup)
+    return ConversationHandler.END
+
+
+async def display_reservations(update: Update, context: CallbackContext):
+    query = update.callback_query
+    date = query.data.split()[1]
+
+    keyboard = []
+    reservations = await core.data_handler.get_reservations(date)
+    if not reservations:
+        markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌", callback_data="none ❌")]])
+        await query.edit_message_text("هیچ رزروی برای این روز موجود نیست", reply_markup=markup)
+        await query.answer()
+    else:
+        for user_id in reservations['reservations']:
+            user_data = await core.data_handler.get_user_data(user_id)
+            keyboard.append(
+                [InlineKeyboardButton(f"{user_data['name']} ({user_data['phone_number']}",
+                                      callback_data=f"admin-show-res-det {user_id} {date}")]
+            )
+        markup = InlineKeyboardMarkup(keyboard)
+        await query.edit_message_text(f"برنامه رزرو های {date}", reply_markup=markup)
+
+
+async def display_reservation_details(update: Update, context: CallbackContext):
+    query = update.callback_query
+    user_id = query.data.split()[1]
+    date = query.data.split()[2]
+
+    user_data = await core.data_handler.get_user_data(user_id)
+    user_reservations = await core.data_handler.get_user_reserve_history(user_id)
+    user_related_reservation_count = user_reservations[date]
+
+    table_data = [['*', '*']]
+    key_translate = {
+        "name": "نام و نام خانوادگی",
+        "gender": "جنسیت",
+        "grade": "پایه تحصیلی",
+        "reshte": "رشته تحصیلی",
+        "status": "وضعیت تحصیل",
+        "phone_number": "شماره تلفن",
+    }
+    for key in user_data:
+        if key == "auto_motivation":
+            pass
+        else:
+            table_data.append([key_translate[key], user_data[key]])
+
+    table = await core.utils.work_with_strings.generate_formatted_table(table_data)
+
+    text = f"""
+کاربر با مشخصات زیر:
+
+<pre>{table}</pre>
+
+به تعداد زیر جلسه رزرو کرده است:
+{user_related_reservation_count}
+
+<pre>{user_data['phone_number']}</pre>
+
+    """
+
+    keyboard = [
+        [InlineKeyboardButton("بازگشت", callback_data=f"admin-show-res {date}")]
+    ]
+    markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text(text=text, reply_markup=markup)
+    await query.answer()

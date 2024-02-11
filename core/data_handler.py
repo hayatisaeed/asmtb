@@ -354,3 +354,13 @@ async def get_user_reserve_history(user_id):
 
 async def get_full_reserve_history():
     pass
+
+
+async def get_reservations(date):
+    with open('data/call_reservations.json', 'r') as f:
+        data = json.load(f)
+
+    if date not in data:
+        return False
+
+    return data[str(date)]
