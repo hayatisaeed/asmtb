@@ -111,7 +111,7 @@ async def payment_confirmation(update: Update, context: CallbackContext):
 
         new_credit = price + current_credit
 
-        price_bea = await core.utils.work_with_strings.beautify_numbers(current_credit + new_credit)
+        price_bea = await core.utils.work_with_strings.beautify_numbers(new_credit)
         button = InlineKeyboardMarkup([[InlineKeyboardButton(price_bea, callback_data=f'none {price_bea}')]])
         await query.edit_message_text(text=f"تراکنش تایید شد! موجودی جدید: {price_bea}", reply_markup=button)
 
