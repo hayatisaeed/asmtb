@@ -99,7 +99,7 @@ payment_id: {payment_id}
 async def payment_confirmation(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = query.from_user.id
-    payment_id = query.data.split()[1]
+    payment_id = int(query.data.split()[1])
     price = int(query.data.split()[2])
 
     if await core.utils.payment.payment_done(payment_id):
