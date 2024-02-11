@@ -130,6 +130,12 @@ async def confirm_reservation(update: Update, context: CallbackContext):
         if await core.handlers.user_handlers.wallet_handler.spend_credit(user_id, price):
             await core.data_handler.new_reservation(date)
             await core.data_handler.new_reservations_save_data(user_id, date, day)
+            markup = InlineKeyboardMarkup([[InlineKeyboardButton('✅', callback_data='none ✅')]])
+            text = """
+            پرداخت با موفقیت انجام شد و جلسه رزرو شد.
+            برای پیگیری و مشاهده تراکنش به بخش سابقه رزروها مراجعه کنید.
+            """
+            await query.edit_message_text(text=text, reply_markup=markup)
             await query.answer("✅")
         else:
             markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌", callback_data="none ❌")]])
