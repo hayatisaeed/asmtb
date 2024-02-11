@@ -342,7 +342,7 @@ async def save_payment_history(user_id, time, payment_id):
 
 
 async def get_user_reserve_history(user_id):
-    with open('data/user_reserve_history.json', 'r') as f:
+    with open('data/user_call_reserve_history.json', 'r') as f:
         data = json.load(f)
 
     if user_id not in data:
