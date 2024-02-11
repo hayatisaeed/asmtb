@@ -31,7 +31,7 @@ async def show_reserve_history(update: Update, context: CallbackContext):
         return 'CHOOSING'
     else:
         data = [
-            ['ردیف', 'تاریخ', 'تعداد']
+            ['row', 'date', 'count']
         ]
         counter = 1
         for item in user_reserve_history:
