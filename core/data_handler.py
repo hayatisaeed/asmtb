@@ -275,7 +275,7 @@ async def day_has_capacity(day, date):
         data = json.load(f)
 
     capacity = await get_weekly_plan()
-    capacity = capacity[day]
+    capacity = capacity["weekly_plan"][day]
 
     if date not in data and capacity:
         return True
