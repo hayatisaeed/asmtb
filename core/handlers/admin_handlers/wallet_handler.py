@@ -51,11 +51,12 @@ async def change_credit(update: Update, context: CallbackContext):
     user_id = context.user_data['user_id']
     new_credit = update.message.text
     wallet_data = await core.data_handler.get_wallet_data(user_id)
-    past_credit = wallet_data['credit']
+    past_credit = await core.utils.work_with_strings.beautify_numbers(wallet_data['credit'])
 
     try:
         new_credit = int(new_credit)
         await core.data_handler.edit_wallet_credit(user_id, new_credit)
+        new_credit = await core.utils.work_with_strings.beautify_numbers(new_credit)
         text = f"""
         انجام شد.
         
