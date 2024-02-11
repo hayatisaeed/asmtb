@@ -313,7 +313,7 @@ async def new_reservations_save_data(user_id, date, day):
 
 
 async def save_reservation_history(user_id, date):
-    with open('data/user_reservation_history.json', 'r') as f:
+    with open('data/user_call_reserve_history.json', 'r') as f:
         data = json.load(f)
 
     if user_id not in data:
@@ -324,7 +324,7 @@ async def save_reservation_history(user_id, date):
     else:
         data[user_id][date] += 1
 
-    with open('data/user_reservation_history.json', 'w') as f:
+    with open('data/user_call_reserve_history.json', 'w') as f:
         json.dump(data, f)
 
 
