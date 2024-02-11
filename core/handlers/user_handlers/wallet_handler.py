@@ -106,6 +106,7 @@ async def payment_confirmation(update: Update, context: CallbackContext):
     price = int(query.data.split()[2])
 
     if await core.utils.payment.payment_done(payment_id):
+        await core.utils.payment.save_payment_history(payment_id, user_id)
         current_credit = await core.data_handler.get_wallet_data(user_id)
         current_credit = current_credit['credit']
 

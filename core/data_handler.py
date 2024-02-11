@@ -310,3 +310,16 @@ async def new_reservations_save_data(user_id, date, day):
 
     with open('data/call_reservations.json', 'w') as f:
         json.dump(data, f)
+
+
+async def save_payment_history(user_id, time, payment_id):
+    with open('data/payment_history.json', 'r') as f:
+        data = json.load(f)
+
+    data[payment_id] = {
+        "time": time,
+        "user_id": user_id
+    }
+
+    with open('data/payment_history.json', 'w') as f:
+        json.dump(data, f)
