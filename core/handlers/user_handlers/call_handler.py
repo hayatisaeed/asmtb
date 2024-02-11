@@ -47,7 +47,7 @@ async def show_reserve_history(update: Update, context: CallbackContext):
         return 'CHOOSING'
 
 
-async def get_day_name(day):
+async def get_day_name(day, need_date=False):
     today = datetime.date.today()
 
     # Get tomorrow's date
@@ -62,7 +62,12 @@ async def get_day_name(day):
     # Extract date from datetime object
     current_date = current_datetime.date()
 
-    if day == 'today':
+    if need_date:
+        if day == "tomorrow":
+            return f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}"
+        else:
+            return f"{today.year}-{today.month}-{today.day}"
+    elif day == 'today':
         return today_name
     elif day == 'tomorrow':
         return tomorrow_name
@@ -110,7 +115,7 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
 
     price = await core.data_handler.get_price()
 
-    date = await get_day_name('date')
+    date = await get_day_name('date', need_date=True)
     day = await get_day_name(day)
 
     user_data = await core.data_handler.get_user_data(user_id)
