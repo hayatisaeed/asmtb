@@ -6,7 +6,7 @@ import core.data_handler
 import core.utils.work_with_strings
 
 call_handler_main_keybaord = [
-    ['رزرو های امروز و فردا', 'سابقه تماس‌ها'],
+    ['رزرو های امروز و فردا'],
     ['تنظیم برنامه هفتگی', 'تنظیم هزینه'],
     ['🔙 | بازگشت به منوی اصلی']
 ]
@@ -112,3 +112,7 @@ async def change_weekly_plan(update: Update, context: CallbackContext):
 
     await query.edit_message_reply_markup(reply_markup=inline_markup)
     await query.answer("✅")
+
+
+async def show_reservations(update: Update, context: CallbackContext):
+    pass

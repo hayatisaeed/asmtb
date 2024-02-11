@@ -369,6 +369,8 @@ def main():
                                core.handlers.admin_handlers.call_handler.set_price),
                 MessageHandler(filters.Regex('^تنظیم برنامه هفتگی$'),
                                core.handlers.admin_handlers.call_handler.show_weekly_plan),
+                MessageHandler(filters.Regex('^رزرو های امروز و فردا$'),
+                               core.handlers.admin_handlers.call_handler.show_reservations),
                 MessageHandler(filters.ALL,
                                core.handlers.user_handlers.basic_settings_handler.return_home)
             ],
@@ -405,6 +407,8 @@ def main():
                                core.handlers.user_handlers.basic_settings_handler.return_home),
                 MessageHandler(filters.Regex('^رزرو جدید$'),
                                core.handlers.user_handlers.call_handler.new_reserve),
+                MessageHandler(filters.Regex('^سابقه رزروها$'),
+                               core.handlers.user_handlers.call_handler.show_reserve_history),
                 MessageHandler(filters.ALL,
                                core.handlers.user_handlers.basic_settings_handler.return_home)
             ]

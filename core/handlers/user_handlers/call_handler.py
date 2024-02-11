@@ -21,7 +21,28 @@ async def handle(update: Update, context: CallbackContext):
 
 
 async def show_reserve_history(update: Update, context: CallbackContext):
-    pass
+    user_id = update.effective_user.id
+    user_reserve_history = await core.data_handler.get_user_reserve_history(user_id)
+
+    if not user_reserve_history:
+        await context.bot.send_message(chat_id=user_id, text="سابقه‌ای موجود نیست.",
+                                       reply_markup=user_main_call_handler_markup)
+        return 'CHOOSING'
+    else:
+        data = [
+            ['ردیف', 'تاریخ', 'تعداد']
+        ]
+        counter = 1
+        for item in user_reserve_history:
+            data.append([counter, item, user_reserve_history[item]])
+            counter += 1
+        table_of_history = await core.utils.work_with_strings.generate_formatted_table(data)
+        text = f"""
+        سابقه‌ی رزرو جلسه تلفنی شما:
+        {table_of_history}
+        """
+        await context.bot.send_message(chat_id=user_id, text=text, reply_markup=user_main_call_handler_markup)
+        return 'CHOOSING'
 
 
 async def get_day_name(day):
@@ -129,6 +150,7 @@ async def confirm_reservation(update: Update, context: CallbackContext):
     if await core.data_handler.day_has_capacity(day, date):
         if await core.handlers.user_handlers.wallet_handler.spend_credit(user_id, price):
             await core.data_handler.new_reservation(date)
+            await core.data_handler.save_reservation_history(user_id, date)
             await core.data_handler.new_reservations_save_data(user_id, date, day)
             markup = InlineKeyboardMarkup([[InlineKeyboardButton('✅', callback_data='none ✅')]])
             text = """
