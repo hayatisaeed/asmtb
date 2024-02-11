@@ -88,8 +88,8 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
 
     price = await core.data_handler.get_price()
 
-    day = await core.utils.date_and_time.get_day_name(day)
     date = await core.utils.date_and_time.get_date(day)
+    day_name = await core.utils.date_and_time.get_day_name(day)
 
     user_data = await core.data_handler.get_user_data(user_id)
     phone_number = user_data['phone_number']
@@ -106,7 +106,7 @@ async def new_reserve_choose_day(update: Update, context: CallbackContext):
     else:
         keyboard = [
             [InlineKeyboardButton('✅ تایید و پرداخت', callback_data=f'user-call-cr {date} {price}\
-             {day}')]
+             {day_name}')]
         ]
         markup = InlineKeyboardMarkup(keyboard)
         price_bea = await core.utils.work_with_strings.beautify_numbers(price)
@@ -129,9 +129,9 @@ async def confirm_reservation(update: Update, context: CallbackContext):
 
     if await core.data_handler.day_has_capacity(day, date):
         if await core.handlers.user_handlers.wallet_handler.spend_credit(user_id, price):
-            await core.data_handler.new_reservation(date)
-            await core.data_handler.save_reservation_history(user_id, date)
-            await core.data_handler.new_reservations_save_data(user_id, date, day)
+            await core.data_handler.new_reservation(date)  # data/call_reserved.json
+            await core.data_handler.save_reservation_history(user_id, date)  # data/user_call_reserve_history.json
+            await core.data_handler.new_reservations_save_data(user_id, date, day)  # data/call_reservations.json
             markup = InlineKeyboardMarkup([[InlineKeyboardButton('✅', callback_data='none ✅')]])
             text = """
             پرداخت با موفقیت انجام شد و جلسه رزرو شد.
