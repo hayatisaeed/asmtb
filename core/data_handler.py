@@ -308,5 +308,5 @@ async def new_reservations_save_data(user_id, date, day):
 
     data[date]['reservations'].append(str(user_id))
 
-    with open('data/call_reserved.json', 'w') as f:
+    with open('data/call_reservations.json', 'w') as f:
         json.dump(data, f)
