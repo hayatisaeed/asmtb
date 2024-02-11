@@ -289,7 +289,7 @@ async def new_reservation(date):
     with open('data/call_reserved.json', 'r') as f:
         data = json.load(f)
 
-    if date not in date:
+    if date not in data:
         data[date] = 1
 
     else:
