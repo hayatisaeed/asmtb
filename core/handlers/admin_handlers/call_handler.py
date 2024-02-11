@@ -126,6 +126,7 @@ async def show_reservations(update: Update, context: CallbackContext):
     markup = InlineKeyboardMarkup(keyboard)
 
     await context.bot.send_message(chat_id=Config.ADMIN_ID, text="کدام رو نمایش بدم؟", reply_markup=markup)
+    await core.handlers.start_handler.handle(update, context)
     return ConversationHandler.END
 
 
@@ -138,16 +139,16 @@ async def display_reservations(update: Update, context: CallbackContext):
     if not reservations:
         markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌", callback_data="none ❌")]])
         await query.edit_message_text("هیچ رزروی برای این روز موجود نیست", reply_markup=markup)
-        await query.answer()
     else:
         for user_id in reservations['reservations']:
             user_data = await core.data_handler.get_user_data(user_id)
             keyboard.append(
-                [InlineKeyboardButton(f"{user_data['name']} ({user_data['phone_number']}",
-                                      callback_data=f"admin-show-res-det {user_id} {date}")]
+                [InlineKeyboardButton(f"{user_data['name']} ({user_data['phone_number']})",
+                                      callback_data=f"admin-show-det {user_id} {date}")]
             )
         markup = InlineKeyboardMarkup(keyboard)
-        await query.edit_message_text(f"برنامه رزرو های {date}", reply_markup=markup)
+        await query.edit_message_text(f"برنامه رزرو های \n{date}", reply_markup=markup)
+    await query.answer()
 
 
 async def display_reservation_details(update: Update, context: CallbackContext):

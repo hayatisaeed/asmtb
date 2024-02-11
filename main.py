@@ -512,7 +512,7 @@ def main():
 
     admin_show_reservation_details = CallbackQueryHandler(
         core.handlers.admin_handlers.call_handler.display_reservation_details,
-        pattern="^admin-show-res-det"
+        pattern="^admin-show-det"
     )
 
     handlers = [
