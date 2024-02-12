@@ -1,4 +1,5 @@
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, ConversationHandler
 from core.config import Config
 import core.handlers.start_handler
@@ -53,7 +54,8 @@ async def show_sub_list(update: Update, context: CallbackContext):
 
     """
 
-    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=main_admin_sub_markup)
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=main_admin_sub_markup,
+                                   parse_mode=ParseMode.HTML)
     return 'CHOOSING'
 
 
