@@ -107,7 +107,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
     if user_is_free:
         new_text = f"""
 این کاربر در حال حاضر 
-{'✅ رایگان' if user_is_free else '💰 کاربر عادی'}
+{'✅ رایگان' if not user_is_free else '💰 کاربر عادی'}
 میباشد.
 برای تغییر وضعیت این کاربر از دکمه زیر استفاده کنید.
 
@@ -136,7 +136,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
         new_markup = InlineKeyboardMarkup(new_keyboard)
         new_text = f"""
 این کاربر در حال حاضر 
-{'✅ رایگان' if not user_is_free else '💰 کاربر عادی'}
+{'✅ رایگان' if user_is_free else '💰 کاربر عادی'}
 میباشد.
 برای تغییر وضعیت این کاربر از دکمه زیر استفاده کنید.
 
