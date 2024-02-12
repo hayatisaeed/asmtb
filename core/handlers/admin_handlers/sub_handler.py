@@ -8,7 +8,7 @@ import core.utils.date_and_time
 
 main_admin_sub_keyboard = [
     ['نمایش لیست مشترکان'],
-    ['رایگان کردن ربات'],
+    ['رایگان کردن کاربر'],
     ['مشاهده کاربران رایگان'],
     ['🔙 | بازگشت به منوی اصلی']
 ]
@@ -17,7 +17,7 @@ cancel_keyboard = [['🔙 | بازگشت به منوی اصلی']]
 cancel_markup = ReplyKeyboardMarkup(cancel_keyboard)
 
 
-async def handler(update: Update, context: CallbackContext):
+async def handle(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id != Config.ADMIN_ID:
         await context.bot.send_message(chat_id=user_id, text="❌ | این عملکرد فقط برای ادمین قابل استفاده است.")
@@ -63,7 +63,7 @@ async def make_user_free(update: Update, context: CallbackContext):
     return 'FREE_GET_ID'
 
 
-async def make_user_free_get_user_id(update: Update, context: CallbackContext):
+async def make_user_free_show_status(update: Update, context: CallbackContext):
     user_id = update.message.text
     if not await core.data_handler.user_is_saved(user_id):
         await context.bot.send_message(chat_id=Config.ADMIN_ID, text="این کاربر وجود ندارید")

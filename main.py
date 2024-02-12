@@ -27,6 +27,7 @@ import core.handlers.admin_handlers.call_handler
 import core.handlers.user_handlers.call_handler
 import core.handlers.user_handlers.wallet_handler
 import core.handlers.admin_handlers.wallet_handler
+import core.handlers.admin_handlers.sub_handler
 
 
 logging.basicConfig(
@@ -515,6 +516,46 @@ def main():
         pattern="^admin-show-det"
     )
 
+    admin_manage_sub_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex('^تنظیمات اشتراک&'),
+                           core.handlers.admin_handlers.sub_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex('^نمایش لیست مشترکان&'),
+                               core.handlers.admin_handlers.sub_handler.show_sub_list),
+                MessageHandler(filters.Regex('^رایگان کردن کاربر&'),
+                               core.handlers.admin_handlers.sub_handler.make_user_free),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ],
+            'FREE_GET_ID': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.sub_handler.make_user_free_show_status),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.ALL,
+                           core.handlers.user_handlers.basic_settings_handler.return_home)
+        ]
+    )
+
+    admin_change_free_status = CallbackQueryHandler(
+        core.handlers.admin_handlers.sub_handler.change_user_free_status,
+        pattern="^change-free-status"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -526,7 +567,7 @@ def main():
         user_show_advice_list_handler, user_show_advice_message_handler, weekly_plan_edit_day, user_call_handler,
         user_call_reservation_choose_day, user_call_confirm_reservation_handler, user_wallet_handler,
         user_new_payment_handler, user_confirm_payment, admin_wallet_handler, admin_show_reservations,
-        admin_show_reservation_details
+        admin_show_reservation_details, admin_manage_sub_handler, admin_change_free_status
     ]
 
     # Add Handlers To Application
