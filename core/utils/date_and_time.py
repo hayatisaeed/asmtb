@@ -23,4 +23,8 @@ async def get_day_name(day):
         return f"{tomorrow_name}"
 
 
-
+async def calculate_age_in_days(date_string):
+    birth_date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
+    today_date = datetime.datetime.now()
+    age_delta = today_date - birth_date
+    return age_delta.days

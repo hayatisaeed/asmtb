@@ -19,5 +19,5 @@ async def payment_done(payment_id):
 
 
 async def save_payment_history(payment_id, user_id):
-    now = datetime.datetime.now()
+    now = str(datetime.datetime.now())
     await core.data_handler.save_payment_history(user_id, now, payment_id)

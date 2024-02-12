@@ -364,3 +364,29 @@ async def get_reservations(date):
         return False
 
     return data[str(date)]
+
+
+async def get_sub_list():
+    with open('data/sub_list.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
+async def user_is_free_sub(user_id):
+    user_id = str(user_id)
+    with open('data/sub_free_status.json', 'r') as f:
+        data = json.load(f)
+
+    if user_id in data["free_users"]:
+        return True
+    else:
+        return False
+
+
+async def change_user_free_status(user_id):
+    user_id = str(user_id)
+
+    if await user_is_free_sub(user_id):
+        pass
+    else:
+        pass
