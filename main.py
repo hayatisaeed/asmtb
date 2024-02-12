@@ -518,7 +518,7 @@ def main():
 
     admin_manage_sub_handler = ConversationHandler(
         entry_points=[
-            MessageHandler(filters.Regex('^تنظیمات اشتراک&'),
+            MessageHandler(filters.Regex("^تنظیمات اشتراک$"),
                            core.handlers.admin_handlers.sub_handler.handle)
         ],
         states={
