@@ -119,6 +119,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
         new_markup = InlineKeyboardMarkup(new_keyboard)
 
         await query.message.edit_text(text=new_text, reply_markup=new_markup)
+        await core.data_handler.change_user_free_status(user_id)
         await query.answer("💰 کاربر عادی شد")
 
     else:
@@ -143,4 +144,5 @@ async def change_user_free_status(update: Update, context: CallbackContext):
 
         await context.bot.send_message(chat_id=user_id, text=user_text)
         await query.edit_message_text(text=new_text, reply_markup=new_markup)
+        await core.data_handler.change_user_free_status(user_id)
         await query.answer("✅ کاربر رایگان شد")
