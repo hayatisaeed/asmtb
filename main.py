@@ -525,9 +525,9 @@ def main():
             'CHOOSING': [
                 MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
                                core.handlers.user_handlers.basic_settings_handler.return_home),
-                MessageHandler(filters.Regex('^نمایش لیست مشترکان&'),
+                MessageHandler(filters.Regex('^لیست مشترکان$'),
                                core.handlers.admin_handlers.sub_handler.show_sub_list),
-                MessageHandler(filters.Regex('^رایگان کردن کاربر&'),
+                MessageHandler(filters.Regex('^رایگان کردن کاربر$'),
                                core.handlers.admin_handlers.sub_handler.make_user_free),
                 MessageHandler(filters.ALL,
                                core.handlers.user_handlers.basic_settings_handler.return_home)

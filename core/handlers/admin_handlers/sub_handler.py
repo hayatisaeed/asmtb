@@ -7,9 +7,9 @@ import core.utils.work_with_strings
 import core.utils.date_and_time
 
 main_admin_sub_keyboard = [
-    ['نمایش لیست مشترکان'],
-    ['رایگان کردن کاربر'],
-    ['مشاهده کاربران رایگان'],
+    ["لیست مشترکان"],
+    ["رایگان کردن کاربر"],
+    ["مشاهده کاربران رایگان"],
     ['🔙 | بازگشت به منوی اصلی']
 ]
 main_admin_sub_markup = ReplyKeyboardMarkup(main_admin_sub_keyboard, one_time_keyboard=True)
