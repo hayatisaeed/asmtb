@@ -383,10 +383,22 @@ async def user_is_free_sub(user_id):
         return False
 
 
+async def get_free_users():
+    with open('data/sub_free_status.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
 async def change_user_free_status(user_id):
     user_id = str(user_id)
 
+    free_users = await get_free_users()
+
     if await user_is_free_sub(user_id):
-        pass
+        while user_id in free_users["free_users"]:
+            free_users["free_users"].remove(user_id)
     else:
-        pass
+        free_users["free_users"].append(user_id)
+
+    with open('data/sub_free_status.json', 'w') as f:
+        json.dump(free_users, f)
