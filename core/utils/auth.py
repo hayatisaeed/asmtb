@@ -4,7 +4,6 @@ import core.utils.date_and_time
 
 async def user_is_authenticated(user_id):
     bot_is_free = await core.data_handler.get_bot_is_free()
-    bot_is_free = bot_is_free["bot_is_free"]
 
     user_is_free = await core.data_handler.user_is_free_sub(user_id)
 
