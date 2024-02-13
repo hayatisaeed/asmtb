@@ -7,7 +7,7 @@ merchant = "4390ca27-e428-4c4a-b2e4-cfde882355ba"
 
 
 def get_link_to_zp(amount, payment_id):
-    return f'https://103.75.197.206/verify_payment?amount={amount},payment_id={payment_id},security_code=1234'
+    return f'http://103.75.197.206:5000/verify_payment?amount={amount},payment_id={payment_id},security_code=1234'
 
 
 def get_callback_link(amount, payment_id, security_code):
@@ -15,7 +15,7 @@ def get_callback_link(amount, payment_id, security_code):
 
 
 def get_security_code(amount, payment_id):
-    return 1234
+    return "1234"
 
 
 @app.route('/')
