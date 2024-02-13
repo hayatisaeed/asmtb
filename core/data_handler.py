@@ -457,7 +457,7 @@ async def change_sub_price(new_price):
 
 async def edit_sub(new_data):
     with open('data/bot_sub_price.json', 'w') as f:
-        data = json.dumps(new_data)
+        json.dump(new_data, f)
 
 
 async def new_sub(user_id, exp_date, buy_date):
