@@ -3,6 +3,21 @@ from flask import Flask, request, render_template
 app = Flask(__name__)
 
 
+merchant = "4390ca27-e428-4c4a-b2e4-cfde882355ba"
+
+
+def get_link_to_zp(amount, payment_id):
+    return f'https://103.75.197.206/verify_payment?amount={amount},payment_id={payment_id},security_code=1234'
+
+
+def get_callback_link(amount, payment_id, security_code):
+    return ""
+
+
+def get_security_code(amount, payment_id):
+    return 1234
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -10,13 +25,27 @@ def index():
 
 @app.route('/new_payment', methods=['GET'])
 def new_payment():
-    pass
-
-
-@app.route('/verify', methods=['GET'])
-def verify_payment():
     payment_id = request.args.get('payment_id')
+    amount = request.args.get('amount')
+    link = get_link_to_zp(amount, payment_id)
+    return render_template('new_payment.html', amount=amount, link=link, payment_id=payment_id)
+
+
+@app.route('/verify_payment', methods=['GET'])
+def verify_payment():
+    amount = request.args.get('amount')
+    payment_id = request.args.get('payment_id')
+    expected_security_code = get_security_code(amount, payment_id)
     security_code = request.args.get('security_code')
+
+    if not security_code == expected_security_code:
+        message = "❌ پرداخت شما تایید نشد ❌"
+    else:
+        # ## {save payment stuff here} ## #
+        message = "✅ پرداخت شما تایید شد، لطفا به بات برگشته و دکمه‌ی پرداخت کردم را بزنید."
+
+    return render_template('verify_payment.html', message=message)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
