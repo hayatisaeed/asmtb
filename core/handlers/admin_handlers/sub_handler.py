@@ -225,9 +225,9 @@ async def change_bot_is_free(update: Update, context: CallbackContext):
 async def change_sub_price(update: Update, context: CallbackContext):
     sub_price = await core.utils.work_with_strings.beautify_numbers(await core.data_handler.get_sub_price())
 
-    text = """
+    text = f"""
 قیمت اشتراک ماهانه در حال حاضر 
-{}
+{sub_price}
 میباشد. (ریال)
 
 قیمت جدید را وارد کنید (به صورت لاتین و به ریال) 
