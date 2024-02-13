@@ -164,7 +164,14 @@ async def show_free_users(update: Update, context: CallbackContext):
     text = f"""
 لیست کاربران رایگان:
 
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
 <pre>{table}</pre>
+</body>
+</html>
 
     """
 
