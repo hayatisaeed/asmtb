@@ -254,7 +254,7 @@ async def save_new_sub_price(update: Update, context: CallbackContext):
 {bea_price}
         """
         await core.data_handler.change_sub_price(new_price)
-        await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=cancel_markup)
+        await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=main_admin_sub_markup)
         return 'CHOOSING'
     except ValueError:
         text = "عدد نا معتبر. لطفا به صورت اعداد لاتین و به ریال وارد کنید."
