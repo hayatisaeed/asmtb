@@ -7,8 +7,7 @@ merchant = "4390ca27-e428-4c4a-b2e4-cfde882355ba"
 
 
 def get_link_to_zp(amount, payment_id):
-    link = f'http://103.75.197.206:5000/verify_payment?amount={amount},payment_id={payment_id},security_code=1234'
-    print(link) # test
+    link = f'http://103.75.197.206:5000/verify_payment?amount={amount}&paymentId={payment_id}&securityCode=1234'
     return link
 
 
@@ -28,7 +27,7 @@ def index():
 @app.route('/new_payment', methods=['GET'])
 def new_payment():
     amount = request.args.get('amount')
-    payment_id = request.args.get('payment_id')
+    payment_id = request.args.get('paymentId')
     link = get_link_to_zp(amount, payment_id)
     return render_template('new_payment.html', amount=amount, link=link, payment_id=payment_id)
 
@@ -36,9 +35,9 @@ def new_payment():
 @app.route('/verify_payment', methods=['GET'])
 def verify_payment():
     amount = request.args.get('amount')
-    payment_id = request.args.get('payment_id')
+    payment_id = request.args.get('paymentId')
     expected_security_code = get_security_code(amount, payment_id)
-    security_code = request.args.get('security_code')
+    security_code = request.args.get('securityCode')
 
     if not str(security_code) == str(expected_security_code):
         message = "❌ پرداخت شما تایید نشد ❌"
