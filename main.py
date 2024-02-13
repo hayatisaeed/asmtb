@@ -541,6 +541,14 @@ def main():
                                core.handlers.admin_handlers.sub_handler.make_user_free_show_status),
                 MessageHandler(filters.ALL,
                                core.handlers.user_handlers.basic_settings_handler.return_home)
+            ],
+            'NEW_PRICE': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.sub_handler.save_new_sub_price),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
             ]
         },
         fallbacks=[

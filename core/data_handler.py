@@ -426,3 +426,18 @@ async def change_bot_is_free_status():
     with open('data/sub_free_status.json', 'w') as f:
         json.dump(data, f)
 
+
+async def get_sub_price():
+    with open('data/bot_sub_price.json', 'r') as f:
+        data = json.load(f)
+        return data["price"]
+
+
+async def change_sub_price(new_price):
+    with open('data/bot_sub_price.json', 'r') as f:
+        data = json.load(f)
+
+    data["price"] = new_price
+
+    with open('data/sub_free_status.json', 'w') as f:
+        json.dump(data, f)

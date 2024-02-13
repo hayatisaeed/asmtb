@@ -219,3 +219,43 @@ async def change_bot_is_free(update: Update, context: CallbackContext):
     await core.data_handler.change_bot_is_free_status()
     await query.edit_message_text(text=text, reply_markup=markup)
     await query.answer("✅")
+
+
+async def change_sub_price(update: Update, context: CallbackContext):
+    sub_price = await core.utils.work_with_strings.beautify_numbers(await core.data_handler.get_sub_price())
+
+    text = """
+قیمت اشتراک ماهانه در حال حاضر 
+{}
+میباشد. (ریال)
+
+قیمت جدید را وارد کنید (به صورت لاتین و به ریال) 
+    """
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=cancel_markup)
+    return 'NEW_PRICE'
+
+
+async def save_new_sub_price(update: Update, context: CallbackContext):
+    new_price = update.message.text
+
+    try:
+        new_price = int(new_price)
+        past_price = await core.utils.work_with_strings.beautify_numbers(await core.data_handler.get_sub_price())
+        bea_price = await core.utils.work_with_strings.beautify_numbers(new_price)
+
+        text = f"""
+انجام شد ✅
+
+قیمت قبلی:
+{past_price}
+
+قیمت جدید:
+{bea_price}
+        """
+        await core.data_handler.change_sub_price(new_price)
+        await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=cancel_markup)
+        return 'CHOOSING'
+    except ValueError:
+        text = "عدد نا معتبر. لطفا به صورت اعداد لاتین و به ریال وارد کنید."
+        await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=cancel_markup)
+        return 'NEW_PRICE'
