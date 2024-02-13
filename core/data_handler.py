@@ -402,3 +402,27 @@ async def change_user_free_status(user_id):
 
     with open('data/sub_free_status.json', 'w') as f:
         json.dump(free_users, f)
+
+
+async def get_bot_is_free():
+    with open('data/bot_free_status.json', 'r') as f:
+        data = json.load(f)
+
+    if data["bot_is_free"]:
+        return True
+    else:
+        return False
+
+
+async def change_bot_is_free_status():
+    with open('data/bot_free_status.json', 'r') as f:
+        data = json.load(f)
+
+    if data["bot_is_free"]:
+        data["bot_is_free"] = 0
+    else:
+        data["bot_is_free"] = 1
+
+    with open('data/sub_free_status.json', 'w') as f:
+        json.dump(data, f)
+

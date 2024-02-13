@@ -87,6 +87,7 @@ async def make_user_free_show_status(update: Update, context: CallbackContext):
         markup = InlineKeyboardMarkup(keyboard)
 
         text = f"""
+{user_id}
 این کاربر در حال حاضر 
 {'✅ رایگان' if is_free else '💰 کاربر عادی'}
 میباشد.
@@ -106,6 +107,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
     user_is_free = await core.data_handler.user_is_free_sub(user_id)
     if user_is_free:
         new_text = f"""
+{user_id}
 این کاربر در حال حاضر 
 💰 کاربر عادی
 میباشد.
@@ -135,6 +137,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
         ]
         new_markup = InlineKeyboardMarkup(new_keyboard)
         new_text = f"""
+{user_id}
 این کاربر در حال حاضر 
 ✅ رایگان
 میباشد.
@@ -146,3 +149,72 @@ async def change_user_free_status(update: Update, context: CallbackContext):
         await query.edit_message_text(text=new_text, reply_markup=new_markup)
         await core.data_handler.change_user_free_status(user_id)
         await query.answer("✅ کاربر رایگان شد")
+
+
+async def show_free_users(update: Update, context: CallbackContext):
+    free_users_data = await core.data_handler.get_free_users()
+    free_users = free_users_data['free_users']
+    table_data = [["name", "user_id"]]
+    for free_user in free_users:
+        user_data = await core.data_handler.get_user_data(free_user)
+        table_data.append([user_data['name'], free_user])
+
+    table = await core.utils.work_with_strings.generate_formatted_table(table_data)
+
+    text = f"""
+لیست کاربران رایگان:
+
+<pre>{table}</pre>
+
+    """
+
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=main_admin_sub_markup,
+                                   parse_mode=ParseMode.HTML)
+    return 'CHOOSING'
+
+
+async def make_bot_free_for_all(update: Update, context: CallbackContext):
+    bot_is_free_data = await core.data_handler.get_bot_is_free()
+    bot_is_free = bot_is_free_data['bot_is_free']
+    text = f"""
+بات در حال حاضر
+
+{'🟢 رایگان' if bot_is_free else '💰 پولی'}
+
+است. برای تغییر وضعیت از دکمه زیر استفاده کنید
+
+    """
+
+    keyboard = [
+        [InlineKeyboardButton(f"{'💰 تبدیل به پولی' if bot_is_free else '🟢 تبدیل به رایگان'}",
+                              callback_data="change-bot-is-free-status")]
+    ]
+    markup = InlineKeyboardMarkup(keyboard)
+
+    await context.bot.send_message(chat_id=Config.ADMIN_ID, text=text, reply_markup=markup)
+    await core.handlers.start_handler.handle(update, context)
+    return ConversationHandler.END
+
+
+async def change_bot_is_free(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot_is_free_status = await core.data_handler.get_bot_is_free()
+    bot_is_free = bot_is_free_status['bot_is_free']
+
+    text = f"""
+بات در حال حاضر
+
+{'🟢 رایگان' if not bot_is_free else '💰 پولی'}
+
+است. برای تغییر وضعیت از دکمه زیر استفاده کنید
+
+    """
+    keyboard = [
+        [InlineKeyboardButton(f"{'💰 تبدیل به پولی' if not bot_is_free else '🟢 تبدیل به رایگان'}",
+                              callback_data="change-bot-is-free-status")]
+    ]
+    markup = InlineKeyboardMarkup(keyboard)
+
+    await core.data_handler.change_bot_is_free_status()
+    await query.edit_message_text(text=text, reply_markup=markup)
+    await query.answer("✅")
