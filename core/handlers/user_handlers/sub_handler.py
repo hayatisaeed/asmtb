@@ -17,7 +17,7 @@ main_sub_markup = ReplyKeyboardMarkup(main_sub_keyboard, one_time_keyboard=True)
 
 async def handle(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
-    await context.bot.send_message("مدیریت اشتراک", reply_markup=main_sub_markup)
+    await context.bot.send_message(chat_id=user_id, text="مدیریت اشتراک", reply_markup=main_sub_markup)
     return 'CHOOSING'
 
 
