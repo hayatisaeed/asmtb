@@ -17,6 +17,4 @@ async def generate_formatted_table(data):
     for row in data[1:]:
         table.add_row(row)
 
-    table_html = table.get_html_string()
-
-    return table_html
+    return table
