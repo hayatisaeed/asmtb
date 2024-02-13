@@ -529,6 +529,8 @@ def main():
                                core.handlers.admin_handlers.sub_handler.show_sub_list),
                 MessageHandler(filters.Regex('^رایگان کردن کاربر$'),
                                core.handlers.admin_handlers.sub_handler.make_user_free),
+                MessageHandler(filters.Regex('^تغییر قیمت اشتراک$'),
+                               core.handlers.admin_handlers.sub_handler.change_sub_price),
                 MessageHandler(filters.Regex('^مشاهده کاربران رایگان$'),
                                core.handlers.admin_handlers.sub_handler.show_free_users),
                 MessageHandler(filters.ALL,
