@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه پرداخت جدید</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazir&display=swap">
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #f2f2f2;
+            margin: 10px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .important-notes {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center; /* Center text within the .important-notes div */
+            padding: 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .important-notes ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            text-align: right;
+        }
+
+        .important-notes li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .important-notes li::before {
+            content: "\2022"; /* Bullet character */
+            color: #007bff; /* Color of the bullet */
+            font-size: 20px; /* Size of the bullet */
+            margin-left: 10px;
+            left: -1.8em; /* Adjust for border */
+            top: 0.7em; /* Adjust for vertical alignment */
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+
+        .payment-details {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .payment-details p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="important-notes">
+        <p><b>نکات مهم قبل از انجام پرداخت:</b></p>
+        <ul>
+            <li>قبل از زدن لینک زیر حتما فیلترشکن (VPN) خود را خاموش کنید.</li>
+            <li>بعد از پرداخت حتما دکمه تکمیل خرید را بزنید.</li>
+            <li>حتما از رسید پرداختی خود اسکرین شات تهیه کنید.</li>
+            <li>سایر نکات ...</li>
+        </ul>
+        <div class="payment-details">
+            <p>مبلغ پرداختی: {{ amount }}</p>
+            <p>شماره پرداخت: {{ payment_id }}</p>
+        </div>
+        <a href="{{ link }}" class="link-button">برای انجام پرداخت اینجا کلیک کنید</a>
+    </div>
+</body>
+</html>
