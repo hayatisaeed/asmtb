@@ -4,10 +4,25 @@ from telegram.ext import CallbackContext
 import core.handlers.start_handler
 import core.data_handler
 from core.config import Config
+import core.utils.auth
 
 
 async def handle(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
+    if not await core.utils.auth.user_is_authenticated(user_id):
+        text = """
+اشتراک شما به اتمام رسیده است.
+برای استفاده از این بخش لازم است که اشتراک خود را تمدید کنید.
+
+برای تمدید اشتراک:
+۱. به قسمت کیف پول رفته و کیف پول خود را شارژ کنید
+۲. به قسمت اشتراک ماهانه رفته و اشتراک بخرید.
+
+        """
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+        await core.handlers.start_handler.handle(update, context)
+        return
+
     advices = await core.data_handler.get_all_advice()
 
     buttons = []
@@ -52,6 +67,10 @@ async def show_advice_message(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = query.from_user.id
     message_id = query.data.split()[1]
+
+    if not await core.utils.auth.user_is_authenticated(user_id):
+        await query.answer("❌ اشتراک شما به اتمام رسیده است")
+        return
 
     await query.delete_message()
     try:

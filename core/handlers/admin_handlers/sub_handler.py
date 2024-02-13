@@ -11,6 +11,7 @@ main_admin_sub_keyboard = [
     ["لیست مشترکان"],
     ["رایگان کردن کاربر"],
     ["مشاهده کاربران رایگان"],
+    ["رایگان کردن برای همه"],
     ["تغییر قیمت اشتراک"],
     ['🔙 | بازگشت به منوی اصلی']
 ]
@@ -35,16 +36,15 @@ async def show_sub_list(update: Update, context: CallbackContext):
     sub_list = await core.data_handler.get_sub_list()
 
     table_data = [
-        ['user_id', 'name', 'phone', 'buy_date', '*']
+        ['user_id', 'phone', 'buy_date', '*']
     ]
 
     for sub in sub_list:
         user_data = await core.data_handler.get_user_data(sub)
-        name = user_data['name']
         phone = user_data['phone_number']
         buy_date = sub_list[sub]['buy_date']
         status = '✅' if await core.utils.date_and_time.calculate_age_in_days(buy_date) <= 30 else '❌'
-        table_data.append([sub, name, phone, buy_date, status])
+        table_data.append([sub, phone, buy_date, status])
 
     table = await core.utils.work_with_strings.generate_formatted_table(table_data)
 

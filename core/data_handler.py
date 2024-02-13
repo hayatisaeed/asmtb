@@ -441,3 +441,21 @@ async def change_sub_price(new_price):
 
     with open('data/sub_free_status.json', 'w') as f:
         json.dump(data, f)
+
+
+async def edit_sub(new_data):
+    with open('data/bot_sub_price.json', 'w') as f:
+        data = json.dumps(new_data)
+
+
+async def new_sub(user_id, exp_date, buy_date):
+    with open('data/sub_list.json', 'r') as f:
+        data = json.load(f)
+
+    data[str(user_id)] = {
+        "exp_date": exp_date,
+        "buy_date": buy_date
+    }
+
+    with open('data/sub_list.json', 'w') as f:
+        json.dump(data, f)
