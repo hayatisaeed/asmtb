@@ -124,6 +124,8 @@ async def payment_confirmation(update: Update, context: CallbackContext):
 
 async def spend_credit(user_id, price):
     credit = await core.data_handler.get_wallet_data(user_id)
+    if not credit:
+        return False
     credit = credit['credit']
 
     if price > credit:
