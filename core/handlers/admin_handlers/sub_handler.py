@@ -154,7 +154,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
 async def show_free_users(update: Update, context: CallbackContext):
     free_users_data = await core.data_handler.get_free_users()
     free_users = free_users_data['free_users']
-    table_data = [["name", "user_id"]]
+    table_data = [["نام", "آیدی عددی"]]
     for free_user in free_users:
         user_data = await core.data_handler.get_user_data(free_user)
         table_data.append([user_data['name'], free_user])
