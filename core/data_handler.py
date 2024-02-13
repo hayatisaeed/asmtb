@@ -22,12 +22,24 @@ TEMPLATE_USER_DATA = {
     'auto_motivation': 0
 }
 
+user_wallet_initial_credit = {
+    'credit': 0
+}
+
 
 async def save_user(user_id):
     with open('data/user_data.json', 'r') as f:
         data = json.load(f)
     data[str(user_id)] = TEMPLATE_USER_DATA
     with open('data/user_data.json', 'w') as f:
+        json.dump(data, f)
+
+    with open('data/wallet.json', 'r') as f:
+        data = json.load(f)
+
+    data[str(user_id)] = user_wallet_initial_credit
+
+    with open('data/wallet.json', 'w') as f:
         json.dump(data, f)
 
 
