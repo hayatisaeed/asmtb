@@ -199,8 +199,7 @@ async def make_bot_free_for_all(update: Update, context: CallbackContext):
 
 async def change_bot_is_free(update: Update, context: CallbackContext):
     query = update.callback_query
-    bot_is_free_status = await core.data_handler.get_bot_is_free()
-    bot_is_free = bot_is_free_status['bot_is_free']
+    bot_is_free = await core.data_handler.get_bot_is_free()
 
     text = f"""
 بات در حال حاضر
