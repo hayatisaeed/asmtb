@@ -154,7 +154,7 @@ async def change_user_free_status(update: Update, context: CallbackContext):
 async def show_free_users(update: Update, context: CallbackContext):
     free_users_data = await core.data_handler.get_free_users()
     free_users = free_users_data['free_users']
-    table = "لیست کاربران عادی:\n" + "*********\n"
+    table = "*********\n"
 
     for user in free_users:
         user_data = await core.data_handler.get_user_data(user)
@@ -163,6 +163,7 @@ async def show_free_users(update: Update, context: CallbackContext):
 
     text = f"""
 لیست کاربران رایگان:
+
 
 {table}
 
