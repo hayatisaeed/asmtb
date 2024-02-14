@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import requests
 import json
+import core.data_handler
 
 app = Flask(__name__)
 
@@ -101,6 +102,7 @@ def verify_payment():
     status = request.args.get('Status')
 
     if status != 'OK':
+        core.data_handler.change_transaction_status(payment_id)
         verified = False
     else:
         verified = True

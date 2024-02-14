@@ -476,7 +476,7 @@ async def new_payment(payment_id, user_id, amount, creation_time):
         json.dump(data, f)
 
 
-async def change_transaction_status(payment_id):
+def change_transaction_status(payment_id):
     with open('data/payment_history.json', 'r') as f:
         data = json.load(f)
 
