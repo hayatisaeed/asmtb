@@ -103,7 +103,7 @@ def verify_payment():
     if status != 'OK':
         verified = False
     else:
-        if verify(authority, amount)['status']:
+        if verify(authority, amount)['Status']:
             verified = True
         else:
             verified = False
