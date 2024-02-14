@@ -102,9 +102,9 @@ def verify_payment():
     status = request.args.get('Status')
 
     if status != 'OK':
-        core.data_handler.change_transaction_status(payment_id)
         verified = False
     else:
+        core.data_handler.change_transaction_status(payment_id)
         verified = True
     # else:
     #     if verify(authority, amount).json()['status']:
