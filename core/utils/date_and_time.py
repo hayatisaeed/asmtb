@@ -34,3 +34,8 @@ async def x_days_after_date(x: int, date_string: str):
     day = datetime.datetime.strptime(date_string, '%Y-%m-%d')
     x_days_after = day + datetime.timedelta(days=x)
     return f"{x_days_after.year}-{x_days_after.month}-{x_days_after.day}"
+
+
+async def get_exact_date_and_time():
+    now = datetime.datetime.now()
+    return f"{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}"

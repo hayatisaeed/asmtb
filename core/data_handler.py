@@ -340,19 +340,6 @@ async def save_reservation_history(user_id, date):
         json.dump(data, f)
 
 
-async def save_payment_history(user_id, time, payment_id):
-    with open('data/payment_history.json', 'r') as f:
-        data = json.load(f)
-
-    data[payment_id] = {
-        "time": time,
-        "user_id": user_id
-    }
-
-    with open('data/payment_history.json', 'w') as f:
-        json.dump(data, f)
-
-
 async def get_user_reserve_history(user_id):
     user_id = str(user_id)
     with open('data/user_call_reserve_history.json', 'r') as f:
@@ -471,3 +458,45 @@ async def new_sub(user_id, exp_date, buy_date):
 
     with open('data/sub_list.json', 'w') as f:
         json.dump(data, f)
+
+
+async def new_payment(payment_id, user_id, amount, creation_time):
+    with open('data/payment_history.json', 'r') as f:
+        data = json.load(f)
+
+    data[str(payment_id)] = {
+        "user_id": user_id,
+        "amount": amount,
+        "creation_time": creation_time,
+        "transaction_done": False,
+        "cleared": False
+    }
+
+    with open('data/payment_history.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def change_transaction_status(payment_id):
+    with open('data/payment_history.json', 'r') as f:
+        data = json.load(f)
+
+    data[payment_id]["transaction_done"] = True
+
+    with open('data/payment_history.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def change_transaction_cleared_done(payment_id):
+    with open('data/payment_history.json', 'r') as f:
+        data = json.load(f)
+
+    data[payment_id]["cleared"] = True
+
+    with open('data/payment_history.json', 'w') as f:
+        json.dump(data, f)
+
+
+async def get_transaction_data(payment_id):
+    with open('data/payment_history.json', 'r') as f:
+        data = json.load(f)
+        return data[payment_id]

@@ -102,11 +102,13 @@ payment_id: {payment_id}
 async def payment_confirmation(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = query.from_user.id
-    payment_id = int(query.data.split()[1])
+    payment_id = query.data.split()[1]
     price = int(query.data.split()[2])
 
-    if await core.utils.payment.payment_done(payment_id):
-        await core.utils.payment.save_payment_history(payment_id, user_id)
+    payment_data = await core.data_handler.get_transaction_data(payment_id)
+    payment_cleared = payment_data['cleared']
+    if await core.utils.payment.payment_done(payment_id) and not payment_cleared:
+        await core.data_handler.change_transaction_cleared_done(payment_id)
         current_credit = await core.data_handler.get_wallet_data(user_id)
         current_credit = current_credit['credit']
 
