@@ -98,12 +98,12 @@ def verify_payment():
     amount = request.args.get('amount')
     payment_id = request.args.get('paymentId')
     authority = request.args.get('authority')
-    status = request.args.get('status')
+    status = request.args.get('Status')
 
     if status != 'OK':
         verified = False
     else:
-        if verify(authority, amount)['Status']:
+        if verify(authority, amount)['status']:
             verified = True
         else:
             verified = False
