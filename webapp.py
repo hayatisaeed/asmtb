@@ -67,7 +67,7 @@ def get_link_to_zp(amount, payment_id):
 
 
 def get_callback_link(payment_id, amount):
-    return call_back_template + "verify_payment?paymentId=" + payment_id + "&amount=" + str(amount)
+    return call_back_template + "?paymentId=" + payment_id + "&amount=" + str(amount)
 
 
 @app.route('/')
