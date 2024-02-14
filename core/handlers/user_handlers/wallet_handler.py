@@ -75,17 +75,17 @@ async def add_credit_get_price(update: Update, context: CallbackContext):
 async def new_payment(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = query.from_user.id
-    price = int(query.data.split()[1])
-    payment_id = await core.utils.payment.create_new_payment(price, user_id)
-    payment_link = await core.utils.payment.get_payment_link(payment_id)
+    amount = int(query.data.split()[1])
+    payment_id = await core.utils.payment.create_new_payment(amount, user_id)
+    payment_link = await core.utils.payment.get_payment_link(payment_id, amount)
 
     buttons = [
         [InlineKeyboardButton('🔗 پرداخت', url=payment_link)],
-        [InlineKeyboardButton('✅ پرداخت کردم', callback_data=f'user-confirm-payment {payment_id} {price}')]
+        [InlineKeyboardButton('✅ پرداخت کردم', callback_data=f'user-confirm-payment {payment_id} {amount}')]
     ]
     markup = InlineKeyboardMarkup(buttons)
 
-    price = await core.utils.work_with_strings.beautify_numbers(price)
+    price = await core.utils.work_with_strings.beautify_numbers(amount)
     text = f"""
 لطفا ابتدا VPN خود را خاموش کنید، سپس روی پرداخت بزنید.
 پس از انجام پرداخت به بات برگشته و دکمه پرداخت کردم را بزنید.
