@@ -17,10 +17,15 @@
             cell3.innerHTML = '<select name="sub"><option value="sub1">Sub 1</option><option value="sub2">Sub 2</option><option value="sub3">Sub 3</option></select>';
             cell4.innerHTML = '<input type="number" name="time" />';
         }
+
+        function submitForm() {
+            var form = document.getElementById("reportForm");
+            form.submit();
+        }
     </script>
 </head>
 <body>
-    <form action="/submit" method="post">
+    <form id="reportForm" action="/submit" method="post">
         <table id="reportTable">
             <tr>
                 <th>Subject</th>
@@ -56,7 +61,7 @@
             </tr>
         </table>
         <button type="button" onclick="addRow()">+</button>
-        <button type="submit">Submit</button>
+        <button type="button" onclick="submitForm()">Submit</button>
     </form>
 </body>
 </html>
