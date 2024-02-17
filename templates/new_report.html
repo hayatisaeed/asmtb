@@ -21,7 +21,19 @@
 
         function submitForm() {
             var form = document.getElementById("reportForm");
-            form.submit();
+            var formData = new FormData(form);
+            fetch('/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                // Handle response as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
     </script>
 </head>
