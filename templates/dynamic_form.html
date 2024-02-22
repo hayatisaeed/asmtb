@@ -77,7 +77,7 @@
             var underSubject = selectElement.value;
             var subject = document.getElementById('subject').value;
 
-            if (underSubject !== "") {
+            if (underSubject !== "" && subject !== "") {
                 underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
                 underUnderSubjectSelect.disabled = false; // Enable under-under subject select
                 var underUnderSubjects = data[subject][underSubject];
@@ -85,7 +85,7 @@
                     underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
                 }
             } else {
-                // If no under-subject is selected, disable and clear under-under subject select
+                // If either subject or under-subject is not selected, disable and clear under-under subject select
                 underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
                 underUnderSubjectSelect.disabled = true; // Disable under-under subject select
             }
