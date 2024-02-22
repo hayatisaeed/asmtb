@@ -86,5 +86,6 @@ function addRow(subjects) {
     newDiv.innerHTML = newRowHTML;
     alert("2")
     subjectsDiv.appendChild(newDiv.firstChild);
+    alert("3")
 }
 
