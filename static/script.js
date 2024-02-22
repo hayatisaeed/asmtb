@@ -49,6 +49,7 @@ function underSubjectChanged(selectElement) {
 }
 
 function addRow() {
+    alert("we are in the function")
     const subjectsDiv = document.getElementById('subjects');
     const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
     subjectsDiv.appendChild(lastRow);
