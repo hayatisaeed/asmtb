@@ -57,7 +57,8 @@ function addRow(subjects) {
     const rowCount = subjectsDiv.childElementCount + 1;
     let newRowHTML = `
         <div class="row">
-            <select name="subject[${rowCount - 1}]" class="subject" onchange="subjectChanged(this, '${JSON.stringify(subjects)}')">
+            <select name="subject[${rowCount - 1}]" class="subject" 
+            onchange="subjectChanged(this, {{ subjects }})">
                 <option value="">Select Subject</option>
     `;
 
@@ -69,7 +70,7 @@ function addRow(subjects) {
     newRowHTML += `
             </select>
             <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled 
-            onchange="uderSubjectChanged(this, '${JSON.stringify(subjects)}')">
+            onchange="underSubjectChanged(this, '${JSON.stringify(subjects)}')">
                 <option value="">Select Under Subject</option>
             </select>
             <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" disabled>
