@@ -77,6 +77,12 @@
         });
 
         newRow.querySelector('.add-remove-buttons').appendChild(removeButton);
+
+        var nameInput = newRow.querySelector("input[name='name[]']");
+        var emailInput = newRow.querySelector("input[name='email[]']");
+        nameInput.value = '';
+        emailInput.value = '';
+
         form.insertBefore(newRow, form.lastElementChild);
         form.appendChild(addButton.cloneNode(true));
     });
