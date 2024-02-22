@@ -14,13 +14,13 @@
 
         <div id="subjects">
             <div class="row">
-                <select name="subject[]" class="subject">
+                <select name="subject[]" class="subject" onchange="subjectChanged(this)">
                     <option value="">Select Subject</option>
                     {% for subject in subjects %}
                     <option value="{{ subject }}">{{ subject }}</option>
                     {% endfor %}
                 </select>
-                <select name="under_subject[]" class="under-subject" disabled>
+                <select name="under_subject[]" class="under-subject" disabled onchange="underSubjectChanged(this)">
                     <option value="">Select Under Subject</option>
                 </select>
                 <select name="under_under_subject[]" class="under-under-subject" disabled>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <button type="button" id="add-row">Add Row</button>
+        <button type="button" id="add-row" onclick="addRow()">Add Row</button>
         <button type="submit">Submit</button>
     </form>
 
