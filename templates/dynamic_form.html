@@ -15,9 +15,10 @@
                    {% if form_data and field.lower() in form_data %} value="{{ form_data[field.lower()] }}" {% endif %}><br>
         {% endfor %}
         {% for i in range(num_additional_fields) %}
-            <label for="new_field_{{ i + 1 }}">New Field {{ i + 1 }}:</label>
-            <input type="text" id="new_field_{{ i + 1 }}" name="new_field_{{ i + 1 }}"
-                   {% set new_field_name = 'new_field_' + str(i + 1) %}
+            {% set new_field_index = i + 1 %}
+            <label for="new_field_{{ new_field_index }}">New Field {{ new_field_index }}:</label>
+            <input type="text" id="new_field_{{ new_field_index }}" name="new_field_{{ new_field_index }}"
+                   {% set new_field_name = 'new_field_' + str(new_field_index) %}
                    {% if form_data and new_field_name in form_data %} value="{{ form_data[new_field_name] }}" {% endif %}><br>
         {% endfor %}
         <input type="submit" value="Submit">
