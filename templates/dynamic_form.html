@@ -1,4 +1,3 @@
-<!--dynamic_form.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,27 +13,22 @@
         <input type="text" id="name" name="name" required>
 
         <div id="subjects">
-            {% for subject, under_subjects in subjects.items() %}
             <div class="row">
-                <select name="subject[]" class="subject">
+                <select name="subject[]" class="subject" required>
+                    <option value="" disabled selected>Select Subject</option>
+                    {% for subject in subjects %}
                     <option value="{{ subject }}">{{ subject }}</option>
-                </select>
-                <select name="under_subject[]" class="under-subject">
-                    {% for under_subject in under_subjects %}
-                    <option value="{{ under_subject }}">{{ under_subject }}</option>
                     {% endfor %}
                 </select>
-                <select name="under_under_subject[]" class="under-under-subject">
-                    {% for under_under_subject in under_subjects.values() %}
-                        {% for sub_subject in under_under_subject %}
-                            <option value="{{ sub_subject }}">{{ sub_subject }}</option>
-                        {% endfor %}
-                    {% endfor %}
+                <select name="under_subject[]" class="under-subject" disabled required>
+                    <option value="" disabled selected>Select Under Subject</option>
+                </select>
+                <select name="under_under_subject[]" class="under-under-subject" disabled required>
+                    <option value="" disabled selected>Select Under Under Subject</option>
                 </select>
                 <input type="number" name="hours[]" placeholder="Hours" min="1" required>
                 <input type="number" name="t_count[]" placeholder="T Count" min="1" required>
             </div>
-            {% endfor %}
         </div>
 
         <button type="button" id="add-row">Add Row</button>
