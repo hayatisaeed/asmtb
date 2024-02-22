@@ -18,15 +18,11 @@
             <th>Hours</th>
             <th>T Count</th>
         </tr>
-        {% for i in range(data|length) %}
-        <tr>
-            <td>{{ data['subject'][i] }}</td>
-            <td>{{ data['under_subject'][i] }}</td>
-            <td>{{ data['under_under_subject'][i] }}</td>
-            <td>{{ data['hours'][i] }}</td>
-            <td>{{ data['t_count'][i] }}</td>
-        </tr>
-        {% endfor %}
+        {% for subject in subjects %}
+            <tr>
+                <td>{{ subject }}</td>
+            </tr>
+            {% endfor %}
     </table>
 </body>
 </html>
