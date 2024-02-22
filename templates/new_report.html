@@ -11,7 +11,8 @@
     <form method="post">
         {% for field in fields %}
             <label for="{{ field.lower() }}">{{ field }}:</label>
-            <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"><br>
+            <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"
+                   {% if form_data %} value="{{ form_data.get(field.lower(), '') }}" {% endif %}><br>
         {% endfor %}
         <input type="submit" value="Submit">
         <input type="submit" name="add_field" value="Add Field">

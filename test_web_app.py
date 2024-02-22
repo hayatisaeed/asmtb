@@ -14,7 +14,7 @@ def index():
             # Add a new field to the list
             fields.append('New Field')
             # Redirect to the same route to render the updated form
-            return render_template('new_report.html', fields=fields)
+            return render_template('new_report.html', fields=fields, form_data=request.form)
 
     return render_template('new_report.html', fields=fields)
 
