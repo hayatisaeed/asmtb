@@ -114,6 +114,9 @@ button:hover {
 
 div.row {
     text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
