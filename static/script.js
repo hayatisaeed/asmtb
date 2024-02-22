@@ -54,6 +54,7 @@ function underSubjectChanged(selectElement, subjects) {
 let rowCount = 1; // Initialize row counter
 
 function addRow(subjects) {
+    alert("you are int addRow function")
     const subjectsDiv = document.getElementById('subjects');
     const rowCount = subjectsDiv.childElementCount + 1;
 
