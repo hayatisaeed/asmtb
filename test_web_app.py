@@ -10,7 +10,6 @@ fields = ['Name', 'Email', 'Phone']
 def index():
     num_additional_fields = int(request.form.get('num_additional_fields', 0))
     if request.method == 'POST':
-        print(request.form)
         if 'add_field' in request.form:
             # Increment the number of additional fields
             num_additional_fields += 1
