@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
 
@@ -22,10 +22,17 @@ def index():
             for i in range(num_additional_fields):
                 new_field_name = f'new_field_{i + 1}'
                 form_data[new_field_name] = request.form.get(new_field_name, '')
-            # Return JSON representation of the form data
-            return jsonify(form_data)
+            # Redirect to a new route to display the submitted data
+            return redirect(url_for('display_data', **form_data))
 
     return render_template('dynamic_form.html', fields=fields, num_additional_fields=num_additional_fields)
+
+
+@app.route('/display_data')
+def display_data():
+    # Get the submitted form data from the URL parameters
+    form_data = request.args.to_dict()
+    return render_template('display_data.html', form_data=form_data)
 
 
 if __name__ == '__main__':
