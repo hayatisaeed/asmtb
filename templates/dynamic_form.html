@@ -76,11 +76,11 @@
         function activateUnderUnderSubjects(selectElement) {
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select");
             var underSubject = selectElement.value;
+            var subject = document.getElementById('subject').value;
 
             if (underSubject !== "") {
                 underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
                 underUnderSubjectSelect.disabled = false; // Enable under-under subject select
-                var subject = document.getElementById('subject').value;
                 var underUnderSubjects = data[subject][underSubject];
                 for (var i = 0; i < underUnderSubjects.length; i++) {
                     underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
