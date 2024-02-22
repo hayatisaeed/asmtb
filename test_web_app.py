@@ -13,14 +13,15 @@ def index():
         if 'add_field' in request.form:
             # Increment the number of additional fields
             num_additional_fields += 1
-            return render_template('new_report.html', fields=fields, num_additional_fields=num_additional_fields,
-                                   form_data=request.form)
+            return render_template('new_report.html', fields=fields,
+                                   num_additional_fields=num_additional_fields, form_data=request.form)
         elif 'submit' in request.form:
             # Process the form data here
             # Redirect or render success page
             pass
 
-    return render_template('new_report.html', fields=fields, num_additional_fields=num_additional_fields)
+    return render_template('new_report.html', fields=fields,
+                           num_additional_fields=num_additional_fields, form_data=request.form)
 
 
 if __name__ == '__main__':
