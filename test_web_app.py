@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 app = Flask(__name__)
 
@@ -17,11 +17,16 @@ def index():
                                    num_additional_fields=num_additional_fields, form_data=request.form)
         elif 'submit' in request.form:
             # Process the form data here
-            # Redirect or render success page
-            pass
+            form_data = {}
+            for field in fields:
+                form_data[field.lower()] = request.form.get(field.lower())
+            for i in range(num_additional_fields):
+                form_data[f'new_field_{i+1}'] = request.form.get(f'new_field_{i+1}')
+            # Return JSON representation of the form data
+            return jsonify(form_data)
 
     return render_template('new_report.html', fields=fields,
-                           num_additional_fields=num_additional_fields, form_data=request.form)
+                           num_additional_fields=num_additional_fields)
 
 
 if __name__ == '__main__':
