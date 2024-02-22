@@ -73,18 +73,22 @@
         }
 
         function activateUnderUnderSubjects(selectElement) {
+            // start edit
+
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
-            // start editing
-            underUnderSubjectSelect.innerHTML = '<option value="">Select</option>';
+            underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+            underUnderSubjectSelect.disabled = false; // Enable under subject select
+            var subject = selectElement.parentElement.value;
             var underSubject = selectElement.value;
-            var subject = document.getElementById('subject').value;
-            underUnderSubjectSelect.disabled = false; // enabling the input
-            var underUnderSubject = data[subject][underSubject];
-            for (var key in underUnderSubject) {
+            var underUnderSubjects = data[subject][underSubject];
+            for (var key in underUnderSubjects) {
                 underUnderSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
             }
             activateNumberInputs(underUnderSubjectSelect);
-            // end editing
+
+            // end edit
+
+            // var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
             // var subject = document.getElementById('subject').value;
             //
             // if (underSubject !== "" && subject !== "") {
