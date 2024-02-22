@@ -16,13 +16,26 @@
         {% endfor %}
         {% for i in range(num_additional_fields) %}
             {% set new_field_index = i + 1 %}
-            <label for="new_field_{{ new_field_index }}">New Field {{ new_field_index }}:</label>
-            <input type="text" id="new_field_{{ new_field_index }}" name="new_field_{{ new_field_index }}"
-                   {% if form_data and 'new_field_' + new_field_index|string in form_data %} value="{{ form_data['new_field_' + new_field_index|string] }}" {% endif %}><br>
+            {% set new_field_name = 'new_field_' + str(new_field_index) %}
+            <label for="{{ new_field_name }}">New Field {{ new_field_index }}:</label>
+            <input type="text" id="{{ new_field_name }}" name="{{ new_field_name }}"
+                   {% if form_data and new_field_name in form_data %} value="{{ form_data[new_field_name] }}" {% endif %}>
+            <button type="button" onclick="deleteField('{{ new_field_name }}')">Delete</button><br>
         {% endfor %}
         <input type="submit" value="Submit">
         <input type="hidden" name="num_additional_fields" value="{{ num_additional_fields }}">
         <input type="submit" name="add_field" value="Add Field">
     </form>
+
+    <script>
+        function deleteField(fieldName) {
+            var field = document.getElementById(fieldName);
+            field.parentNode.removeChild(field);
+            var label = document.querySelector("label[for='" + fieldName + "']");
+            label.parentNode.removeChild(label);
+            var br = document.querySelector("br + button[onclick='deleteField(\"" + fieldName + "\")']").previousSibling;
+            br.parentNode.removeChild(br);
+        }
+    </script>
 </body>
 </html>
