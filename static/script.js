@@ -58,7 +58,7 @@ function addRow(subjects) {
     let newRowHTML = `
         <div class="row">
             <select name="subject[${rowCount - 1}]" class="subject" 
-            onchange="subjectChanged(this, {{ subjects }})">
+            onchange="subjectChanged(this, ${JSON.stringify(subjects).replace(/'/g, "\\'")})">
                 <option value="">Select Subject</option>
     `;
 
