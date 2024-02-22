@@ -6,6 +6,13 @@ app = Flask(__name__)
 fields = ['Name', 'Email', 'Phone']
 
 
+# Sample data for dynamic form generation
+data = {
+    "subject1": {"under_subject1-1": ["m1", "m2", "m3"], "under_subject1-2": ["n1", "n2", "n3"]},
+    "subject2": {"under_subject2-1": ["k1", "k2", "k3"], "under_subject2-2": ["p1", "p2", "p3"]}
+}
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     num_additional_fields = int(request.form.get('num_additional_fields', 0))
@@ -13,7 +20,7 @@ def index():
         if 'add_field' in request.form:
             # Increment the number of additional fields
             num_additional_fields += 1
-            return render_template('dynamic_form.html', fields=fields,
+            return render_template('dynamic_form.html', fields=fields, data=data,
                                    num_additional_fields=num_additional_fields, form_data=request.form)
         else:
             # Process the form data here
@@ -26,7 +33,7 @@ def index():
             # Redirect to a new route to display the submitted data
             return redirect(url_for('display_data', **form_data))
 
-    return render_template('dynamic_form.html',
+    return render_template('dynamic_form.html', data=data,
                            fields=fields, num_additional_fields=num_additional_fields)
 
 
