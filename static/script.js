@@ -55,35 +55,64 @@ let rowCount = 1; // Initialize row counter
 function addRow(subjects) {
     const subjectsDiv = document.getElementById('subjects');
     const rowCount = subjectsDiv.childElementCount + 1;
-    let newRowHTML = `
-        <div class="row">
-            <select name="subject[${rowCount - 1}]" class="subject" 
-            onchange="subjectChanged(this, ${JSON.stringify(subjects).replace(/'/g, "\\'")})">
-                <option value="">Select Subject</option>
-    `;
 
+    const newRow = document.createElement('div');
+    newRow.classList.add('row');
+
+    const subjectSelect = document.createElement('select');
+    subjectSelect.name = `subject[${rowCount - 1}]`;
+    subjectSelect.classList.add('subject');
+    subjectSelect.addEventListener('change', function() {
+        subjectChanged(this, subjects);
+    });
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Select Subject';
+    subjectSelect.appendChild(defaultOption);
     for (const subject in subjects) {
-        newRowHTML += `<option value="${subject}">${subject}</option>`;
+        const option = document.createElement('option');
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.appendChild(option);
     }
 
+    const underSubjectSelect = document.createElement('select');
+    underSubjectSelect.name = `under_subject[${rowCount - 1}]`;
+    underSubjectSelect.classList.add('under-subject');
+    underSubjectSelect.disabled = true;
+    const underSubjectDefaultOption = document.createElement('option');
+    underSubjectDefaultOption.value = '';
+    underSubjectDefaultOption.textContent = 'Select Under Subject';
+    underSubjectSelect.appendChild(underSubjectDefaultOption);
 
-    newRowHTML += `
-            </select>
-            <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled 
-            onchange="underSubjectChanged(this, '${JSON.stringify(subjects)}')">
-                <option value="">Select Under Subject</option>
-            </select>
-            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" disabled>
-                <option value="">Select Under Under Subject</option>
-            </select>
-            <input type="number" name="hours[${rowCount - 1}]" placeholder="Hours" min="1" required>
-            <input type="number" name="t_count[${rowCount - 1}]" placeholder="T Count" min="1" required>
-        </div>
-    `;
+    const underUnderSubjectSelect = document.createElement('select');
+    underUnderSubjectSelect.name = `under_under_subject[${rowCount - 1}]`;
+    underUnderSubjectSelect.classList.add('under-under-subject');
+    underUnderSubjectSelect.disabled = true;
+    const underUnderSubjectDefaultOption = document.createElement('option');
+    underUnderSubjectDefaultOption.value = '';
+    underUnderSubjectDefaultOption.textContent = 'Select Under Under Subject';
+    underUnderSubjectSelect.appendChild(underUnderSubjectDefaultOption);
 
+    const hoursInput = document.createElement('input');
+    hoursInput.type = 'number';
+    hoursInput.name = `hours[${rowCount - 1}]`;
+    hoursInput.placeholder = 'Hours';
+    hoursInput.min = 1;
+    hoursInput.required = true;
 
-    const newDiv = document.createElement('div');
-    newDiv.innerHTML = newRowHTML;
-    subjectsDiv.appendChild(newDiv);
+    const tCountInput = document.createElement('input');
+    tCountInput.type = 'number';
+    tCountInput.name = `t_count[${rowCount - 1}]`;
+    tCountInput.placeholder = 'T Count';
+    tCountInput.min = 1;
+    tCountInput.required = true;
+
+    newRow.appendChild(subjectSelect);
+    newRow.appendChild(underSubjectSelect);
+    newRow.appendChild(underUnderSubjectSelect);
+    newRow.appendChild(hoursInput);
+    newRow.appendChild(tCountInput);
+
+    subjectsDiv.appendChild(newRow);
 }
-
