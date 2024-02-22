@@ -2,153 +2,47 @@
 <html>
 <head>
     <title>Dynamic Form</title>
-    <style>
-        /* Add your CSS styles here */
-    </style>
 </head>
 <body>
     <h1>Dynamic Form</h1>
-    <form method="post" id="dynamic-form">
-        <!-- Initial row -->
-        <div class="row">
-            <div>
-                <label for="subject">Subject:</label>
-                <select id="subject" name="subject" onchange="activateUnderSubjects(this)">
-                    <option value="">Select</option>
-                    {% for subject, under_subjects in data.items() %}
-                        <option value="{{ subject }}">{{ subject }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="under_subject">Under Subject:</label>
-                <select id="under_subject" name="under_subject" disabled onchange="activateUnderUnderSubjects(this)">
-                    <option value="">Select</option>
-                </select>
-            </div>
-            <div>
-                <label for="under_under_subject">Under Under Subject:</label>
-                <select id="under_under_subject" name="under_under_subject" disabled onchange="activateNumberInputs(this)">
-                    <option value="">Select</option>
-                </select>
-            </div>
-            <div>
-                <label for="number1">Number 1:</label>
-                <input type="number" id="number1" name="number1" disabled>
-            </div>
-            <div>
-                <label for="number2">Number 2:</label>
-                <input type="number" id="number2" name="number2" disabled>
-            </div>
-        </div>
-        <!-- End of initial row -->
+    <form method="post">
+        <!-- Render Subject dropdown -->
+        <select name="subject">
+            <option value="">Select</option>
+            {% for subject, under_subjects in data.items() %}
+                <option value="{{ subject }}">{{ subject }}</option>
+            {% endfor %}
+        </select>
 
-        <!-- Add field button -->
-        <input type="button" value="Add Field" onclick="addRow()">
+        <!-- Render Under Subject dropdown based on form data -->
+        <select name="under_subject">
+            <option value="">Select</option>
+            {% if form_data.get('subject') %}
+                {% for under_subject in data[form_data['subject']] %}
+                    <option value="{{ under_subject }}">{{ under_subject }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+
+        <!-- Render Under Under Subject dropdown based on form data -->
+        <select name="under_under_subject">
+            <option value="">Select</option>
+            {% if form_data.get('under_subject') %}
+                {% for under_under_subject in data[form_data['subject']][form_data['under_subject']] %}
+                    <option value="{{ under_under_subject }}">{{ under_under_subject }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+
+        <!-- Render additional fields as needed -->
 
         <input type="submit" value="Submit">
     </form>
 
-    <script>
-        var data = {
-                "subject1": {
-                    "under_subject1-1": {"m1": 0, "m2": 0, "m3": 0},
-                    "under_subject1-2": {"m1": 0, "m2": 0, "m3": 0}
-                },
-                "subject2": {
-                    "under_subject2-1": {"m1": 0, "m2": 0, "m3": 0},
-                    "under_subject2-2": {"m1": 0, "m2": 0, "m3": 0}
-                }
-        };
-        function activateUnderSubjects(selectElement) {
-            var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select");
-            underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            underSubjectSelect.disabled = false; // Enable under subject select
-            var subject = selectElement.value;
-            var underSubjects = data[subject];
-            for (var key in underSubjects) {
-                underSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
-            }
-            activateUnderUnderSubjects(underSubjectSelect);
-        }
-
-
-        function activateUnderUnderSubjects(selectElement) {
-            var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
-            var underSubject = selectElement.value;
-            var subjectSelect = document.getElementById('subject');
-            var subject = subjectSelect.value;
-
-            if (underSubject !== "" && subject !== "") {
-                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-                underUnderSubjectSelect.disabled = false; // Enable under-under subject select
-                var underUnderSubjects = data[subject][underSubject];
-                for (var i = 0; i < underUnderSubjects.length; i++) {
-                    underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
-                }
-            } else {
-                // If either subject or under-subject is not selected, disable and clear under-under subject select
-                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-                underUnderSubjectSelect.disabled = true; // Disable under-under subject select
-            }
-        }
-
-        function activateNumberInputs(selectElement) {
-            var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
-            var allSelects = document.querySelectorAll("select");
-            var allSelectsValid = true;
-
-            // Check if all select elements have been chosen
-            allSelects.forEach(function(select) {
-                if (select.value === "") {
-                    allSelectsValid = false;
-                }
-            });
-
-            if (allSelectsValid) {
-                numberInputs.forEach(function(input) {
-                    input.disabled = false; // Enable number inputs
-                });
-            }
-        }
-
-        function addRow() {
-            var newRow = document.createElement("div");
-            newRow.className = "row";
-            newRow.innerHTML = `
-                <div>
-                    <label for="subject">Subject:</label>
-                    <select id="subject" name="subject" onchange="activateUnderSubjects(this)">
-                        <option value="">Select</option>
-                        {% for subject, under_subjects in data.items() %}
-                            <option value="{{ subject }}">{{ subject }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div>
-                    <label for="under_subject">Under Subject:</label>
-                    <select id="under_subject" name="under_subject" disabled onchange="activateUnderUnderSubjects(this)">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="under_under_subject">Under Under Subject:</label>
-                    <select id="under_under_subject" name="under_under_subject" disabled onchange="activateNumberInputs(this)">
-                        <option value="">Select</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="number1">Number 1:</label>
-                    <input type="number" id="number1" name="number1" disabled>
-                </div>
-                <div>
-                    <label for="number2">Number 2:</label>
-                    <input type="number" id="number2" name="number2" disabled>
-                </div>
-            `;
-            document.getElementById("dynamic-form").insertBefore(newRow, document.querySelector("input[type=button]"));
-        }
-
-    </script>
+    <!-- Display submitted data -->
+    {% if form_data %}
+        <h2>Submitted Data:</h2>
+        <pre>{{ form_data | tojson }}</pre>
+    {% endif %}
 </body>
 </html>
