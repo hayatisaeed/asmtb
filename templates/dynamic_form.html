@@ -9,7 +9,7 @@
         <div id="rows">
             <div class="row">
                 <label>Subject:</label>
-                <select name="subject_0">
+                <select name="subject_0" onchange="activateUnderSubjects(this)">
                     <option value="">Select</option>
                     {% for subject, under_subjects in data.items() %}
                         <option value="{{ subject }}">{{ subject }}</option>
