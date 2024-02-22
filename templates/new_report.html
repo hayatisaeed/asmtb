@@ -55,19 +55,19 @@
         <input type="email" name="email[]" placeholder="Email" required>
     </div>
     <div class="add-remove-buttons">
-        <button type="button" id="addRow">Add +</button>
+        <button type="button" class="addRow">Add +</button>
     </div>
     <button type="submit">Submit</button>
 </form>
 
 <script>
-    document.getElementById('addRow').addEventListener('click', function() {
+    document.querySelector('.addRow').addEventListener('click', function() {
         var form = document.getElementById('reportForm');
         var lastRow = form.lastElementChild.previousElementSibling;
         var newRow = lastRow.cloneNode(true);
-        var addButton = lastRow.querySelector('#addRow');
+        var addButton = lastRow.querySelector('.addRow');
 
-        lastRow.querySelector('#addRow').remove();
+        lastRow.querySelector('.addRow').remove();
 
         var removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
@@ -76,7 +76,7 @@
             newRow.remove();
         });
 
-        newRow.appendChild(removeButton);
+        newRow.querySelector('.add-remove-buttons').appendChild(removeButton);
         form.insertBefore(newRow, form.lastElementChild);
         form.appendChild(addButton.cloneNode(true));
     });
