@@ -9,32 +9,94 @@
 <body>
     <h1>Dynamic Form</h1>
     <form method="post" id="dynamic-form">
-        {% for field in fields %}
-            <label for="{{ field.lower() }}">{{ field }}:</label>
-            <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"
-                   {% if form_data and field.lower() in form_data %} value="{{ form_data[field.lower()] }}" {% endif %}><br>
-        {% endfor %}
-        {% for i in range(num_additional_fields) %}
-            {% set new_field_index = i + 1 %}
-            {% set new_field_name = 'new_field_' ~ new_field_index %}
-            <label for="{{ new_field_name }}">New Field {{ new_field_index }}:</label>
-            <input type="text" id="{{ new_field_name }}" name="{{ new_field_name }}"
-                   {% if form_data and new_field_name in form_data %} value="{{ form_data[new_field_name] }}" {% endif %}>
-            <button type="button" onclick="deleteField('{{ new_field_name }}')">Delete</button><br>
-        {% endfor %}
+        <!-- Initial row -->
+        <div class="row">
+            <div>
+                <label for="subject">Subject:</label>
+                <select id="subject" name="subject" onchange="activateUnderSubjects(this)">
+                    <option value="">Select</option>
+                    {% for subject, under_subjects in data.items() %}
+                        <option value="{{ subject }}">{{ subject }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="under_subject">Under Subject:</label>
+                <select id="under_subject" name="under_subject" disabled onchange="activateNumberInputs(this)">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div>
+                <label for="number1">Number 1:</label>
+                <input type="number" id="number1" name="number1" disabled>
+            </div>
+            <div>
+                <label for="number2">Number 2:</label>
+                <input type="number" id="number2" name="number2" disabled>
+            </div>
+        </div>
+        <!-- End of initial row -->
+
+        <!-- Add field button -->
+        <input type="button" value="Add Field" onclick="addRow()">
+
         <input type="submit" value="Submit">
-        <input type="hidden" name="num_additional_fields" value="{{ num_additional_fields }}">
-        <input type="submit" name="add_field" value="Add Field">
     </form>
 
     <script>
-        function deleteField(fieldName) {
-            var field = document.getElementById(fieldName);
-            field.parentNode.removeChild(field);
-            var label = document.querySelector("label[for='" + fieldName + "']");
-            label.parentNode.removeChild(label);
-            var button = document.querySelector("button[onclick='deleteField(\"" + fieldName + "\")']");
-            button.parentNode.removeChild(button);
+        // Data dictionary
+        var data = {
+            "subject1": {"under_subject1-1": ["m1", "m2", "m3"], "under_subject1-2": ["n1", "n2", "n3"]},
+            "subject2": {"under_subject2-1": ["k1", "k2", "k3"], "under_subject2-2": ["p1", "p2", "p3"]}
+        };
+
+        function activateUnderSubjects(selectElement) {
+            var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select");
+            underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+            underSubjectSelect.disabled = false; // Enable under subject select
+            var subject = selectElement.value;
+            var underSubjects = data[subject];
+            for (var key in underSubjects) {
+                underSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
+            }
+        }
+
+        function activateNumberInputs(selectElement) {
+            var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
+            for (var i = 0; i < numberInputs.length; i++) {
+                numberInputs[i].disabled = false; // Enable number inputs
+            }
+        }
+
+        function addRow() {
+            var newRow = document.createElement("div");
+            newRow.className = "row";
+            newRow.innerHTML = `
+                <div>
+                    <label for="subject">Subject:</label>
+                    <select id="subject" name="subject" onchange="activateUnderSubjects(this)">
+                        <option value="">Select</option>
+                        {% for subject, under_subjects in data.items() %}
+                            <option value="{{ subject }}">{{ subject }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="under_subject">Under Subject:</label>
+                    <select id="under_subject" name="under_subject" disabled onchange="activateNumberInputs(this)">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="number1">Number 1:</label>
+                    <input type="number" id="number1" name="number1" disabled>
+                </div>
+                <div>
+                    <label for="number2">Number 2:</label>
+                    <input type="number" id="number2" name="number2" disabled>
+                </div>
+            `;
+            document.getElementById("dynamic-form").insertBefore(newRow, document.querySelector("input[type=button]"));
         }
     </script>
 </body>
