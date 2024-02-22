@@ -14,7 +14,7 @@
 
         <div id="subjects">
             <div class="row">
-                <select name="subject[]" class="subject" onchange="subjectChanged(this, {{ subjects | tojson }})">
+                <select name="subject[]" class="subject" onchange="subjectChanged(this)">
                     <option value="">Select Subject</option>
                     {% for subject in subjects %}
                     <option value="{{ subject }}">{{ subject }}</option>
