@@ -7,7 +7,6 @@ form {
 
 
 select, input[type="number"] {
-    display: flex;
     width: calc(100% - 22px);
 }
 
