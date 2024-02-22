@@ -28,6 +28,7 @@ function subjectChanged(selectElement, subjects) {
 }
 
 function underSubjectChanged(selectElement) {
+    console.log("changed")
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.parentElement.querySelector('.subject').value;
     const selectedUnderSubject = selectElement.value;
