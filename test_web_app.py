@@ -17,10 +17,10 @@ def index():
 
 @app.route('/saveNewReport', methods=['POST'])
 def report():
-    data = request.form
-    print(data)
-    for i in data:
-        print(i, data[i])
+    form_data = request.form
+    data = {}
+    for i in form_data:
+        data[i] = form_data[i]
     return render_template('saveNewReport.html', data=data)
 
 
