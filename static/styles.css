@@ -8,6 +8,7 @@ form {
 .row {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 select, input[type="number"] {
@@ -47,8 +48,8 @@ tr:nth-child(even) {
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
+    margin: 5px;
+    padding: 15px;
 }
 
 .container {
@@ -103,10 +104,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-.row {
-    display: flex;
-    margin-bottom: 10px;
-}
 
 .row select,
 .row input {
@@ -117,5 +114,13 @@ button:hover {
 .row select:last-child,
 .row input:last-child {
     margin-right: 0;
+}
+
+div.row {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
 }
 
