@@ -52,7 +52,6 @@ function underSubjectChanged(selectElement, subjects) {
 }
 
 function addRow() {
-    alert("we are in the function addRow")
     const subjectsDiv = document.getElementById('subjects');
     const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
     subjectsDiv.appendChild(lastRow);
@@ -62,6 +61,13 @@ function addRow() {
         dropdown.selectedIndex = 0;
         dropdown.disabled = true;
     });
-    lastRow.querySelector('input[name="hours[]"]').value = '';
-    lastRow.querySelector('input[name="t_count[]"]').value = '';
+
+    // Enable the first input element in the newly added row
+    const inputs = lastRow.querySelectorAll('input[type="number"]');
+    inputs[0].disabled = false;
+
+    // Reset other input values
+    for (let i = 1; i < inputs.length; i++) {
+        inputs[i].value = '';
+    }
 }
