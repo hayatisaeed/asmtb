@@ -80,7 +80,7 @@ function addRow(subjects) {
     underSubjectSelect.name = `under_subject[${rowCount - 1}]`;
     underSubjectSelect.classList.add('under-subject');
     underSubjectSelect.disabled = true;
-    subjectSelect.addEventListener('change', function() {
+    underSubjectSelect.addEventListener('change', function() {
         underSubjectChanged(this, subjects);
     });
     const underSubjectDefaultOption = document.createElement('option');
