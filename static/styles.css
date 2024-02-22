@@ -113,6 +113,7 @@ button:hover {
 }
 
 div.row {
+    text-align: center;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 8px;
