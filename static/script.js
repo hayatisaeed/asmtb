@@ -67,10 +67,12 @@ function addRow(subjects) {
 
     newRowHTML += `
             </select>
-            <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled>
+            <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled 
+            onchange="subjectChanged(this, $subjects)">
                 <option value="">Select Under Subject</option>
             </select>
-            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" disabled>
+            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" 
+            disabled onchange="underSubjectChanged(this, $subjects)">
                 <option value="">Select Under Under Subject</option>
             </select>
             <input type="number" name="hours[${rowCount - 1}]" placeholder="Hours" min="1" required>
