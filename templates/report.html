@@ -1,0 +1,32 @@
+<!--report.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Study Report</h1>
+    <p>Name: {{ data['name'] }}</p>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Under Subject</th>
+            <th>Under Under Subject</th>
+            <th>Hours</th>
+            <th>T Count</th>
+        </tr>
+        {% for i in range(data|length) %}
+        <tr>
+            <td>{{ data['subject'][i] }}</td>
+            <td>{{ data['under_subject'][i] }}</td>
+            <td>{{ data['under_under_subject'][i] }}</td>
+            <td>{{ data['hours'][i] }}</td>
+            <td>{{ data['t_count'][i] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

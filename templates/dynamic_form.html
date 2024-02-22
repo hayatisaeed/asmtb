@@ -1,0 +1,46 @@
+<!--dynamic_form.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Study Form</h1>
+    <form action="/report" method="POST">
+        <label for="name">What is your name?</label>
+        <input type="text" id="name" name="name" required>
+
+        <div id="subjects">
+            {% for subject, under_subjects in subjects.items() %}
+            <div class="row">
+                <select name="subject[]" class="subject">
+                    <option value="{{ subject }}">{{ subject }}</option>
+                </select>
+                <select name="under_subject[]" class="under-subject">
+                    {% for under_subject in under_subjects %}
+                    <option value="{{ under_subject }}">{{ under_subject }}</option>
+                    {% endfor %}
+                </select>
+                <select name="under_under_subject[]" class="under-under-subject">
+                    {% for under_under_subject in under_subjects.values() %}
+                        {% for sub_subject in under_under_subject %}
+                            <option value="{{ sub_subject }}">{{ sub_subject }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+                <input type="number" name="hours[]" placeholder="Hours" min="1" required>
+                <input type="number" name="t_count[]" placeholder="T Count" min="1" required>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-row">Add Row</button>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
