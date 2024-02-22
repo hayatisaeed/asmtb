@@ -23,11 +23,11 @@
         {% for row in data %}
         <tr>
             <td>{{ row }}</td>
-            <td>{{ row['subject'] }}</td>
-            <td>{{ row['under_subject'] }}</td>
-            <td>{{ row['under_under_subject'] }}</td>
-            <td>{{ row['hours'] }}</td>
-            <td>{{ row['t_count'] }}</td>
+            <td>{{ data[row]['subject'] }}</td>
+            <td>{{ data[row]['under_subject'] }}</td>
+            <td>{{ data[row]['under_under_subject'] }}</td>
+            <td>{{ data[row]['hours'] }}</td>
+            <td>{{ data[row]['t_count'] }}</td>
         </tr>
         {% endfor %}
     </table>
