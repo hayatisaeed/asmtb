@@ -74,8 +74,9 @@
 
         function activateUnderUnderSubjects(selectElement) {
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
-            var underSubject = selectElement.value;
             // start editing
+            underUnderSubjectSelect.innerHTML = '<option value="">Select</option>';
+            var underSubject = selectElement.value;
             var subject = document.getElementById('subject').value;
             underUnderSubjectSelect.disabled = false; // enabling the input
             var underUnderSubject = data[subject][underSubject];
