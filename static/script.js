@@ -1,7 +1,7 @@
 // static/script.js
 
 function subjectChanged(selectElement, subjects) {
-    alert("we are in the function")
+    alert("we are in the function subjectChanged")
     const underSubjectsDropdown = selectElement.parentElement.querySelector('.under-subject');
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.value;
@@ -29,6 +29,7 @@ function subjectChanged(selectElement, subjects) {
 }
 
 function underSubjectChanged(selectElement) {
+    alert("we are in the function underSubjectChanged")
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.parentElement.querySelector('.subject').value;
     const selectedUnderSubject = selectElement.value;
@@ -49,7 +50,7 @@ function underSubjectChanged(selectElement) {
 }
 
 function addRow() {
-    alert("we are in the function")
+    alert("we are in the function addRow")
     const subjectsDiv = document.getElementById('subjects');
     const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
     subjectsDiv.appendChild(lastRow);
