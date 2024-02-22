@@ -24,7 +24,7 @@ def save_new_report():
 
     usable_data = {}
     for i in data:
-        row = i.split('[')[1].replace(']', '')
+        row = int(i.split('[')[1].replace(']', '')) + 1
         title = i.split('[')[0]
         if row not in usable_data:
             usable_data[row] = {}
