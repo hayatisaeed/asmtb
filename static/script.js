@@ -59,5 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
     addButton.addEventListener('click', function() {
         const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
         subjectsDiv.appendChild(lastRow);
+        // Reset the cloned row
+        const clonedDropdowns = lastRow.querySelectorAll('select');
+        clonedDropdowns.forEach(function(dropdown) {
+            dropdown.selectedIndex = 0;
+            dropdown.disabled = true;
+        });
+        lastRow.querySelector('input[name="hours[]"]').value = '';
+        lastRow.querySelector('input[name="t_count[]"]').value = '';
     });
 });
