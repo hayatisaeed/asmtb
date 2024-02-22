@@ -27,6 +27,12 @@
                 </select>
             </div>
             <div>
+                <label for="under_under_subject">Under Under Subject:</label>
+                <select id="under_under_subject" name="under_under_subject" disabled onchange="activateNumberInputs(this)">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div>
                 <label for="number1">Number 1:</label>
                 <input type="number" id="number1" name="number1" disabled>
             </div>
@@ -46,8 +52,14 @@
     <script>
         // Data dictionary
         var data = {
-            "subject1": {"under_subject1-1": ["m1", "m2", "m3"], "under_subject1-2": ["n1", "n2", "n3"]},
-            "subject2": {"under_subject2-1": ["k1", "k2", "k3"], "under_subject2-2": ["p1", "p2", "p3"]}
+            "subject1": {
+                "under_subject1-1": ["m1", "m2", "m3"],
+                "under_subject1-2": ["n1", "n2", "n3"]
+            },
+            "subject2": {
+                "under_subject2-1": ["k1", "k2", "k3"],
+                "under_subject2-2": ["p1", "p2", "p3"]
+            }
         };
 
         function activateUnderSubjects(selectElement) {
@@ -61,24 +73,35 @@
             }
         }
 
-        function activateNumberInputs(selectElement) {
-    var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
-    var allSelects = document.querySelectorAll("select");
-    var allSelectsValid = true;
-
-    // Check if all select elements have been chosen
-    allSelects.forEach(function(select) {
-        if (select.value === "") {
-            allSelectsValid = false;
+        function activateUnderUnderSubjects(selectElement) {
+            var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select");
+            underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+            underUnderSubjectSelect.disabled = false; // Enable under-under subject select
+            var underSubject = selectElement.value;
+            var underUnderSubjects = data[document.getElementById('subject').value][underSubject];
+            for (var i = 0; i < underUnderSubjects.length; i++) {
+                underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
+            }
         }
-    });
 
-    if (allSelectsValid) {
-        numberInputs.forEach(function(input) {
-            input.disabled = false; // Enable number inputs
-        });
-    }
-}
+        function activateNumberInputs(selectElement) {
+            var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
+            var allSelects = document.querySelectorAll("select");
+            var allSelectsValid = true;
+
+            // Check if all select elements have been chosen
+            allSelects.forEach(function(select) {
+                if (select.value === "") {
+                    allSelectsValid = false;
+                }
+            });
+
+            if (allSelectsValid) {
+                numberInputs.forEach(function(input) {
+                    input.disabled = false; // Enable number inputs
+                });
+            }
+        }
 
         function addRow() {
             var newRow = document.createElement("div");
@@ -95,7 +118,13 @@
                 </div>
                 <div>
                     <label for="under_subject">Under Subject:</label>
-                    <select id="under_subject" name="under_subject" disabled onchange="activateNumberInputs(this)">
+                    <select id="under_subject" name="under_subject" disabled onchange="activateUnderUnderSubjects(this)">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="under_under_subject">Under Under Subject:</label>
+                    <select id="under_under_subject" name="under_under_subject" disabled onchange="activateNumberInputs(this)">
                         <option value="">Select</option>
                     </select>
                 </div>
