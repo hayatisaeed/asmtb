@@ -10,23 +10,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const underUnderSubjectsDropdown = dropdown.parentElement.querySelector('.under-under-subject');
             const selectedSubject = dropdown.value;
 
-            // Clear existing options and disable dropdowns
-            underSubjectsDropdown.innerHTML = '<option value="" disabled selected>Select Under Subject</option>';
-            underUnderSubjectsDropdown.innerHTML = '<option value="" disabled selected>Select Under Under Subject</option>';
-            underSubjectsDropdown.disabled = true;
-            underUnderSubjectsDropdown.disabled = true;
+            // Enable the under subject dropdown
+            underSubjectsDropdown.disabled = false;
+
+            // Clear existing options
+            underSubjectsDropdown.innerHTML = '<option value="">Select Under Subject</option>';
+            underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
 
             // Populate underSubjectsDropdown based on the selected subject
-            const underSubjects = subjects[selectedSubject];
-            Object.keys(underSubjects).forEach(function(underSubject) {
+            Object.keys(subjects[selectedSubject]).forEach(function(underSubject) {
                 const option = document.createElement('option');
                 option.text = underSubject;
                 option.value = underSubject;
                 underSubjectsDropdown.add(option);
             });
 
-            // Enable underSubjectsDropdown
-            underSubjectsDropdown.disabled = false;
+            // Disable the under under subject dropdown until under subject is selected
+            underUnderSubjectsDropdown.disabled = true;
         });
     });
 
@@ -37,21 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedSubject = underSubjectDropdown.parentElement.querySelector('.subject').value;
             const selectedUnderSubject = underSubjectDropdown.value;
 
-            // Clear existing options and disable dropdown
-            underUnderSubjectsDropdown.innerHTML = '<option value="" disabled selected>Select Under Under Subject</option>';
-            underUnderSubjectsDropdown.disabled = true;
+            // Enable the under under subject dropdown
+            underUnderSubjectsDropdown.disabled = false;
+
+            // Clear existing options
+            underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
 
             // Populate underUnderSubjectsDropdown based on the selected subject and under subject
-            const underUnderSubjects = subjects[selectedSubject][selectedUnderSubject];
-            underUnderSubjects.forEach(function(underUnderSubject) {
+            subjects[selectedSubject][selectedUnderSubject].forEach(function(underUnderSubject) {
                 const option = document.createElement('option');
                 option.text = underUnderSubject;
                 option.value = underUnderSubject;
                 underUnderSubjectsDropdown.add(option);
             });
-
-            // Enable underUnderSubjectsDropdown
-            underUnderSubjectsDropdown.disabled = false;
         });
     });
 
@@ -59,23 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const subjectsDiv = document.getElementById('subjects');
 
     addButton.addEventListener('click', function() {
-        const lastRow = subjectsDiv.lastElementChild;
-        const newRow = lastRow.cloneNode(true);
-        subjectsDiv.appendChild(newRow);
-
-        // Reset cloned row
-        const clonedSubjectDropdown = newRow.querySelector('.subject');
-        const clonedUnderSubjectDropdown = newRow.querySelector('.under-subject');
-        const clonedUnderUnderSubjectDropdown = newRow.querySelector('.under-under-subject');
-        const clonedHoursInput = newRow.querySelector('input[name="hours[]"]');
-        const clonedTCountInput = newRow.querySelector('input[name="t_count[]"]');
-
-        clonedSubjectDropdown.value = '';
-        clonedUnderSubjectDropdown.innerHTML = '<option value="" disabled selected>Select Under Subject</option>';
-        clonedUnderUnderSubjectDropdown.innerHTML = '<option value="" disabled selected>Select Under Under Subject</option>';
-        clonedUnderSubjectDropdown.disabled = true;
-        clonedUnderUnderSubjectDropdown.disabled = true;
-        clonedHoursInput.value = '';
-        clonedTCountInput.value = '';
+        const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
+        subjectsDiv.appendChild(lastRow);
     });
 });
