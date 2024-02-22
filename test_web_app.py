@@ -19,6 +19,8 @@ def index():
 def report():
     data = request.form
     print(data)
+    for i in data:
+        print(i, data[i])
     return render_template('saveNewReport.html', data=data)
 
 
