@@ -10,11 +10,7 @@ fields = ['Name', 'Email', 'Phone']
 def index():
     num_additional_fields = int(request.form.get('num_additional_fields', 0))
     if request.method == 'POST':
-        if 'add_field' in request.form:
-            # Increment the number of additional fields
-            num_additional_fields += 1
-            return render_template('dynamic_form.html', fields=fields, num_additional_fields=num_additional_fields, form_data=request.form)
-        elif 'submit' in request.form:
+        if 'submit' in request.form:
             # Process the form data here
             form_data = {}
             for field in fields:
@@ -25,7 +21,13 @@ def index():
             # Redirect to a new route to display the submitted data
             return redirect(url_for('display_data', **form_data))
 
-    return render_template('dynamic_form.html', fields=fields, num_additional_fields=num_additional_fields)
+        elif 'add_field' in request.form:
+            # Increment the number of additional fields
+            num_additional_fields += 1
+            return render_template('dynamic_form.html', fields=fields,
+                                   num_additional_fields=num_additional_fields, form_data=request.form)
+    return render_template('dynamic_form.html',
+                           fields=fields, num_additional_fields=num_additional_fields)
 
 
 @app.route('/display_data')
