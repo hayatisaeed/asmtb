@@ -12,8 +12,11 @@ function subjectChanged(selectElement) {
     underSubjectsDropdown.innerHTML = '<option value="">Select Under Subject</option>';
     underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
 
-    // Populate underSubjectsDropdown based on the selected subject
-    Object.keys(subjects[selectedSubject]).forEach(function(underSubject) {
+    // Get the under subjects for the selected subject
+    const underSubjects = subjects[selectedSubject];
+
+    // Populate underSubjectsDropdown with the under subjects
+    Object.keys(underSubjects).forEach(function(underSubject) {
         const option = document.createElement('option');
         option.text = underSubject;
         option.value = underSubject;
