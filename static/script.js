@@ -51,23 +51,37 @@ function underSubjectChanged(selectElement, subjects) {
     });
 }
 
+let rowCount = 1; // Initialize row counter
+
 function addRow() {
     const subjectsDiv = document.getElementById('subjects');
-    const lastRow = subjectsDiv.lastElementChild.cloneNode(true);
-    subjectsDiv.appendChild(lastRow);
-    // Reset the cloned row
-    const clonedDropdowns = lastRow.querySelectorAll('select');
-    clonedDropdowns.forEach(function(dropdown) {
-        dropdown.selectedIndex = 0;
-        dropdown.disabled = true;
-    });
+    rowCount++; // Increment row counter
 
-    // Enable the first input element in the newly added row
-    const inputs = lastRow.querySelectorAll('input[type="number"]');
-    inputs[0].disabled = false;
+    // HTML template for a new row
+    const newRowHTML = `
+        <div class="row">
+                <select name="subject[]" class="subject" onchange="subjectChanged(this, {{ subjects }})">
+                    <option value="">Select Subject</option>
+                    {% for subject in subjects %}
+                    <option value="{{ subject }}">{{ subject }}</option>
+                    {% endfor %}
+                </select>
+                <select name="under_subject[]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">
+                    <option value="">Select Under Subject</option>
+                </select>
+                <select name="under_under_subject[]" class="under-under-subject" disabled>
+                    <option value="">Select Under-Under Subject</option>
+                </select>
+                <input type="number" name="hours[]" placeholder="Hours" min="1" required>
+                <input type="number" name="t_count[]" placeholder="T Count" min="1" required>
+            </div>
+    `;
 
-    // Reset other input values
-    for (let i = 1; i < inputs.length; i++) {
-        inputs[i].value = '';
-    }
+    // Create a new div element and set its innerHTML to the new row HTML
+    const newDiv = document.createElement('div');
+    newDiv.innerHTML = newRowHTML;
+
+    // Append the new row to the subjects div
+    subjectsDiv.appendChild(newDiv);
 }
+
