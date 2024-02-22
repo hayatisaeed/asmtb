@@ -107,7 +107,6 @@ button:hover {
 .row select,
 .row input {
     flex: 1;
-    margin-right: 10px;
 }
 
 .row select:last-child,
