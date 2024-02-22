@@ -51,11 +51,14 @@
         function activateUnderSubjects(selectElement) {
             var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select[name^='under_subject']");
             underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            underSubjectSelect.disabled = false; // Enable under subject select
+            underSubjectSelect.disabled = true; // Disable under subject select
             var subject = selectElement.value;
             var underSubjects = {{ data | tojson }}[subject];
             for (var key in underSubjects) {
                 underSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
+            }
+            if (subject !== '') {
+                underSubjectSelect.disabled = false; // Enable under subject select if subject is selected
             }
 
             // Disable and clear Under Under Subject and number fields
@@ -74,12 +77,15 @@
         function activateUnderUnderSubjects(selectElement) {
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select[name^='under_under_subject']");
             underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            underUnderSubjectSelect.disabled = false; // Enable under under subject select
+            underUnderSubjectSelect.disabled = true; // Disable under under subject select
             var subject = selectElement.parentElement.previousElementSibling.querySelector("select[name^='subject']").value;
             var underSubject = selectElement.value;
             var underUnderSubjects = {{ data | tojson }}[subject][underSubject];
             for (var i = 0; i < underUnderSubjects.length; i++) {
                 underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
+            }
+            if (underSubject !== '') {
+                underUnderSubjectSelect.disabled = false; // Enable under under subject select if under subject is selected
             }
 
             // Disable and clear number fields
@@ -94,8 +100,17 @@
         function activateNumbers(selectElement) {
             var number1Input = selectElement.parentElement.nextElementSibling.querySelector("input[name^='number1']");
             var number2Input = number1Input.parentElement.nextElementSibling.querySelector("input[name^='number2']");
-            number1Input.disabled = false;
-            number2Input.disabled = false;
+            number1Input.disabled = true;
+            number2Input.disabled = true;
+
+            var subject = selectElement.parentElement.previousElementSibling.previousElementSibling.querySelector("select[name^='subject']").value;
+            var underSubject = selectElement.parentElement.previousElementSibling.querySelector("select[name^='under_subject']").value;
+            var underUnderSubject = selectElement.value;
+
+            if (subject !== '' && underSubject !== '' && underUnderSubject !== '') {
+                number1Input.disabled = false;
+                number2Input.disabled = false;
+            }
         }
 
         function addRow() {
@@ -130,6 +145,7 @@
             rowCounter++;
         }
     </script>
+
 
 
 </body>
