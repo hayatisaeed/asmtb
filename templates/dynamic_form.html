@@ -46,6 +46,8 @@
     {% endif %}
 
     <script>
+    var rowCounter = 1;
+
     function activateUnderSubjects(selectElement) {
         var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select[name^='under_subject']");
         underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
