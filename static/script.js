@@ -53,35 +53,35 @@ function underSubjectChanged(selectElement, subjects) {
 
 let rowCount = 1; // Initialize row counter
 
-function addRow() {
+function addRow(subjects) {
     const subjectsDiv = document.getElementById('subjects');
-    rowCount++; // Increment row counter
+    const rowCount = subjectsDiv.childElementCount + 1;
 
-    // HTML template for a new row
-    const newRowHTML = `
+    let newRowHTML = `
         <div class="row">
-                <select name="subject[]" class="subject" onchange="subjectChanged(this, {{ subjects }})">
-                    <option value="">Select Subject</option>
-                    {% for subject in subjects %}
-                    <option value="{{ subject }}">{{ subject }}</option>
-                    {% endfor %}
-                </select>
-                <select name="under_subject[]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">
-                    <option value="">Select Under Subject</option>
-                </select>
-                <select name="under_under_subject[]" class="under-under-subject" disabled>
-                    <option value="">Select Under-Under Subject</option>
-                </select>
-                <input type="number" name="hours[]" placeholder="Hours" min="1" required>
-                <input type="number" name="t_count[]" placeholder="T Count" min="1" required>
-            </div>
+            <select name="subject[${rowCount - 1}]" class="subject">
+                <option value="">Select Subject</option>
     `;
 
-    // Create a new div element and set its innerHTML to the new row HTML
+    for (const subject in subjects) {
+        newRowHTML += `<option value="${subject}">${subject}</option>`;
+    }
+
+    newRowHTML += `
+            </select>
+            <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled>
+                <option value="">Select Under Subject</option>
+            </select>
+            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" disabled>
+                <option value="">Select Under Under Subject</option>
+            </select>
+            <input type="number" name="hours[${rowCount - 1}]" placeholder="Hours" min="1" required>
+            <input type="number" name="t_count[${rowCount - 1}]" placeholder="T Count" min="1" required>
+        </div>
+    `;
+
     const newDiv = document.createElement('div');
     newDiv.innerHTML = newRowHTML;
-
-    // Append the new row to the subjects div
-    subjectsDiv.appendChild(newDiv);
+    subjectsDiv.appendChild(newDiv.firstChild);
 }
 
