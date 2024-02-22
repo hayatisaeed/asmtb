@@ -20,7 +20,7 @@
                     <option value="{{ subject }}">{{ subject }}</option>
                     {% endfor %}
                 </select>
-                <select name="under_subject[]" class="under-subject" disabled onchange="underSubjectChanged(this)">
+                <select name="under_subject[]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">
                     <option value="">Select Under Subject</option>
                 </select>
                 <select name="under_under_subject[]" class="under-under-subject" disabled>

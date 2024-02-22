@@ -28,11 +28,13 @@ function subjectChanged(selectElement, subjects) {
     underUnderSubjectsDropdown.disabled = true;
 }
 
-function underSubjectChanged(selectElement) {
+function underSubjectChanged(selectElement, subjects) {
     alert("we are in the function underSubjectChanged")
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.parentElement.querySelector('.subject').value;
     const selectedUnderSubject = selectElement.value;
+
+    const underUnderSubjects = subjects[selectedSubject][selectedUnderSubject];
 
     // Enable the under under subject dropdown
     underUnderSubjectsDropdown.disabled = false;
@@ -41,7 +43,7 @@ function underSubjectChanged(selectElement) {
     underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
 
     // Populate underUnderSubjectsDropdown based on the selected subject and under subject
-    subjects[selectedSubject][selectedUnderSubject].forEach(function(underUnderSubject) {
+    underUnderSubjects.forEach(function(underUnderSubject) {
         const option = document.createElement('option');
         option.text = underUnderSubject;
         option.value = underUnderSubject;
