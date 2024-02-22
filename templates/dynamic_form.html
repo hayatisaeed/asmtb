@@ -15,7 +15,7 @@
                 <label for="subject">Subject:</label>
                 <select id="subject" name="subject" onchange="activateUnderSubjects(this)">
                     <option value="">Select</option>
-                    {% for subject, under_subjects in data.items() %}
+                    {% for subject, under_subjects, under_under_subject in data.items() %}
                         <option value="{{ subject }}">{{ subject }}</option>
                     {% endfor %}
                 </select>
