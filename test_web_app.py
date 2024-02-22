@@ -8,8 +8,8 @@ fields = ['Name', 'Email', 'Phone']
 
 # Sample data for dynamic form generation
 data = {
-    "subject1": {"under_subject1-1": ["m1", "m2", "m3"], "under_subject1-2": ["n1", "n2", "n3"]},
-    "subject2": {"under_subject2-1": ["k1", "k2", "k3"], "under_subject2-2": ["p1", "p2", "p3"]}
+    "subject1": {"under_subject1-1": {"m1": 0, "m2": 0, "m3": 0}, "under_subject1-2": {"m1": 0, "m2": 0, "m3": 0}},
+    "subject2": {"under_subject2-1": {"m1": 0, "m2": 0, "m3": 0}, "under_subject2-2": {"m1": 0, "m2": 0, "m3": 0}}
 }
 
 
