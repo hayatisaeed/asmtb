@@ -30,6 +30,8 @@ def save_new_report():
             usable_data[row] = {}
 
         usable_data[row][title] = data[i]
+
+    print(usable_data)
     return render_template('saveNewReport.html', data=usable_data)
 
 
