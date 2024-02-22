@@ -17,7 +17,7 @@ def index():
 
 @app.route('/saveNewReport', methods=['POST'])
 def report():
-    data = request.form.getlist('subject[]')
+    data = request.form
     print(data)
     return render_template('saveNewReport.html', data=data)
 
