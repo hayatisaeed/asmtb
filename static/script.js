@@ -1,6 +1,7 @@
 // static/script.js
 
 function subjectChanged(selectElement, subjects) {
+    alert("entered the function")
     const underSubjectsDropdown = selectElement.parentElement.querySelector('.under-subject');
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.value;
