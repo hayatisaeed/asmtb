@@ -12,6 +12,7 @@ form {
 }
 
 select, input[type="number"] {
+    display: flex;
     margin-right: 10px;
 }
 
