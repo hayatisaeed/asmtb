@@ -16,7 +16,8 @@
         {% endfor %}
         {% for i in range(num_additional_fields) %}
             <label for="new_field_{{ i + 1 }}">New Field {{ i + 1 }}:</label>
-            <input type="text" id="new_field_{{ i + 1 }}" name="new_field_{{ i + 1 }}"><br>
+            <input type="text" id="new_field_{{ i + 1 }}" name="new_field_{{ i + 1 }}"
+                   {% if form_data and 'new_field_' + str(i + 1) in form_data %} value="{{ form_data['new_field_' + str(i + 1)] }}" {% endif %}><br>
         {% endfor %}
         <input type="submit" value="Submit">
         <input type="hidden" name="num_additional_fields" value="{{ num_additional_fields }}">
