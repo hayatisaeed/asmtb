@@ -22,8 +22,15 @@ def save_new_report():
     for i in form_data:
         data[i] = form_data[i]
 
-    print(data)
-    return render_template('saveNewReport.html', data=data)
+    usable_data = {}
+    for i in data:
+        row = i.split('[')[1].replace(']', '')
+        title = i.split('[')[0]
+        if row not in usable_data:
+            usable_data[row] = {}
+
+        usable_data[row][title] = data[i]
+    return render_template('saveNewReport.html', data=usable_data)
 
 
 if __name__ == '__main__':

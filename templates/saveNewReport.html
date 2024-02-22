@@ -13,15 +13,21 @@
     <p>UserID: {{ data['user_id'] }}</p>
     <table>
         <tr>
+            <th>Row</th>
             <th>Subject</th>
             <th>Under Subject</th>
             <th>Under Under Subject</th>
             <th>Hours</th>
             <th>T Count</th>
         </tr>
-        {% for subject in data %}
+        {% for row in data %}
         <tr>
-            <td>{{ subject }}</td>
+            <td>{{ row }}</td>
+            <td>{{ row['subject'] }}</td>
+            <td>{{ row['under_subject'] }}</td>
+            <td>{{ row['under_under_subject'] }}</td>
+            <td>{{ row['hours'] }}</td>
+            <td>{{ row['t_count'] }}</td>
         </tr>
         {% endfor %}
     </table>
