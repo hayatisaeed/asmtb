@@ -1,80 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Report</title>
-    <script>
-        function addRow() {
-            var table = document.getElementById("reportTable");
-            var rowCount = table.rows.length;
-            var row = table.insertRow(rowCount);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            cell1.innerHTML = '<select name="subject"><option value="math">Math</option><option value="art">Art</option><option value="biology">Biology</option></select>';
-            cell2.innerHTML = '<select name="part"><option value="part1">Part 1</option><option value="part2">Part 2</option><option value="part3">Part 3</option></select>';
-            cell3.innerHTML = '<select name="sub"><option value="sub1">Sub 1</option><option value="sub2">Sub 2</option><option value="sub3">Sub 3</option></select>';
-            cell4.innerHTML = '<input type="number" name="time" />';
-        }
-
-        function submitForm() {
-            var form = document.getElementById("reportForm");
-            var formData = new FormData(form);
-            fetch('/submit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                // Handle response as needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Form</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    form {
+        max-width: 500px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .form-row {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .form-row input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .add-remove-buttons button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .add-remove-buttons button:hover {
+        background-color: #0056b3;
+    }
+    .remove-row {
+        background-color: #dc3545;
+    }
+</style>
 </head>
 <body>
-    <form id="reportForm" action="/submit" method="post">
-        <table id="reportTable">
-            <tr>
-                <th>Subject</th>
-                <th>Part</th>
-                <th>Sub</th>
-                <th>Time</th>
-            </tr>
-            <tr>
-                <td>
-                    <select name="subject">
-                        <option value="math">Math</option>
-                        <option value="art">Art</option>
-                        <option value="biology">Biology</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="part">
-                        <option value="part1">Part 1</option>
-                        <option value="part2">Part 2</option>
-                        <option value="part3">Part 3</option>
-                    </select>
-                </td>
-                <td>
-                    <select name="sub">
-                        <option value="sub1">Sub 1</option>
-                        <option value="sub2">Sub 2</option>
-                        <option value="sub3">Sub 3</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="number" name="time" />
-                </td>
-            </tr>
-        </table>
-        <button type="button" onclick="addRow()">+</button>
-        <button type="button" onclick="submitForm()">Submit</button>
-    </form>
+
+<form id="reportForm" action="/submit_report_form" method="GET">
+    <div class="form-row">
+        <input type="text" name="name[]" placeholder="Name" required>
+        <input type="email" name="email[]" placeholder="Email" required>
+    </div>
+    <div class="add-remove-buttons">
+        <button type="button" id="addRow">Add +</button>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('addRow').addEventListener('click', function() {
+        var form = document.getElementById('reportForm');
+        var lastRow = form.lastElementChild.previousElementSibling;
+        var newRow = lastRow.cloneNode(true);
+        var addButton = lastRow.querySelector('#addRow');
+
+        lastRow.querySelector('#addRow').remove();
+
+        var removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.classList.add('remove-row');
+        removeButton.addEventListener('click', function() {
+            newRow.remove();
+        });
+
+        newRow.appendChild(removeButton);
+        form.insertBefore(newRow, form.lastElementChild);
+        form.appendChild(addButton.cloneNode(true));
+    });
+</script>
+
 </body>
 </html>

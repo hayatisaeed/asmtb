@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d260c7e8-656c-4f9f-84b0-a5960c783201" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/test_web_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_web_app.py" afterDir="false" />
-    </list>
+    <list default="true" id="d260c7e8-656c-4f9f-84b0-a5960c783201" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,6 +43,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "TEST",
+    "last_opened_file_path": "/Users/saeed/Codes/asmtb/ASMTB",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -73,7 +72,8 @@
       <workItem from="1707201390472" duration="236000" />
       <workItem from="1707912403798" duration="187000" />
       <workItem from="1707912616401" duration="960000" />
-      <workItem from="1708163659906" duration="2625000" />
+      <workItem from="1708163659906" duration="4142000" />
+      <workItem from="1708509059750" duration="611000" />
     </task>
     <servers />
   </component>
