@@ -46,50 +46,49 @@
     {% endif %}
 
     <script>
-        var rowCounter = 1;
-
-        function addRow() {
-            var newRow = document.createElement('div');
-            newRow.className = 'row';
-            newRow.innerHTML = `
-                <label>Subject:</label>
-                <select name="subject_${rowCounter}" onchange="activateUnderSubjects(this)">
-                    <option value="">Select</option>
-                    {% for subject, under_subjects in data.items() %}
-                        <option value="{{ subject }}">{{ subject }}</option>
-                    {% endfor %}
-                </select>
-
-                <label>Under Subject:</label>
-                <select name="under_subject_${rowCounter}" disabled>
-                    <option value="">Select</option>
-                </select>
-
-                <label>Under Under Subject:</label>
-                <select name="under_under_subject_${rowCounter}" disabled>
-                    <option value="">Select</option>
-                </select>
-
-                <label>Number 1:</label>
-                <input type="number" name="number1_${rowCounter}" disabled>
-
-                <label>Number 2:</label>
-                <input type="number" name="number2_${rowCounter}" disabled>
-            `;
-            document.getElementById('rows').appendChild(newRow);
-            rowCounter++;
+    function activateUnderSubjects(selectElement) {
+        var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select[name^='under_subject']");
+        underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+        underSubjectSelect.disabled = false; // Enable under subject select
+        var subject = selectElement.value;
+        var underSubjects = {{ data | tojson }}[subject];
+        for (var key in underSubjects) {
+            underSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
         }
+    }
 
-        function activateUnderSubjects(selectElement) {
-            var underSubjectSelect = selectElement.parentElement.nextElementSibling.querySelector("select");
-            underSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            underSubjectSelect.disabled = false; // Enable under subject select
-            var subject = selectElement.value;
-            var underSubjects = {{ data | tojson }}[subject];
-            for (var key in underSubjects) {
-                underSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
-            }
-        }
-    </script>
+    function addRow() {
+        var newRow = document.createElement('div');
+        newRow.className = 'row';
+        newRow.innerHTML = `
+            <label>Subject:</label>
+            <select name="subject_${rowCounter}" onchange="activateUnderSubjects(this)">
+                <option value="">Select</option>
+                {% for subject, under_subjects in data.items() %}
+                    <option value="{{ subject }}">{{ subject }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Under Subject:</label>
+            <select name="under_subject_${rowCounter}" disabled>
+                <option value="">Select</option>
+            </select>
+
+            <label>Under Under Subject:</label>
+            <select name="under_under_subject_${rowCounter}" disabled>
+                <option value="">Select</option>
+            </select>
+
+            <label>Number 1:</label>
+            <input type="number" name="number1_${rowCounter}" disabled>
+
+            <label>Number 2:</label>
+            <input type="number" name="number2_${rowCounter}" disabled>
+        `;
+        document.getElementById('rows').appendChild(newRow);
+        rowCounter++;
+    }
+</script>
+
 </body>
 </html>

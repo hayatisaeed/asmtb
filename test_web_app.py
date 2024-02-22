@@ -19,9 +19,11 @@ data = {
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Store form data in session
-        session['form_data'] = dict(request.form)
-        return redirect(url_for('index'))  # Redirect to reload the page
+        form_data = {}
+        for key, value in request.form.items():
+            form_data[key] = value
+        session['form_data'] = form_data
+        return redirect(url_for('index'))
 
     form_data = session.get('form_data', {})
     return render_template('dynamic_form.html', data=data, form_data=form_data)
