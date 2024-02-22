@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Dynamic Form</h1>
-    <form method="post">
+    <form method="post" id="dynamic-form">
         {% for field in fields %}
             <label for="{{ field.lower() }}">{{ field }}:</label>
             <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"
@@ -16,7 +16,7 @@
         {% endfor %}
         {% for i in range(num_additional_fields) %}
             {% set new_field_index = i + 1 %}
-            {% set new_field_name = 'new_field_' ~ (new_field_index|string) %}
+            {% set new_field_name = 'new_field_' + str(new_field_index) %}
             <label for="{{ new_field_name }}">New Field {{ new_field_index }}:</label>
             <input type="text" id="{{ new_field_name }}" name="{{ new_field_name }}"
                    {% if form_data and new_field_name in form_data %} value="{{ form_data[new_field_name] }}" {% endif %}>
@@ -33,8 +33,8 @@
             field.parentNode.removeChild(field);
             var label = document.querySelector("label[for='" + fieldName + "']");
             label.parentNode.removeChild(label);
-            var br = document.querySelector("br + button[onclick='deleteField(\"" + fieldName + "\")']").previousSibling;
-            br.parentNode.removeChild(br);
+            var button = document.querySelector("button[onclick='deleteField(\"" + fieldName + "\")']");
+            button.parentNode.removeChild(button);
         }
     </script>
 </body>
