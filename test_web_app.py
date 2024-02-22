@@ -11,16 +11,18 @@ subjects = {
 
 
 @app.route('/showReportForm')
-def index():
+def show_report_form():
     return render_template('dynamic_form.html', subjects=subjects, user_name="Saeed", user_id="1234")
 
 
 @app.route('/saveNewReport', methods=['POST'])
-def report():
+def save_new_report():
     form_data = request.form
     data = {}
     for i in form_data:
         data[i] = form_data[i]
+
+    print(data)
     return render_template('saveNewReport.html', data=data)
 
 

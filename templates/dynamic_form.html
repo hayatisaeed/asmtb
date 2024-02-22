@@ -8,9 +8,7 @@
 </head>
 <body>
     <h1>Welcome! {{ user_name }}</h1>
-    <h3>Your ID is: {{ user_id }}</h3>
     <form action="/saveNewReport" method="POST">
-        <input type="text" id="username" name="username" disabled value="JohnDoe">
 
         <label for="name">Name: </label>
         <input id="name" type="text" name="name" disabled value="{{ user_name }}">
