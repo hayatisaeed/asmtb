@@ -12,7 +12,11 @@
         {% for field in fields %}
             <label for="{{ field.lower() }}">{{ field }}:</label>
             <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"
-                   {% if form_data %} value="{{ form_data.get(field.lower(), '') }}" {% endif %}><br>
+                   {% if form_data and field.lower() in form_data %} value="{{ form_data[field.lower()] }}" {% endif %}><br>
+        {% endfor %}
+        {% for i in range(num_additional_fields) %}
+            <label for="new_field_{{ i + 1 }}">New Field {{ i + 1 }}:</label>
+            <input type="text" id="new_field_{{ i + 1 }}" name="new_field_{{ i + 1 }}"><br>
         {% endfor %}
         <input type="submit" value="Submit">
         <input type="submit" name="add_field" value="Add Field">
