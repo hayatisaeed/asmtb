@@ -10,6 +10,7 @@ fields = ['Name', 'Email', 'Phone']
 def index():
     num_additional_fields = int(request.form.get('num_additional_fields', 0))
     if request.method == 'POST':
+        print(request.form)
         if 'submit' in request.form:
             # Process the form data here
             form_data = {}
