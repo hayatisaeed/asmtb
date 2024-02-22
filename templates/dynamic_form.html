@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Study Form</h1>
-    <form action="/report" method="POST">
-        <label for="name">What is your name?</label>
-        <input type="text" id="name" name="name" required>
-
+    <h1>Welcome! {{ user_name }}</h1>
+    <h3>Your ID is: {{ user_id }}</h3>
+    <form action="/saveNewReport" method="POST">
+        <label>Name: </label> <input type="text" name="name" value="{{ user_name }}" disabled>
+        <label>UserID: </label> <input type="text" name="user_id" value="{{ user_id }}" disabled>
         <div id="subjects">
             <div class="row">
                 <select name="subject[]" class="subject" onchange="subjectChanged(this, {{ subjects }})">

@@ -10,15 +10,15 @@ subjects = {
 }
 
 
-@app.route('/showForm')
+@app.route('/showReportForm')
 def index():
-    return render_template('dynamic_form.html', subjects=subjects)
+    return render_template('dynamic_form.html', subjects=subjects, user_name="Saeed", user_id="1234")
 
 
-@app.route('/report', methods=['POST'])
+@app.route('/saveNewReport', methods=['POST'])
 def report():
     data = request.form.to_dict()
-    return render_template('report.html', data=data)
+    return render_template('saveNewReport.html', data=data)
 
 
 if __name__ == '__main__':
