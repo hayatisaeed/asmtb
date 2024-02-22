@@ -54,19 +54,22 @@ function underSubjectChanged(selectElement, subjects) {
 let rowCount = 1; // Initialize row counter
 
 function addRow(subjects) {
-    alert("you are int addRow function")
+    alert("you are int addRow function 1")
     const subjectsDiv = document.getElementById('subjects');
     const rowCount = subjectsDiv.childElementCount + 1;
-
+    alert("you are int addRow function 2")
     let newRowHTML = `
         <div class="row">
             <select name="subject[${rowCount - 1}]" class="subject">
                 <option value="">Select Subject</option>
     `;
+    alert("you are int addRow function 3")
 
     for (const subject in subjects) {
         newRowHTML += `<option value="${subject}">${subject}</option>`;
     }
+
+    alert("you are int addRow function 4")
 
     newRowHTML += `
             </select>
@@ -80,6 +83,8 @@ function addRow(subjects) {
             <input type="number" name="t_count[${rowCount - 1}]" placeholder="T Count" min="1" required>
         </div>
     `;
+
+    alert("you are int addRow function 5")
 
     const newDiv = document.createElement('div');
     newDiv.innerHTML = newRowHTML;
