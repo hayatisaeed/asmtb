@@ -75,20 +75,29 @@
         function activateUnderUnderSubjects(selectElement) {
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
             var underSubject = selectElement.value;
+            // start editing
             var subject = document.getElementById('subject').value;
-
-            if (underSubject !== "" && subject !== "") {
-                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-                underUnderSubjectSelect.disabled = false; // Enable under-under subject select
-                var underUnderSubjects = data[subject][underSubject];
-                for (var i = 0; i < underUnderSubjects.length; i++) {
-                    underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
-                }
-            } else {
-                // If either subject or under-subject is not selected, disable and clear under-under subject select
-                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-                underUnderSubjectSelect.disabled = true; // Disable under-under subject select
+            underUnderSubjectSelect.disabled = false; // enabling the input
+            var underUnderSubject = data[subject][underSubject];
+            for (var key in underUnderSubject) {
+                underUnderSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
             }
+            activateNumberInputs(underUnderSubjectSelect);
+            // end editing
+            // var subject = document.getElementById('subject').value;
+            //
+            // if (underSubject !== "" && subject !== "") {
+            //     underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+            //     underUnderSubjectSelect.disabled = false; // Enable under-under subject select
+            //     var underUnderSubjects = data[subject][underSubject];
+            //     for (var i = 0; i < underUnderSubjects.length; i++) {
+            //         underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
+            //     }
+            // } else {
+            //     // If either subject or under-subject is not selected, disable and clear under-under subject select
+            //     underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+            //     underUnderSubjectSelect.disabled = true; // Disable under-under subject select
+            // }
         }
 
         function activateNumberInputs(selectElement) {
