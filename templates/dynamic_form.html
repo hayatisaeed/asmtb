@@ -62,11 +62,23 @@
         }
 
         function activateNumberInputs(selectElement) {
-            var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
-            for (var i = 0; i < numberInputs.length; i++) {
-                numberInputs[i].disabled = false; // Enable number inputs
-            }
+    var numberInputs = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelectorAll("input[type=number]");
+    var allSelects = document.querySelectorAll("select");
+    var allSelectsValid = true;
+
+    // Check if all select elements have been chosen
+    allSelects.forEach(function(select) {
+        if (select.value === "") {
+            allSelectsValid = false;
         }
+    });
+
+    if (allSelectsValid) {
+        numberInputs.forEach(function(input) {
+            input.disabled = false; // Enable number inputs
+        });
+    }
+}
 
         function addRow() {
             var newRow = document.createElement("div");
