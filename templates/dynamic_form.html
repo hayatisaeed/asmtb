@@ -72,37 +72,25 @@
             activateUnderUnderSubjects(underSubjectSelect);
         }
 
+
         function activateUnderUnderSubjects(selectElement) {
-            // start edit
-
             var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
-            underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            underUnderSubjectSelect.disabled = false; // Enable under subject select
-            var subject = selectElement.parentElement.value;
             var underSubject = selectElement.value;
-            var underUnderSubjects = data[subject][underSubject];
-            for (var key in underUnderSubjects) {
-                underUnderSubjectSelect.innerHTML += '<option value="' + key + '">' + key + '</option>';
+            var subjectSelect = document.getElementById('subject');
+            var subject = subjectSelect.value;
+
+            if (underSubject !== "" && subject !== "") {
+                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+                underUnderSubjectSelect.disabled = false; // Enable under-under subject select
+                var underUnderSubjects = data[subject][underSubject];
+                for (var i = 0; i < underUnderSubjects.length; i++) {
+                    underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
+                }
+            } else {
+                // If either subject or under-subject is not selected, disable and clear under-under subject select
+                underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
+                underUnderSubjectSelect.disabled = true; // Disable under-under subject select
             }
-            activateNumberInputs(underUnderSubjectSelect);
-
-            // end edit
-
-            // var underUnderSubjectSelect = selectElement.parentElement.nextElementSibling.nextElementSibling.querySelector("select");
-            // var subject = document.getElementById('subject').value;
-            //
-            // if (underSubject !== "" && subject !== "") {
-            //     underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            //     underUnderSubjectSelect.disabled = false; // Enable under-under subject select
-            //     var underUnderSubjects = data[subject][underSubject];
-            //     for (var i = 0; i < underUnderSubjects.length; i++) {
-            //         underUnderSubjectSelect.innerHTML += '<option value="' + underUnderSubjects[i] + '">' + underUnderSubjects[i] + '</option>';
-            //     }
-            // } else {
-            //     // If either subject or under-subject is not selected, disable and clear under-under subject select
-            //     underUnderSubjectSelect.innerHTML = '<option value="">Select</option>'; // Clear options
-            //     underUnderSubjectSelect.disabled = true; // Disable under-under subject select
-            // }
         }
 
         function activateNumberInputs(selectElement) {
