@@ -1,92 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamic Form</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-    form {
-        max-width: 500px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .form-row {
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-    }
-    .form-row input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
-    .add-remove-buttons button {
-        padding: 10px 20px;
-        border: none;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .add-remove-buttons button:hover {
-        background-color: #0056b3;
-    }
-    .remove-row {
-        background-color: #dc3545;
-    }
-</style>
+    <title>Dynamic Form</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
 </head>
 <body>
-
-<form id="reportForm" action="/submit_report_form" method="GET">
-    <div class="form-row">
-        <input type="text" name="name[]" placeholder="Name" required>
-        <input type="email" name="email[]" placeholder="Email" required>
-    </div>
-    <div class="add-remove-buttons">
-        <button type="button" class="addRow">Add +</button>
-    </div>
-    <button type="submit">Submit</button>
-</form>
-
-<script>
-    document.querySelector('.addRow').addEventListener('click', function() {
-        var form = document.getElementById('reportForm');
-        var lastRow = form.lastElementChild.previousElementSibling;
-        var newRow = lastRow.cloneNode(true);
-        var addButton = lastRow.querySelector('.addRow');
-
-        lastRow.querySelector('.addRow').remove();
-
-        var removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.classList.add('remove-row');
-        removeButton.addEventListener('click', function() {
-            newRow.remove();
-        });
-
-        newRow.querySelector('.add-remove-buttons').appendChild(removeButton);
-
-        var nameInput = newRow.querySelector("input[name='name[]']");
-        var emailInput = newRow.querySelector("input[name='email[]']");
-        nameInput.value = '';
-        emailInput.value = '';
-
-        form.insertBefore(newRow, form.lastElementChild);
-        form.appendChild(addButton.cloneNode(true));
-    });
-</script>
-
+    <h1>Dynamic Form</h1>
+    <form method="post">
+        {% for field in fields %}
+            <label for="{{ field.lower() }}">{{ field }}:</label>
+            <input type="text" id="{{ field.lower() }}" name="{{ field.lower() }}"><br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+        <input type="submit" name="add_field" value="Add Field">
+    </form>
 </body>
 </html>
