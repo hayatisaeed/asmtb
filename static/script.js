@@ -1,7 +1,6 @@
 // static/script.js
 
 function subjectChanged(selectElement, subjects) {
-    alert("entered the function")
     const underSubjectsDropdown = selectElement.parentElement.querySelector('.under-subject');
     const underUnderSubjectsDropdown = selectElement.parentElement.querySelector('.under-under-subject');
     const selectedSubject = selectElement.value;
@@ -69,11 +68,11 @@ function addRow(subjects) {
     newRowHTML += `
             </select>
             <select name="under_subject[${rowCount - 1}]" class="under-subject" disabled 
-            onchange="subjectChanged(this, ${subjects})">
+            onchange="subjectChanged(this, ${JSON.stringify(subjects)})">
                 <option value="">Select Under Subject</option>
             </select>
-            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" 
-            disabled onchange="underSubjectChanged(this, ${subjects})">
+            <select name="under_under_subject[${rowCount - 1}]" class="under-under-subject" disabled
+            onchange="underSubjectChanged(this, ${JSON.stringify(subjects)})">
                 <option value="">Select Under Under Subject</option>
             </select>
             <input type="number" name="hours[${rowCount - 1}]" placeholder="Hours" min="1" required>
