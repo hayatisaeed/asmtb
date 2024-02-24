@@ -155,6 +155,8 @@ def save_new_report():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
+    if 'logged_in' in session:
+        return redirect('/admin/dashboard')
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -164,6 +166,11 @@ def admin_login():
         else:
             return render_template('admin_login_form.html', error='خطا در ورود')
     return render_template('admin_login_form.html')
+
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    return render_template('admin_panel.html')
 
 
 @app.route('/admin/manageSubjects')
