@@ -155,7 +155,7 @@ def save_new_report():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
-    if 'logged_in' in session:
+    if 'logged_in' in session and session['logged_in']:
         return redirect('/admin/dashboard')
     if request.method == 'POST':
         username = request.form['username']
@@ -170,15 +170,15 @@ def admin_login():
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
-    if 'logged_in' not in session:
+    if 'logged_in' not in session or not session['logged_in']:
         return redirect('/admin')
     return render_template('admin_panel.html')
 
 
 @app.route('/admin/logout')
 def admin_logout():
-    if 'logged_in' in session:
-        session.pop(admin_username, None)
+    if 'logged_in' in session and session['logged_in']:
+        session['logged_in'] = False
     return redirect('/admin')
 
 
@@ -186,7 +186,7 @@ def admin_logout():
 def admin_manage_subjects():
     subjects = core.data_handler.get_subjects_dict()
 
-    if 'logged_in' in session:
+    if 'logged_in' in session and session['logged_in']:
         return render_template('admin_manage_subjects.html', subjects=subjects)
 
     else:
@@ -195,7 +195,6 @@ def admin_manage_subjects():
 
 @app.route('/admin/saveSubjects', methods=['POST'])
 def admin_save_subjects():
-    subjects = core.data_handler.get_subjects_dict()
     subjects = request.json['subjects']
     core.data_handler.save_subjects(subjects)
     return jsonify({"message": "Subjects saved successfully."})
