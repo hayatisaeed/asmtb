@@ -29,6 +29,8 @@ import core.handlers.user_handlers.wallet_handler
 import core.handlers.admin_handlers.wallet_handler
 import core.handlers.admin_handlers.sub_handler
 import core.handlers.user_handlers.sub_handler
+import core.handlers.user_handlers.report_handler
+import core.handlers.admin_handlers.report_handler
 
 
 logging.basicConfig(
@@ -608,6 +610,15 @@ def main():
         pattern="^user-buy-sub"
     )
 
+    new_report_handler = MessageHandler(filters.Regex("^📔 گزارش جدید$"),
+                                        core.handlers.user_handlers.report_handler.new_report)
+
+    reports_settings_handler = MessageHandler(filters.Regex("^تنظیمات گزارش$"),
+                                              core.handlers.user_handlers.report_handler.handle)
+
+    admin_subject_manager = MessageHandler(filters.Regex(),
+                                           core.handlers.admin_handlers.report_handler.manage_subjects)
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -620,7 +631,7 @@ def main():
         user_call_reservation_choose_day, user_call_confirm_reservation_handler, user_wallet_handler, user_sub_handler,
         user_new_payment_handler, user_confirm_payment, admin_wallet_handler, admin_show_reservations,
         admin_show_reservation_details, admin_manage_sub_handler, admin_change_free_status, user_buy_sub_handler,
-        admin_change_bot_is_free_status
+        admin_change_bot_is_free_status, new_report_handler, reports_settings_handler, admin_subject_manager
     ]
 
     # Add Handlers To Application
