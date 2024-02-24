@@ -173,6 +173,13 @@ def admin_dashboard():
     return render_template('admin_panel.html')
 
 
+@app.route('/admin/logout')
+def admin_logout():
+    if 'logged_in' in session:
+        session['logged_in'] = False
+    return redirect('/admin')
+
+
 @app.route('/admin/manageSubjects')
 def admin_manage_subjects():
     subjects = core.data_handler.get_subjects_dict()
