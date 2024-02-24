@@ -1,5 +1,6 @@
 # test-web-app.py
 from flask import Flask, render_template, request, redirect, url_for
+import core.data_handler
 
 app = Flask(__name__)
 
@@ -12,7 +13,11 @@ subjects = {
 
 @app.route('/showReportForm')
 def show_report_form():
-    return render_template('dynamic_form.html', subjects=subjects, user_name="Saeed", user_id="1234")
+    user_id = request.args.get('user_id')
+    user_name = request.args.get('user_name')
+    subjects = core.data_handler.get_subjects_dict()
+    return render_template('dynamic_form.html', subjects=subjects, user_name=user_name,
+                           user_id=user_id)
 
 
 @app.route('/saveNewReport', methods=['POST'])

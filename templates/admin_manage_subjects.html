@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Subjects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Subjects</h1>
+
+        <form method="post">
+            <h2>Add Subject</h2>
+            <input type="text" name="new-subject" placeholder="Enter new subject">
+            <button type="submit" name="add-subject">Add</button>
+        </form>
+
+        {% for subject, details in subjects.items() %}
+            <div>
+                <h2>{{ details.name }}</h2>
+                <form method="post">
+                    <input type="hidden" name="old-subject" value="{{ subject }}">
+                    <input type="text" name="new-subject" value="{{ subject }}">
+                    <button type="submit" name="edit-subject">Edit</button>
+                    <button type="submit" name="delete-subject" onclick="return confirm('Are you sure you want to delete this subject?')">Delete</button>
+                </form>
+
+                <h3>Under Subjects</h3>
+                <ul>
+                    {% for under_subject, under_under_subjects in details.under_subjects.items() %}
+                        <li>{{ under_subject }}</li>
+                        <ul>
+                            {% for under_under_subject in under_under_subjects %}
+                                <li>{{ under_under_subject }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

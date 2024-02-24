@@ -1,9 +1,12 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for, session
 import requests
 import json
 import core.data_handler
 
 app = Flask(__name__)
+
+admin_username = '1234'
+admin_password = '1234'
 
 
 merchant = "4390ca27-e428-4c4a-b2e4-cfde882355ba"
@@ -63,7 +66,7 @@ def verify(authority, amount):
 
 
 def get_link_to_zp(amount, payment_id):
-    link = f'http://103.75.197.206:5000/verify_payment?amount={amount}&paymentId={payment_id}&securityCode=1234'
+    link = f'http://103.75.197.206:5000/verify_payment?amount={amount}&paymentId={payment_id}'
     return link
 
 
@@ -118,6 +121,88 @@ def verify_payment():
         # ## {save payment stuff here} ## #
         message = "✅ پرداخت شما تایید شد، لطفا به بات برگشته و دکمه‌ی پرداخت کردم را بزنید."
         return render_template('verify_payment.html', message=message)
+
+
+@app.route('/showReportForm')
+def show_report_form():
+    user_id = request.args.get('user_id')
+    user_name = request.args.get('user_name')
+    subjects = core.data_handler.get_subjects_dict()
+    return render_template('dynamic_form.html', subjects=subjects, user_name=user_name,
+                           user_id=user_id)
+
+
+@app.route('/saveNewReport', methods=['POST'])
+def save_new_report():
+    form_data = request.form
+    data = {}
+    for i in form_data:
+        data[i] = form_data[i]
+
+    usable_data = {}
+    for i in data:
+        row = int(i.split('[')[1].replace(']', '')) + 1
+        title = i.split('[')[0]
+        if row not in usable_data:
+            usable_data[row] = {}
+
+        usable_data[row][title] = data[i]
+
+    print(usable_data)
+    return render_template('saveNewReport.html', data=usable_data)
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username == admin_username and password == admin_password:
+            session['logged_in'] = True
+            return redirect(url_for('/admin/manageSubjects'))
+        else:
+            return render_template('admin_login_form.html', error='خطا در ورود')
+    return render_template('admin_login_form.html')
+
+
+# Temp
+subjects = {
+    "sub1": {"name": "Math", "under_subjects": {
+        "under_sub1-1": ["under_under_sub1-1-1", "under_under_sub1-1-2"],
+        "under_sub1-2": ["under_under_sub1-2-1", "under_under_sub1-2-2"]
+    }},
+    "sub2": {"name": "Science", "under_subjects": {
+        "under_sub2-1": ["under_under_sub2-1-1", "under_under_sub2-1-2"],
+        "under_sub2-2": ["under_under_sub2-2-1", "under_under_sub2-2-2"]
+    }}
+}
+# End Temp
+
+
+@app.route('/admin/manageSubjects')
+def admin_manage_subjects():
+    subjects = core.data_handler.get_subjects_dict()
+
+    if 'logged_in' in session:
+        if request.method == 'POST':
+            # Handle form submission to add, edit, or delete subjects
+            if 'add-subject' in request.form:
+                new_subject_name = request.form['new-subject']
+                subjects[new_subject_name] = {"name": new_subject_name, "under_subjects": {}}
+            elif 'edit-subject' in request.form:
+                old_subject_name = request.form['old-subject']
+                new_subject_name = request.form['new-subject']
+                subjects[new_subject_name] = subjects.pop(old_subject_name)
+                subjects[new_subject_name]["name"] = new_subject_name
+            elif 'delete-subject' in request.form:
+                subject_name = request.form['delete-subject']
+                subjects.pop(subject_name)
+            return redirect(url_for('manage_subjects'))
+        else:
+            return render_template('admin_manage_subjects.html', subjects=subjects)
+
+    else:
+        return redirect(url_for('admin_login'))
 
 
 if __name__ == "__main__":

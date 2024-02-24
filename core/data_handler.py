@@ -500,3 +500,14 @@ async def get_transaction_data(payment_id):
     with open('data/payment_history.json', 'r') as f:
         data = json.load(f)
         return data[payment_id]
+
+
+def get_subjects_dict():
+    with open('data/subjects.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
+def save_subjects(subjects):
+    with open('data/subjects.json', 'w') as f:
+        json.dump(subjects, f)
