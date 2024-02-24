@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 import requests
 import json
 import core.data_handler
@@ -166,20 +166,6 @@ def admin_login():
     return render_template('admin_login_form.html')
 
 
-# Temp
-subjects = {
-    "sub1": {"name": "Math", "under_subjects": {
-        "under_sub1-1": ["under_under_sub1-1-1", "under_under_sub1-1-2"],
-        "under_sub1-2": ["under_under_sub1-2-1", "under_under_sub1-2-2"]
-    }},
-    "sub2": {"name": "Science", "under_subjects": {
-        "under_sub2-1": ["under_under_sub2-1-1", "under_under_sub2-1-2"],
-        "under_sub2-2": ["under_under_sub2-2-1", "under_under_sub2-2-2"]
-    }}
-}
-# End Temp
-
-
 @app.route('/admin/manageSubjects')
 def admin_manage_subjects():
     subjects = core.data_handler.get_subjects_dict()
@@ -204,6 +190,23 @@ def admin_manage_subjects():
 
     else:
         return redirect(url_for('admin_login'))
+
+
+# TEMP
+subjects = {
+    "sub1": {"under_sub1-1": ["under_under_sub1-1-1", "under_under_sub1-1-2"], "under_sub1-2": ["under_under_sub1-2-1", "under_under_sub1-2-2"]},
+    "sub2": {"under_sub2-1": ["under_under_sub2-1-1", "under_under_sub2-1-2"], "under_sub2-2": ["under_under_sub2-2-1", "under_under_sub2-2-2"]}
+}
+# END TEMP
+
+
+@app.route('/admin/saveSubjects', methods=['POST'])
+def admin_save_subjects():
+    global subjects
+    subjects = request.json['subjects']
+    # Save subjects to data handler
+    # core.data_handler.save_subjects(subjects)
+    return jsonify({"message": "Subjects saved successfully."})
 
 
 if __name__ == "__main__":
