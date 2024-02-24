@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;700&display=swap" rel="stylesheet">
     <title>Admin Manage Subjects</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -13,9 +14,8 @@
                 var subjectName = prompt("Enter the name of the new subject:");
                 if (subjectName) {
                     $("#subjects").append(`<div class="subject" id="${subjectName}">
-                                                <span>${subjectName}</span>
-                                                <button class="delete" onclick="deleteItem(this)">Delete</button>
-                                                <button class="addSubtopic" onclick="addSubtopic('${subjectName}')">Add Subtopic</button>
+                                                <span>${subjectName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
+                                                <button class="add-btn" onclick="addSubtopic('${subjectName}')">افزودن</button>
                                             </div>`);
                 }
             });
@@ -26,9 +26,8 @@
                 var subtopicName = prompt("Enter the name of the new subtopic:");
                 if (subtopicName) {
                     $(this).before(`<div class="subtopic" id="${subtopicName}">
-                                        <span>${subtopicName}</span>
-                                        <button class="delete" onclick="deleteItem(this)">Delete</button>
-                                        <button class="addSubSubtopic" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">Add Sub-subtopic</button>
+                                        <span>${subtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
+                                        <button class="add-btn" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">افزودن</button>
                                     </div>`);
                 }
             });
@@ -39,8 +38,7 @@
                 var subSubtopicName = prompt("Enter the name of the new sub-subtopic:");
                 if (subSubtopicName) {
                     $(this).before(`<div class="subSubtopic" id="${subSubtopicName}">
-                                        <span>${subSubtopicName}</span>
-                                        <button class="delete" onclick="deleteItem(this)">Delete</button>
+                                        <span>${subSubtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
                                     </div>`);
                 }
             });
@@ -84,6 +82,12 @@
         });
     </script>
     <style>
+        ul, li {
+            list-style-type: none;
+        }
+        body {
+            font-family: 'Vazir', sans-serif;
+        }
         .subject {
             border: 1px solid black;
             padding: 10px;
@@ -96,45 +100,59 @@
             margin-bottom: 5px;
             margin-left: 20px;
         }
+
+        .add-btn {
+            padding: 4px;
+            border-radius: 3px;
+            border: none;
+            color: white;
+            background-color: #1ba100;
+        }
+
+        .delete-btn {
+            padding: 4px;
+            border-radius: 3px;
+            border: none;
+            color: white;
+            background-color: #e3023a;
+        }
     </style>
 </head>
 <body>
     <h1>Manage Subjects</h1>
+    <button id="addSubject" class="add-btn">افزودن</button>
         <div id="subjects">
             <!-- Existing subjects and their subtopics will be appended here -->
             {% for subject, under_subjects in subjects.items() %}
             <div class="subject" id="{{ subject }}">
-                <h3>{{ subject }}</h3>
+                <h3>{{ subject }} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></h3>
                 <ul>
                     <!-- Under Subject Container -->
                     {% for under_subject, under_under_subjects in under_subjects.items() %}
                     <li>
                         <div class="subtopic" id="{{ under_subject }}">
-                        <h4>{{ under_subject }}</h4>
+                        <h4>{{ under_subject }} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></h4>
                             <ul>
                                 <!-- Under Under Subject Container -->
                                 {% for under_under_subject in under_under_subjects %}
                                 <div class="subSubtopic" id="{{ under_under_subject }}">
-                                    <li>{{ under_under_subject }}</li>
-                                    <button class="delete" onclick="deleteItem(this)">Delete</button>
+                                    <li>{{ under_under_subject }} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></li>
                                 </div>
                                 {% endfor %}
                                 <!-- Add Under Under Subject Button -->
-                                <button class="btn add-btn">Add Under Under Subject</button>
                             </ul>
-                            <button class="delete" onclick="deleteItem(this)">Delete</button>
+                            <button class="add-btn" onclick="addSubSubtopic('{{ subject }}', '{{ under_subject }}')">افزودن</button>
                         </div>
                     </li>
+                    <button class="add-btn" onclick="addSubtopic('{{ subject }}')">افزودن</button>
                     {% endfor %}
                     <!-- Add Under Subject Button -->
-                    <button class="btn add-btn">Add Under Subject</button>
+
                 </ul>
                 <!-- Delete Subject Button -->
-                <button class="delete" onclick="deleteItem(this)">Delete</button>
             </div>
             {% endfor %}
         </div>
-    <button id="addSubject" class="add-btn">Add Subject</button>
     <button id="saveData" class="btn">Save Data</button>
 </body>
 </html>
