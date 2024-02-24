@@ -170,6 +170,8 @@ def admin_login():
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
+    if 'logged_in' not in session:
+        return redirect('/admin')
     return render_template('admin_panel.html')
 
 
