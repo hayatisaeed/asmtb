@@ -26,8 +26,8 @@
                 var subtopicName = prompt("Enter the name of the new subtopic:");
                 if (subtopicName) {
                     $(this).before(`<div class="subtopic" id="${subtopicName}">
-                                        <span>${subtopicName} <button class="delete-btn addSubSubtopic" onclick="deleteItem(this)">حذف</button></span>
-                                        <button class="add-btn" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">افزودن</button>
+                                        <span>${subtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
+                                        <button class="add-btn addSubSubtopic" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">افزودن</button>
                                     </div>`);
                 }
             });
@@ -140,14 +140,13 @@
                                 </div>
                                 {% endfor %}
                                 <!-- Add Under Under Subject Button -->
+                                <button class="add-btn addSubSubtopic" onclick="addSubSubtopic('{{ subject }}', '{{ under_subject }}')">افزودن</button>
                             </ul>
-                            <button class="add-btn addSubSubtopic" onclick="addSubSubtopic('{{ subject }}', '{{ under_subject }}')">افزودن</button>
                         </div>
                     </li>
-                    <button class="add-btn addSubtopic" onclick="addSubtopic('{{ subject }}')">افزودن</button>
                     {% endfor %}
                     <!-- Add Under Subject Button -->
-
+                    <button class="add-btn addSubtopic" onclick="addSubtopic('{{ subject }}')">افزودن</button>
                 </ul>
                 <!-- Delete Subject Button -->
             </div>
