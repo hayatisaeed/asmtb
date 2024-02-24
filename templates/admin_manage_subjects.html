@@ -11,7 +11,7 @@
         $(document).ready(function () {
             // Function to add a new subject
             $("#addSubject").click(function () {
-                var subjectName = prompt("Enter the name of the new subject:");
+                var subjectName = prompt("نام کتاب را وارد کنید");
                 if (subjectName) {
                     $("#subjects").append(`<div class="subject" id="${subjectName}">
                                                 <span>${subjectName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
@@ -23,7 +23,7 @@
             // Function to add a new subtopic under a subject
             $("body").on("click", ".addSubtopic", function () {
                 var subjectName = $(this).closest(".subject").attr("id");
-                var subtopicName = prompt("Enter the name of the new subtopic:");
+                var subtopicName = prompt("نام درس را وارد کنید");
                 if (subtopicName) {
                     $(this).before(`<div class="subtopic" id="${subtopicName}">
                                         <span>${subtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
@@ -35,7 +35,7 @@
             // Function to add a new sub-subtopic under a subtopic
             $("body").on("click", ".addSubSubtopic", function () {
                 var subtopicName = $(this).closest(".subtopic").attr("id");
-                var subSubtopicName = prompt("Enter the name of the new sub-subtopic:");
+                var subSubtopicName = prompt("نام مبحث را وارد کنید");
                 if (subSubtopicName) {
                     $(this).before(`<div class="subSubtopic" id="${subSubtopicName}">
                                         <span>${subSubtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
@@ -72,10 +72,10 @@
                     contentType: "application/json",
                     data: JSON.stringify({ subjects: subjects }),
                     success: function () {
-                        alert("Data saved successfully.");
+                        alert("با موفقیت ذخیره شد");
                     },
                     error: function () {
-                        alert("Error occurred while saving data.");
+                        alert("در هنگام ذخیره سازی اطلاعات خطایی رخ داد.");
                     }
                 });
             });
@@ -112,7 +112,8 @@
         .subtopic {
             border: 1px dotted #ccc;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            margin-top: 5px;
             border-radius: 5px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -121,7 +122,8 @@
         .subSubtopic {
             border-bottom: 1px solid #ccc;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
             border-radius: 5px;
             box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
         }
