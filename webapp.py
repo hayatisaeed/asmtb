@@ -234,7 +234,9 @@ def show_my_reports():
         return render_template('show_my_reports.html', all_reports=reports_data, user_id=user_id,
                                weekly_reports=weekly_reports)
     else:
-        return
+        report_data = core.data_handler.get_all_reports(user_id)
+        report_data = report_data[date]
+        return render_template('show_report_by_date.html', data=report_data, user_id=user_id, date=date)
 
 
 if __name__ == "__main__":
