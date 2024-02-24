@@ -160,7 +160,7 @@ def admin_login():
         password = request.form['password']
         if username == admin_username and password == admin_password:
             session['logged_in'] = True
-            return redirect(url_for('/admin/manageSubjects'))
+            return redirect(url_for('admin_manage_subjects'))
         else:
             return render_template('admin_login_form.html', error='خطا در ورود')
     return render_template('admin_login_form.html')
