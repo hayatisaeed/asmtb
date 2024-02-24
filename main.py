@@ -616,7 +616,7 @@ def main():
     reports_settings_handler = MessageHandler(filters.Regex("^تنظیمات گزارش$"),
                                               core.handlers.user_handlers.report_handler.handle)
 
-    admin_subject_manager = MessageHandler(filters.Regex(),
+    admin_subject_manager = MessageHandler(filters.Regex("^تنظیمات درس‌ها$"),
                                            core.handlers.admin_handlers.report_handler.manage_subjects)
 
     handlers = [
