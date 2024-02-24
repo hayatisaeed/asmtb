@@ -4,103 +4,136 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Manage Subjects</title>
-    <style>
-        /* CSS styles */
-
-        /* Style for subjects container */
-        .subjects-container {
-            margin-bottom: 20px;
-        }
-
-        /* Style for each subject */
-        .subject {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        /* Style for buttons */
-        .btn {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            margin-left: 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        /* Style for input fields */
-        .input-field {
-            width: 200px;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
-        }
-
-        /* Style for delete button */
-        .delete-btn {
-            background-color: #dc3545;
-        }
-
-        /* Style for add button */
-        .add-btn {
-            background-color: #28a745;
-        }
-    </style>
-</head>
-<body>
-    <div class="subjects-container">
-        <!-- Subject Container -->
-        {% for subject, under_subjects in subjects.items() %}
-        <div class="subject">
-            <h3>{{ subject }}</h3>
-            <ul>
-                <!-- Under Subject Container -->
-                {% for under_subject, under_under_subjects in under_subjects.items() %}
-                <li>
-                    <h4>{{ under_subject }}</h4>
-                    <ul>
-                        <!-- Under Under Subject Container -->
-                        {% for under_under_subject in under_under_subjects %}
-                        <li>{{ under_under_subject }}</li>
-                        {% endfor %}
-                        <!-- Add Under Under Subject Button -->
-                        <button class="btn add-btn">Add Under Under Subject</button>
-                    </ul>
-                </li>
-                {% endfor %}
-                <!-- Add Under Subject Button -->
-                <button class="btn add-btn">Add Under Subject</button>
-            </ul>
-            <!-- Delete Subject Button -->
-            <button class="btn delete-btn">Delete Subject</button>
-        </div>
-        {% endfor %}
-        <!-- Add Subject Button -->
-        <button class="btn add-btn">Add Subject</button>
-    </div>
-
-    <!-- Script for handling actions -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // JavaScript code
-        // Add event listeners for buttons
-        document.querySelectorAll('.add-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Handle add action
-                console.log('Add action triggered');
-                // You can implement your logic here
+        // JavaScript functions to handle user interactions
+        $(document).ready(function () {
+            // Function to add a new subject
+            $("#addSubject").click(function () {
+                var subjectName = prompt("Enter the name of the new subject:");
+                if (subjectName) {
+                    $("#subjects").append(`<div class="subject" id="${subjectName}">
+                                                <span>${subjectName}</span>
+                                                <button class="delete" onclick="deleteItem(this)">Delete</button>
+                                                <button class="addSubtopic" onclick="addSubtopic('${subjectName}')">Add Subtopic</button>
+                                            </div>`);
+                }
             });
-        });
 
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Handle delete action
-                console.log('Delete action triggered');
-                // You can implement your logic here
+            // Function to add a new subtopic under a subject
+            $("body").on("click", ".addSubtopic", function () {
+                var subjectName = $(this).closest(".subject").attr("id");
+                var subtopicName = prompt("Enter the name of the new subtopic:");
+                if (subtopicName) {
+                    $(this).before(`<div class="subtopic" id="${subtopicName}">
+                                        <span>${subtopicName}</span>
+                                        <button class="delete" onclick="deleteItem(this)">Delete</button>
+                                        <button class="addSubSubtopic" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">Add Sub-subtopic</button>
+                                    </div>`);
+                }
+            });
+
+            // Function to add a new sub-subtopic under a subtopic
+            $("body").on("click", ".addSubSubtopic", function () {
+                var subtopicName = $(this).closest(".subtopic").attr("id");
+                var subSubtopicName = prompt("Enter the name of the new sub-subtopic:");
+                if (subSubtopicName) {
+                    $(this).before(`<div class="subSubtopic" id="${subSubtopicName}">
+                                        <span>${subSubtopicName}</span>
+                                        <button class="delete" onclick="deleteItem(this)">Delete</button>
+                                    </div>`);
+                }
+            });
+
+            // Function to delete a subject, subtopic, or sub-subtopic
+            window.deleteItem = function (element) {
+                $(element).closest("div").remove();
+            };
+
+            // Function to send data to the server
+            $("#saveData").click(function () {
+                var subjects = {};
+                $(".subject").each(function () {
+                    var subjectName = $(this).attr("id");
+                    var subtopics = {};
+                    $(this).find(".subtopic").each(function () {
+                        var subtopicName = $(this).attr("id");
+                        var subSubtopics = [];
+                        $(this).find(".subSubtopic").each(function () {
+                            subSubtopics.push($(this).attr("id"));
+                        });
+                        subtopics[subtopicName] = subSubtopics;
+                    });
+                    subjects[subjectName] = subtopics;
+                });
+
+                // Send data to the server via AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/saveSubjects",
+                    contentType: "application/json",
+                    data: JSON.stringify({ subjects: subjects }),
+                    success: function () {
+                        alert("Data saved successfully.");
+                    },
+                    error: function () {
+                        alert("Error occurred while saving data.");
+                    }
+                });
             });
         });
     </script>
+    <style>
+        /* Style for subjects container */
+.subjects-container {
+    margin-bottom: 20px;
+}
+
+/* Style for each subject */
+.subject {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for buttons */
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Style for input fields */
+.input-field {
+    width: 200px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Style for delete button */
+.delete-btn {
+    background-color: #dc3545;
+}
+
+/* Style for add button */
+.add-btn {
+    background-color: #28a745;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Manage Subjects</h1>
+    <div id="subjects">
+        <!-- Existing subjects and their subtopics will be appended here -->
+    </div>
+    <button id="addSubject" class="add-btn">Add Subject</button>
+    <button id="saveData" class="btn">Save Data</button>
 </body>
 </html>
