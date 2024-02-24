@@ -5,6 +5,7 @@ import core.data_handler
 
 app = Flask(__name__)
 
+app.secret_key = """eo't!7£Az[95m`&5nz33S$y+kX^!xJqn"""
 admin_username = '1234'
 admin_password = '1234'
 
