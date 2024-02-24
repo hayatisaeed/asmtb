@@ -116,11 +116,13 @@
                                 {% for under_under_subject in under_under_subjects %}
                                 <div class="subSubtopic" id="{{ under_under_subject }}">
                                     <li>{{ under_under_subject }}</li>
+                                    <button class="delete" onclick="deleteItem(this)">Delete</button>
                                 </div>
                                 {% endfor %}
                                 <!-- Add Under Under Subject Button -->
                                 <button class="btn add-btn">Add Under Under Subject</button>
                             </ul>
+                            <button class="delete" onclick="deleteItem(this)">Delete</button>
                         </div>
                     </li>
                     {% endfor %}
@@ -128,7 +130,7 @@
                     <button class="btn add-btn">Add Under Subject</button>
                 </ul>
                 <!-- Delete Subject Button -->
-                <button class="btn delete-btn">Delete Subject</button>
+                <button class="delete" onclick="deleteItem(this)">Delete</button>
             </div>
             {% endfor %}
         </div>
