@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Form</title>
+    <title>ثبت گزارش جدید</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Welcome! {{ user_name }}</h1>
+    <h1>گزارش جدید برای {{ user_name }}</h1>
     <form action="/saveNewReport" method="POST">
 
-        <label for="name">Name: </label>
+        <label for="name">نام: </label>
         <input id="name" type="text" name="name" disabled value="{{ user_name }}">
 
         <label for="user_id">UserID: </label>
@@ -19,13 +19,13 @@
         <div id="subjects">
             <div class="row">
                 <select name="subject[0]" class="subject" onchange="subjectChanged(this, {{ subjects }})">
-                    <option value="">Select Subject</option>
+                    <option value="">کتاب را انتخاب کنید</option>
                     {% for subject in subjects %}
                     <option value="{{ subject }}">{{ subject }}</option>
                     {% endfor %}
                 </select>
                 <select name="under_subject[0]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">
-                    <option value="">Select Under Subject</option>
+                    <option value="">درس را انتخاب کنید</option>
                 </select>
                 <select name="under_under_subject[0]" class="under-under-subject" disabled>
                     <option value="">Select Under-Under Subject</option>
@@ -35,8 +35,8 @@
             </div>
         </div>
 
-        <button type="button" id="add-row" onclick="addRow({{ subjects }})">Add Row</button>
-        <button type="submit">Submit</button>
+        <button type="button" id="add-row" onclick="addRow({{ subjects }})">اضافه کردن</button>
+        <button type="submit">ارسال گزارش</button>
     </form>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
