@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>گزارش جدید برای {{ user_name }}</h1>
-    <form action="/saveNewReport" method="POST">
+    <form action="/saveNewReport?name={{ user_name }}&user_id={{ user_id }}" method="POST">
 
         <label for="name">نام: </label>
         <input id="name" type="text" name="name" disabled value="{{ user_name }}">

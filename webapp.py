@@ -137,8 +137,8 @@ def show_report_form():
 def save_new_report():
     form_data = request.form
 
-    user_name = request.form['name']
-    user_id = request.form['user_id']
+    user_name = request.args['name']
+    user_id = request.args['user_id']
 
     data = {}
     for i in form_data:
@@ -154,7 +154,7 @@ def save_new_report():
         usable_data[row][title] = data[i]
 
     print(usable_data)
-    return render_template('saveNewReport.html', data=usable_data)
+    return render_template('saveNewReport.html', data=usable_data, user_name=user_name, user_id=user_id)
 
 
 @app.route('/admin', methods=['GET', 'POST'])
