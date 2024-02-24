@@ -230,13 +230,23 @@ def show_my_reports():
 
     if not date:
         reports_data = core.data_handler.get_all_reports(user_id)
-        weekly_reports = reports_data # Must be Changed
+        weekly_reports = reports_data  # Must be Changed
         return render_template('show_my_reports.html', all_reports=reports_data, user_id=user_id,
                                weekly_reports=weekly_reports)
     else:
-        report_data = core.data_handler.get_all_reports(user_id)
-        report_data = report_data[date]
-        return render_template('show_report_by_date.html', data=report_data, user_id=user_id, date=date)
+        try:
+            report_data = core.data_handler.get_all_reports(user_id)
+            report_data = report_data[date]
+            sum_of_hours = 0
+            sum_of_t = 0
+            for row in report_data:
+                sum_of_hours += int(report_data[row]['hours'])
+                sum_of_t += int(report_data[row]['t_count'])
+        except Exception as e:
+            print("Error in webapp show_my_reports:", e)
+            return redirect("/")
+        return render_template('show_report_by_date.html', data=report_data, user_id=user_id, date=date,
+                               sum_of_hours=sum_of_hours, sum_of_t=sum_of_t)
 
 
 if __name__ == "__main__":
