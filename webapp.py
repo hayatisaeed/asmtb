@@ -76,12 +76,12 @@ def get_callback_link(payment_id, amount):
 
 
 @app.route('/')
-async def index():
+def index():
     return render_template('index.html')
 
 
 @app.route('/new_payment', methods=['GET'])
-async def new_payment():
+def new_payment():
     amount = request.args.get('amount')
     payment_id = request.args.get('paymentId')
     req = send_request(payment_id, amount)
@@ -94,12 +94,12 @@ async def new_payment():
 
 
 @app.route('/someError', methods=['GET'])
-async def show_error():
+def show_error():
     return render_template('error.html')
 
 
 @app.route('/verify_payment', methods=['GET'])
-async def verify_payment():
+def verify_payment():
     amount = request.args.get('amount')
     payment_id = request.args.get('paymentId')
     authority = request.args.get('authority')
@@ -125,7 +125,7 @@ async def verify_payment():
 
 
 @app.route('/showReportForm')
-async def show_report_form():
+def show_report_form():
     user_id = request.args.get('user_id')
     user_name = request.args.get('user_name')
     subjects = core.data_handler.get_subjects_dict()
@@ -134,7 +134,7 @@ async def show_report_form():
 
 
 @app.route('/saveNewReport', methods=['POST'])
-async def save_new_report():
+def save_new_report():
     form_data = request.form
 
     user_name = request.args['name']
@@ -157,7 +157,7 @@ async def save_new_report():
 
 
 @app.route('/admin', methods=['GET', 'POST'])
-async def admin_login():
+def admin_login():
     if 'logged_in' in session and session['logged_in']:
         return redirect('/admin/dashboard')
     if request.method == 'POST':
@@ -172,21 +172,21 @@ async def admin_login():
 
 
 @app.route('/admin/dashboard')
-async def admin_dashboard():
+def admin_dashboard():
     if 'logged_in' not in session or not session['logged_in']:
         return redirect('/admin')
     return render_template('admin_panel.html')
 
 
 @app.route('/admin/logout')
-async def admin_logout():
+def admin_logout():
     if 'logged_in' in session and session['logged_in']:
         session['logged_in'] = False
     return redirect('/admin')
 
 
 @app.route('/admin/manageSubjects')
-async def admin_manage_subjects():
+def admin_manage_subjects():
     subjects = core.data_handler.get_subjects_dict()
 
     if 'logged_in' in session and session['logged_in']:
@@ -197,7 +197,7 @@ async def admin_manage_subjects():
 
 
 @app.route('/admin/saveSubjects', methods=['POST'])
-async def admin_save_subjects():
+def admin_save_subjects():
     subjects = request.json['subjects']
     core.data_handler.save_subjects(subjects)
     return jsonify({"message": "Subjects saved successfully."})
