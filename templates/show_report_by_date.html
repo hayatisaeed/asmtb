@@ -1,0 +1,99 @@
+<!--saveNewReport.html-->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Report</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+        }
+
+        p {
+            color: #6c757d;
+            text-align: center;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e2e6ea;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>گزارش مطالعاتی</h1>
+    <p style="text-align: center">نام: {{ user_name }}</p>
+    <p style="text-align: center">آیدی عددی: {{ user_id }}</p>
+    <p style="text-align: center">تاریخ: {{ date }}</p>
+    <p style="text-align: center">{{ message }}</p>
+    <p style="text-align: center"><a href="{{ link }}">برای بازگشت به بات اینجا بزنید</a></p>
+    <table>
+        <tr>
+            <th>ردیف</th>
+            <th>کتاب</th>
+            <th>درس</th>
+            <th>مبحث</th>
+            <th>زمان (ساعت)</th>
+            <th>تعداد تست</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row }}</td>
+            <td>{{ data[row]['subject'] }}</td>
+            <td>{{ data[row]['under_subject'] }}</td>
+            <td>{{ data[row]['under_under_subject'] }}</td>
+            <td>{{ data[row]['hours'] }}</td>
+            <td>{{ data[row]['t_count'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -77,11 +77,11 @@
     <div class="container">
         <h1>User Reports</h1>
         <div class="tabs">
-            <button class="tablinks" onclick="openTab(event, 'WeeklyReports')">Weekly Reports</button>
-            <button class="tablinks" onclick="openTab(event, 'AllReports')">All Reports</button>
+            <button class="tablinks" onclick="openTab(event, 'WeeklyReports')">گزارش هفتگی</button>
+            <button class="tablinks" onclick="openTab(event, 'AllReports')">همه‌ی گزارش‌ها</button>
         </div>
         <div id="WeeklyReports" class="tabcontent">
-            <h2>Weekly Reports</h2>
+            <h2>گزارش هفتگی</h2>
             <ul>
                 {% for date in weekly_reports %}
                 <li><a href="/showMyReports?user_id={{ user_id }}&date={{ date }}">{{ date }}</a></li>
@@ -89,7 +89,7 @@
             </ul>
         </div>
         <div id="AllReports" class="tabcontent">
-            <h2>All Reports</h2>
+            <h2>همه گزارشات</h2>
             <ul>
                 {% for date in all_reports %}
                 <li><a href="/showMyReports?user_id={{ user_id }}&date={{ date }}">{{ date }}</a></li>

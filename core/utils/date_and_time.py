@@ -6,9 +6,25 @@ async def get_date(day):  # day must be today or tomorrow
     tomorrow = today + datetime.timedelta(days=1)
 
     if day == 'today':
-        return f"{today.year}-{today.month}-{today.day}"
+        date = f"{today.year}-{today.month}-{today.day}"
+        month_str = date.split('-')[1]
+        if len(month_str) == 1:
+            month_str = '0' + month_str
+        day_str = date.split('-')[2]
+        if len(day_str) == 1:
+            day_str = '0' + day_str
+        date = f"{date.split('-')[0]}-{month_str}-{day_str}"
     else:
-        return f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}"
+        date = f"{tomorrow.year}-{tomorrow.month}-{tomorrow.day}"
+        month_str = date.split('-')[1]
+        if len(month_str) == 1:
+            month_str = '0' + month_str
+        day_str = date.split('-')[2]
+        if len(day_str) == 1:
+            day_str = '0' + day_str
+        date = f"{date.split('-')[0]}-{month_str}-{day_str}"
+
+    return date
 
 
 async def get_day_name(day):

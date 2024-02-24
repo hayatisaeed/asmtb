@@ -215,8 +215,26 @@ def admin_save_subjects():
 @app.route('/showMyReports')
 def show_my_reports():
     user_id = request.args.get('user_id')
-    reports_data = core.data_handler.get_all_reports(user_id)
-    return render_template('show_my_reports.html', all_reports=reports_data)
+    try:
+        date = request.args.get('date')
+        month_str = date.split('-')[1]
+        if len(month_str) == 1:
+            month_str = '0' + month_str
+        day_str = date.split('-')[2]
+        if len(day_str) == 1:
+            day_str = '0' + day_str
+        date = f"{date.split('-')[0]}-{month_str}-{day_str}"
+    except Exception as e:
+        print("Error in webapp show_my_reports:", e)
+        date = False
+
+    if not date:
+        reports_data = core.data_handler.get_all_reports(user_id)
+        weekly_reports = reports_data # Must be Changed
+        return render_template('show_my_reports.html', all_reports=reports_data, user_id=user_id,
+                               weekly_reports=weekly_reports)
+    else:
+        return
 
 
 if __name__ == "__main__":
