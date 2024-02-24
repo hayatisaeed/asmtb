@@ -178,7 +178,7 @@ def admin_dashboard():
 @app.route('/admin/logout')
 def admin_logout():
     if 'logged_in' in session:
-        session['logged_in'] = False
+        session.pop(admin_username, None)
     return redirect('/admin')
 
 
