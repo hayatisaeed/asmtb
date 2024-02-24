@@ -66,7 +66,7 @@ function addRow(subjects) {
     });
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
-    defaultOption.textContent = 'Select Subject';
+    defaultOption.textContent = 'کتاب را انتخاب کنید';
     subjectSelect.appendChild(defaultOption);
     for (const subject in subjects) {
         const option = document.createElement('option');
