@@ -136,6 +136,10 @@ def show_report_form():
 @app.route('/saveNewReport', methods=['POST'])
 def save_new_report():
     form_data = request.form
+
+    user_name = request.form['user_name']
+    user_id = request.form['user_id']
+
     data = {}
     for i in form_data:
         data[i] = form_data[i]

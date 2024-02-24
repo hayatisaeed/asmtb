@@ -8,17 +8,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Study Report</h1>
-    <p>Name: {{ data['name'] }}</p>
+    <h1>گزارش مطالعاتی</h1>
+    <p>نام: {{ data['name'] }}</p>
     <p>UserID: {{ data['user_id'] }}</p>
     <table>
         <tr>
-            <th>Row</th>
-            <th>Subject</th>
-            <th>Under Subject</th>
-            <th>Under Under Subject</th>
-            <th>Hours</th>
-            <th>T Count</th>
+            <th>ردیف</th>
+            <th>کتاب</th>
+            <th>درس</th>
+            <th>مبحث</th>
+            <th>زمان (ساعت)</th>
+            <th>تعداد تست</th>
         </tr>
         {% for row in data %}
         <tr>
