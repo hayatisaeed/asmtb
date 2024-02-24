@@ -101,8 +101,9 @@
 <body>
     <h1>Manage Subjects</h1>
     <div class="subject">
-        <!-- Subject Container -->
-        {% for subject, under_subjects in subjects.items() %}
+        <div id="subjects">
+            <!-- Existing subjects and their subtopics will be appended here -->
+            {% for subject, under_subjects in subjects.items() %}
         <div class="subject">
             <h3>{{ subject }}</h3>
             <ul>
@@ -127,8 +128,6 @@
             <button class="btn delete-btn">Delete Subject</button>
         </div>
         {% endfor %}
-        <div id="subjects">
-            <!-- Existing subjects and their subtopics will be appended here -->
         </div>
     </div>
     <button id="addSubject" class="add-btn">Add Subject</button>
