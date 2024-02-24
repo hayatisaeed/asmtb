@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, session, j
 import requests
 import json
 import core.data_handler
+from core.config import Config
 
 app = Flask(__name__)
 
@@ -155,7 +156,13 @@ def save_new_report():
 
         usable_data[row][title] = data[i]
 
-    return render_template('saveNewReport.html', data=usable_data, user_name=user_name, user_id=user_id)
+    core.data_handler.save_new_report(user_id, date, usable_data)
+    bot_username = Config.BOT_USER_NAME
+    link = f"https://t.me/{bot_username}"
+    message = """با موفقیت ذخیره شد"""
+
+    return render_template('saveNewReport.html', date=date, data=usable_data, user_name=user_name,
+                           user_id=user_id, message=message, link=link)
 
 
 @app.route('/admin', methods=['GET', 'POST'])

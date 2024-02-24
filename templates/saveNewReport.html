@@ -1,6 +1,6 @@
 <!--saveNewReport.html-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,10 @@
 <body>
     <h1>گزارش مطالعاتی</h1>
     <p style="text-align: center">نام: {{ user_name }}</p>
-    <p style="text-align: center">UserID: {{ user_id }}</p>
+    <p style="text-align: center">آیدی عددی: {{ user_id }}</p>
+    <p style="text-align: center">تاریخ: {{ date }}</p>
+    <p style="text-align: center">{{ message }}</p>
+    <p style="text-align: center"><a href="{{ link }}">برای بازگشت به بات اینجا بزنید</a></p>
     <table>
         <tr>
             <th>ردیف</th>
