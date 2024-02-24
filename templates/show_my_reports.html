@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+        }
+
+        .tabs {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .tablinks {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .tablinks:hover {
+            background-color: #0056b3;
+        }
+
+        .tabcontent {
+            display: none;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 5px 10px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul li a:hover {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Reports</h1>
+        <div class="tabs">
+            <button class="tablinks" onclick="openTab(event, 'WeeklyReports')">Weekly Reports</button>
+            <button class="tablinks" onclick="openTab(event, 'AllReports')">All Reports</button>
+        </div>
+        <div id="WeeklyReports" class="tabcontent">
+            <h2>Weekly Reports</h2>
+            <ul>
+                {% for date in weekly_reports %}
+                <li><a href="/showMyReports?user_id={{ user_id }}&date={{ date }}">{{ date }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="AllReports" class="tabcontent">
+            <h2>All Reports</h2>
+            <ul>
+                {% for date in all_reports %}
+                <li><a href="/showMyReports?user_id={{ user_id }}&date={{ date }}">{{ date }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Default open tab
+        document.getElementById("WeeklyReports").style.display = "block";
+    </script>
+</body>
+</html>

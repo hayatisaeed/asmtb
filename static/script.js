@@ -38,7 +38,7 @@ function underSubjectChanged(selectElement, subjects) {
     underUnderSubjectsDropdown.disabled = false;
 
     // Clear existing options
-    underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
+    underUnderSubjectsDropdown.innerHTML = '<option value="">مبحث را انتخاب کنید</option>';
 
     // Populate underUnderSubjectsDropdown based on the selected subject and under subject
     underUnderSubjects.forEach(function(underUnderSubject) {
@@ -84,7 +84,7 @@ function addRow(subjects) {
     });
     const underSubjectDefaultOption = document.createElement('option');
     underSubjectDefaultOption.value = '';
-    underSubjectDefaultOption.textContent = 'Select Under Subject';
+    underSubjectDefaultOption.textContent = 'درس را انتخاب کنید';
     underSubjectSelect.appendChild(underSubjectDefaultOption);
 
     const underUnderSubjectSelect = document.createElement('select');
@@ -93,20 +93,20 @@ function addRow(subjects) {
     underUnderSubjectSelect.disabled = true;
     const underUnderSubjectDefaultOption = document.createElement('option');
     underUnderSubjectDefaultOption.value = '';
-    underUnderSubjectDefaultOption.textContent = 'Select Under Under Subject';
+    underUnderSubjectDefaultOption.textContent = 'مبحث را انتخاب کنید';
     underUnderSubjectSelect.appendChild(underUnderSubjectDefaultOption);
 
     const hoursInput = document.createElement('input');
     hoursInput.type = 'number';
     hoursInput.name = `hours[${rowCount - 1}]`;
-    hoursInput.placeholder = 'Hours';
+    hoursInput.placeholder = 'ساعت';
     hoursInput.min = 1;
     hoursInput.required = true;
 
     const tCountInput = document.createElement('input');
     tCountInput.type = 'number';
     tCountInput.name = `t_count[${rowCount - 1}]`;
-    tCountInput.placeholder = 'T Count';
+    tCountInput.placeholder = 'تعداد تست';
     tCountInput.min = 1;
     tCountInput.required = true;
 

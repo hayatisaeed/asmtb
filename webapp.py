@@ -212,5 +212,12 @@ def admin_save_subjects():
     return jsonify({"message": "Subjects saved successfully."})
 
 
+@app.route('/showMyReports')
+def show_my_reports():
+    user_id = request.args.get('user_id')
+    reports_data = core.data_handler.get_all_reports(user_id)
+    return render_template('show_my_reports.html', all_reports=reports_data)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
