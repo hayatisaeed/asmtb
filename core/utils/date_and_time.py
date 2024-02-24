@@ -55,3 +55,28 @@ async def x_days_after_date(x: int, date_string: str):
 async def get_exact_date_and_time():
     now = datetime.datetime.now()
     return f"{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}"
+
+
+def recent_seven_days():
+    # Get today's date
+    today = datetime.datetime.now().date()
+
+    # Initialize an empty list to store the dates
+    dates_list = []
+
+    # Loop to generate the dates for the recent seven days
+    for i in range(6, -1, -1):
+        # Subtract 'i' days from today to get the date
+        date = today - datetime.timedelta(days=i)
+        # Format the date and append to the list
+        this_date = date.strftime("%Y-%m-%d")
+        month_str = this_date.split('-')[1]
+        if len(month_str) == 1:
+            month_str = '0' + month_str
+        day_str = this_date.split('-')[2]
+        if len(day_str) == 1:
+            day_str = '0' + day_str
+        this_date = f"{this_date.split('-')[0]}-{month_str}-{day_str}"
+        dates_list.append(this_date)
+
+    return dates_list

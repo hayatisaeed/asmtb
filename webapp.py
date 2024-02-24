@@ -3,6 +3,7 @@ import requests
 import json
 import core.data_handler
 from core.config import Config
+import core.utils.date_and_time
 
 app = Flask(__name__)
 
@@ -230,7 +231,13 @@ def show_my_reports():
 
     if not date:
         reports_data = core.data_handler.get_all_reports(user_id)
-        weekly_reports = reports_data  # Must be Changed
+        recent_week = core.utils.date_and_time.recent_seven_days()
+        weekly_reports = {}
+
+        for date in reports_data:
+            if date in recent_week:
+                weekly_reports[date] = weekly_reports.get(date)
+
         return render_template('show_my_reports.html', all_reports=reports_data, user_id=user_id,
                                weekly_reports=weekly_reports)
     else:
