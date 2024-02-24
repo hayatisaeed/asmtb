@@ -531,4 +531,6 @@ def get_all_reports(user_id):
     user_id = str(user_id)
     with open('data/user_reports.json', 'r') as f:
         data = json.load(f)
+        if user_id not in data:
+            return {}
         return data[user_id]
