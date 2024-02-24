@@ -9,8 +9,8 @@ function subjectChanged(selectElement, subjects) {
     underSubjectsDropdown.disabled = false;
 
     // Clear existing options
-    underSubjectsDropdown.innerHTML = '<option value="">Select Under Subject</option>';
-    underUnderSubjectsDropdown.innerHTML = '<option value="">Select Under Under Subject</option>';
+    underSubjectsDropdown.innerHTML = '<option value="">درس را انتخاب کنید</option>';
+    underUnderSubjectsDropdown.innerHTML = '<option value="">مبحث را انتخاب کنید</option>';
 
     // Get the under subjects for the selected subject
     const underSubjects = subjects[selectedSubject];
