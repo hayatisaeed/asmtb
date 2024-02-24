@@ -171,41 +171,17 @@ def admin_manage_subjects():
     subjects = core.data_handler.get_subjects_dict()
 
     if 'logged_in' in session:
-        if request.method == 'POST':
-            # Handle form submission to add, edit, or delete subjects
-            if 'add-subject' in request.form:
-                new_subject_name = request.form['new-subject']
-                subjects[new_subject_name] = {"name": new_subject_name, "under_subjects": {}}
-            elif 'edit-subject' in request.form:
-                old_subject_name = request.form['old-subject']
-                new_subject_name = request.form['new-subject']
-                subjects[new_subject_name] = subjects.pop(old_subject_name)
-                subjects[new_subject_name]["name"] = new_subject_name
-            elif 'delete-subject' in request.form:
-                subject_name = request.form['delete-subject']
-                subjects.pop(subject_name)
-            return redirect(url_for('manage_subjects'))
-        else:
-            return render_template('admin_manage_subjects.html', subjects=subjects)
+        return render_template('admin_manage_subjects.html', subjects=subjects)
 
     else:
         return redirect(url_for('admin_login'))
 
 
-# TEMP
-subjects = {
-    "sub1": {"under_sub1-1": ["under_under_sub1-1-1", "under_under_sub1-1-2"], "under_sub1-2": ["under_under_sub1-2-1", "under_under_sub1-2-2"]},
-    "sub2": {"under_sub2-1": ["under_under_sub2-1-1", "under_under_sub2-1-2"], "under_sub2-2": ["under_under_sub2-2-1", "under_under_sub2-2-2"]}
-}
-# END TEMP
-
-
 @app.route('/admin/saveSubjects', methods=['POST'])
 def admin_save_subjects():
-    global subjects
+    subjects = core.data_handler.get_subjects_dict()
     subjects = request.json['subjects']
-    # Save subjects to data handler
-    # core.data_handler.save_subjects(subjects)
+    core.data_handler.save_subjects(subjects)
     return jsonify({"message": "Subjects saved successfully."})
 
 
