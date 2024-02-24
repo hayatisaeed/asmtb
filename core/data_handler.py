@@ -511,3 +511,24 @@ def get_subjects_dict():
 def save_subjects(subjects):
     with open('data/subjects.json', 'w') as f:
         json.dump(subjects, f)
+
+
+def save_new_report(user_id, date, report_data):
+    user_id = str(user_id)
+    with open('data/user_reports.json', 'r') as f:
+        data = json.load(f)
+
+    if user_id not in data:
+        data[user_id] = {}
+
+    data[user_id][date] = report_data
+
+    with open('data/user_reports.json', 'w') as f:
+        json.dump(data, f)
+
+
+def get_all_reports(user_id):
+    user_id = str(user_id)
+    with open('data/user_reports.json', 'r') as f:
+        data = json.load(f)
+        return data[user_id]

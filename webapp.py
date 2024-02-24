@@ -128,8 +128,9 @@ def verify_payment():
 def show_report_form():
     user_id = request.args.get('user_id')
     user_name = request.args.get('user_name')
+    date = request.args.get('date')
     subjects = core.data_handler.get_subjects_dict()
-    return render_template('dynamic_form.html', subjects=subjects, user_name=user_name,
+    return render_template('dynamic_form.html', subjects=subjects, user_name=user_name, date=date,
                            user_id=user_id)
 
 
@@ -139,6 +140,7 @@ def save_new_report():
 
     user_name = request.args['name']
     user_id = request.args['user_id']
+    date = request.args['date']
 
     data = {}
     for i in form_data:
