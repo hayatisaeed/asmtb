@@ -100,36 +100,38 @@
 </head>
 <body>
     <h1>Manage Subjects</h1>
-    <div class="subject">
         <div id="subjects">
             <!-- Existing subjects and their subtopics will be appended here -->
             {% for subject, under_subjects in subjects.items() %}
-        <div class="subject">
-            <h3>{{ subject }}</h3>
-            <ul>
-                <!-- Under Subject Container -->
-                {% for under_subject, under_under_subjects in under_subjects.items() %}
-                <li>
-                    <h4>{{ under_subject }}</h4>
-                    <ul>
-                        <!-- Under Under Subject Container -->
-                        {% for under_under_subject in under_under_subjects %}
-                        <li>{{ under_under_subject }}</li>
-                        {% endfor %}
-                        <!-- Add Under Under Subject Button -->
-                        <button class="btn add-btn">Add Under Under Subject</button>
-                    </ul>
-                </li>
-                {% endfor %}
-                <!-- Add Under Subject Button -->
-                <button class="btn add-btn">Add Under Subject</button>
-            </ul>
-            <!-- Delete Subject Button -->
-            <button class="btn delete-btn">Delete Subject</button>
+            <div class="subject" id="{{ subject }}">
+                <h3>{{ subject }}</h3>
+                <ul>
+                    <!-- Under Subject Container -->
+                    {% for under_subject, under_under_subjects in under_subjects.items() %}
+                    <li>
+                        <div class="subtopic" id="{{ under_subject }}">
+                        <h4>{{ under_subject }}</h4>
+                            <ul>
+                                <!-- Under Under Subject Container -->
+                                {% for under_under_subject in under_under_subjects %}
+                                <div class="subSubtopic" id="{{ under_under_subject }}">
+                                    <li>{{ under_under_subject }}</li>
+                                </div>
+                                {% endfor %}
+                                <!-- Add Under Under Subject Button -->
+                                <button class="btn add-btn">Add Under Under Subject</button>
+                            </ul>
+                        </div>
+                    </li>
+                    {% endfor %}
+                    <!-- Add Under Subject Button -->
+                    <button class="btn add-btn">Add Under Subject</button>
+                </ul>
+                <!-- Delete Subject Button -->
+                <button class="btn delete-btn">Delete Subject</button>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        </div>
-    </div>
     <button id="addSubject" class="add-btn">Add Subject</button>
     <button id="saveData" class="btn">Save Data</button>
 </body>
