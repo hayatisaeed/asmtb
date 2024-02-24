@@ -15,7 +15,7 @@
                 if (subjectName) {
                     $("#subjects").append(`<div class="subject" id="${subjectName}">
                                                 <span>${subjectName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
-                                                <button class="add-btn" onclick="addSubtopic('${subjectName}')">افزودن</button>
+                                                <button class="add-btn addSubtopic" onclick="addSubtopic('${subjectName}')">افزودن</button>
                                             </div>`);
                 }
             });
@@ -26,7 +26,7 @@
                 var subtopicName = prompt("Enter the name of the new subtopic:");
                 if (subtopicName) {
                     $(this).before(`<div class="subtopic" id="${subtopicName}">
-                                        <span>${subtopicName} <button class="delete-btn" onclick="deleteItem(this)">حذف</button></span>
+                                        <span>${subtopicName} <button class="delete-btn addSubSubtopic" onclick="deleteItem(this)">حذف</button></span>
                                         <button class="add-btn" onclick="addSubSubtopic('${subjectName}', '${subtopicName}')">افزودن</button>
                                     </div>`);
                 }
@@ -141,10 +141,10 @@
                                 {% endfor %}
                                 <!-- Add Under Under Subject Button -->
                             </ul>
-                            <button class="add-btn" onclick="addSubSubtopic('{{ subject }}', '{{ under_subject }}')">افزودن</button>
+                            <button class="add-btn addSubSubtopic" onclick="addSubSubtopic('{{ subject }}', '{{ under_subject }}')">افزودن</button>
                         </div>
                     </li>
-                    <button class="add-btn" onclick="addSubtopic('{{ subject }}')">افزودن</button>
+                    <button class="add-btn addSubtopic" onclick="addSubtopic('{{ subject }}')">افزودن</button>
                     {% endfor %}
                     <!-- Add Under Subject Button -->
 
