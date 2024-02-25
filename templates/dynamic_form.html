@@ -17,26 +17,27 @@
         <input id="user_id" type="text" name="user_id" disabled value="{{ user_id }}">
 
         <div id="subjects">
-            <div class="row">
-                <select name="subject[0]" class="subject" onchange="subjectChanged(this, {{ subjects }})">
-                    <option value="">کتاب را انتخاب کنید</option>
-                    {% for subject in subjects %}
-                    <option value="{{ subject }}">{{ subject }}</option>
-                    {% endfor %}
-                </select>
-                <select name="under_subject[0]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">
-                    <option value="">درس را انتخاب کنید</option>
-                </select>
-                <select name="under_under_subject[0]" class="under-under-subject" disabled>
-                    <option value="">مبحث را انتخاب کنید</option>
-                </select>
-                <input type="number" name="hours[0]" placeholder="زمان (ساعت)" min="1" required>
-                <input type="number" name="t_count[0]" placeholder="تعداد تست" min="0" required>
-            </div>
+<!--            <div class="row">-->
+<!--                <select name="subject[0]" class="subject" onchange="subjectChanged(this, {{ subjects }})">-->
+<!--                    <option value="">کتاب را انتخاب کنید</option>-->
+<!--                    {% for subject in subjects %}-->
+<!--                    <option value="{{ subject }}">{{ subject }}</option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+<!--                <select name="under_subject[0]" class="under-subject" disabled onchange="underSubjectChanged(this, {{ subjects }})">-->
+<!--                    <option value="">درس را انتخاب کنید</option>-->
+<!--                </select>-->
+<!--                <select name="under_under_subject[0]" class="under-under-subject" disabled>-->
+<!--                    <option value="">مبحث را انتخاب کنید</option>-->
+<!--                </select>-->
+<!--                <input type="number" name="hours[0]" placeholder="زمان (ساعت)" min="1" required>-->
+<!--                <input type="number" name="t_count[0]" placeholder="تعداد تست" min="0" required>-->
+<!--            </div>-->
+            <span>لطفا با زدن دکمه ثبت مطالعه جدید، مطالعه‌های خود در طول روز را تک به تک وارد کنید.</span>
         </div>
 
-        <button type="button" id="add-row" onclick="addRow({{ subjects }})">اضافه کردن</button>
-        <button type="submit">ارسال گزارش</button>
+        <button type="button" id="add-row" onclick="addRow({{ subjects }})">ثبت مطالعه جدید</button>
+        <button type="submit">ارسال نهایی گزارش</button>
     </form>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

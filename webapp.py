@@ -246,14 +246,18 @@ def show_my_reports():
             report_data = report_data[date]
             sum_of_hours = 0
             sum_of_t = 0
+            sum_of_c_t = 0
+            sum_of_w_t = 0
             for row in report_data:
                 sum_of_hours += int(report_data[row]['hours'])
                 sum_of_t += int(report_data[row]['t_count'])
+                sum_of_c_t += int(report_data[row]['t_c_count'])
+                sum_of_w_t += int(report_data[row]['t_w_count'])
         except Exception as e:
             print("Error in webapp show_my_reports:", e)
             return redirect("/")
         return render_template('show_report_by_date.html', data=report_data, user_id=user_id, date=date,
-                               sum_of_hours=sum_of_hours, sum_of_t=sum_of_t)
+                               sum_of_hours=sum_of_hours, sum_of_t=sum_of_t, sum_of_c_t=sum_of_c_t, sum_of_w_t=sum_of_w_t)
 
 
 if __name__ == "__main__":

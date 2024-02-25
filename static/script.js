@@ -96,6 +96,42 @@ function addRow(subjects) {
     underUnderSubjectDefaultOption.textContent = 'مبحث را انتخاب کنید';
     underUnderSubjectSelect.appendChild(underUnderSubjectDefaultOption);
 
+    // type of study
+    const typeOfStudySelect = document.createElement('select');
+    typeOfStudySelect.name = `typeOfStudy[${rowCount - 1}]`;
+    typeOfStudySelect.classList.add('typeOfStudy');
+    typeOfStudySelect.disabled = false;
+    const typeOfStudyDefaultOption = document.createElement('option');
+    typeOfStudyDefaultOption.value = '';
+    typeOfStudyDefaultOption.textContent = 'نوع مطالعه';
+    typeOfStudySelect.appendChild(typeOfStudyDefaultOption);
+
+    const typeOfStudyTutorial = document.createElement('option');
+    typeOfStudyTutorial.value = 'درسنامه';
+    typeOfStudyTutorial.textContent = 'درسنامه';
+    typeOfStudySelect.appendChild(typeOfStudyTutorial);
+
+    const typeOfStudyVideo = document.createElement('option');
+    typeOfStudyVideo.value = 'فیلم';
+    typeOfStudyVideo.textContent = 'فیلم';
+    typeOfStudySelect.appendChild(typeOfStudyVideo);
+
+    const typeOfStudyClass = document.createElement('option');
+    typeOfStudyClass.value = 'کلاس درس';
+    typeOfStudyClass.textContent = 'کلاس درس';
+    typeOfStudySelect.appendChild(typeOfStudyClass);
+
+    const typeOfStudyTest = document.createElement('option');
+    typeOfStudyTest.value = 'تست زنی';
+    typeOfStudyTest.textContent = 'تست زنی';
+    typeOfStudySelect.appendChild(typeOfStudyTest);
+
+    const typeOfStudyReview = document.createElement('option');
+    typeOfStudyReview.value = 'مرور';
+    typeOfStudyReview.textContent = 'مرور';
+    typeOfStudySelect.appendChild(typeOfStudyReview);
+    // type of study
+
     const hoursInput = document.createElement('input');
     hoursInput.type = 'number';
     hoursInput.name = `hours[${rowCount - 1}]`;
@@ -107,14 +143,34 @@ function addRow(subjects) {
     tCountInput.type = 'number';
     tCountInput.name = `t_count[${rowCount - 1}]`;
     tCountInput.placeholder = 'تعداد تست';
-    tCountInput.min = 1;
+    tCountInput.min = 0;
     tCountInput.required = true;
+
+    // Correct Tests
+    const tCCountInput = document.createElement('input');
+    tCCountInput.type = 'number';
+    tCCountInput.name = `t_c_count[${rowCount - 1}]`;
+    tCCountInput.placeholder = 'تعداد تست درست';
+    tCCountInput.min = 0;
+    tCCountInput.required = true;
+    // wrong tests
+    const tWCountInput = document.createElement('input');
+    tWCountInput.type = 'number';
+    tWCountInput.name = `t_w_count[${rowCount - 1}]`;
+    tWCountInput.placeholder = 'تعداد تست غلط';
+    tWCountInput.min = 0;
+    tWCountInput.required = true;
+    // end of tests
 
     newRow.appendChild(subjectSelect);
     newRow.appendChild(underSubjectSelect);
     newRow.appendChild(underUnderSubjectSelect);
+    newRow.appendChild(typeOfStudySelect);
     newRow.appendChild(hoursInput);
     newRow.appendChild(tCountInput);
+    newRow.appendChild(tCCountInput);
+    newRow.appendChild(tWCountInput);
+
 
     subjectsDiv.appendChild(newRow);
 }

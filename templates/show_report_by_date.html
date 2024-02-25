@@ -75,20 +75,26 @@
     <table>
         <tr>
             <th>ردیف</th>
+            <th>نوع مطالعه</th>
             <th>کتاب</th>
             <th>درس</th>
             <th>مبحث</th>
             <th>زمان (ساعت)</th>
             <th>تعداد تست</th>
+            <th>تعداد درست</th>
+            <th>تعداد غلط</th>
         </tr>
         {% for row in data %}
         <tr>
             <td>{{ row }}</td>
+            <td>{{ data[row]['typeOfStudy'] }}</td>
             <td>{{ data[row]['subject'] }}</td>
             <td>{{ data[row]['under_subject'] }}</td>
             <td>{{ data[row]['under_under_subject'] }}</td>
             <td>{{ data[row]['hours'] }}</td>
             <td>{{ data[row]['t_count'] }}</td>
+            <td>{{ data[row]['t_c_count'] }}</td>
+            <td>{{ data[row]['t_w_count'}} }}</td>
         </tr>
         {% endfor %}
         <tr>
@@ -96,8 +102,11 @@
             <th>-</th>
             <th>-</th>
             <th>-</th>
+            <th>-</th>
             <th>{{ sum_of_hours }}</th>
             <th>{{ sum_of_t }}</th>
+            <th>{{ sum_of_c_t }}</th>
+            <th>{{ sum_of_w_t }}</th>
         </tr>
     </table>
 </body>
