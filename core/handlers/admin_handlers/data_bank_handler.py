@@ -282,7 +282,7 @@ async def add_file_to_makhzan(update: Update, context: CallbackContext):
 async def csofim(update: Update, context: CallbackContext):
     query = update.callback_query
     message_id = query.data.split()[1]
-    category_id = int(query.data.split()[2])
+    category_id = query.data.split()[2]
 
     makhzan_data = core.data_handler.get_makhzan_data()
     message_data = await core.data_handler.get_file_in_file_bank(message_id)
