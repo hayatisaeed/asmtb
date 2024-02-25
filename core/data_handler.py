@@ -534,3 +534,14 @@ def get_all_reports(user_id):
         if user_id not in data:
             return {}
         return data[user_id]
+
+
+def get_makhzan_data():
+    with open('data/makhzan_data.json', 'r') as f:
+        data = json.load(f)
+        return data
+
+
+def edit_makhzan_data(new_data):
+    with open('data/makhzan_data.json', 'w') as f:
+        json.dump(new_data, f)

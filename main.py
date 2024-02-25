@@ -31,6 +31,8 @@ import core.handlers.admin_handlers.sub_handler
 import core.handlers.user_handlers.sub_handler
 import core.handlers.user_handlers.report_handler
 import core.handlers.admin_handlers.report_handler
+import core.handlers.user_handlers.makhzan_handler
+import core.handlers.admin_handlers.makhzan_handler
 
 
 logging.basicConfig(
@@ -619,6 +621,62 @@ def main():
     admin_subject_manager = MessageHandler(filters.Regex("^تنظیمات درس‌ها$"),
                                            core.handlers.admin_handlers.report_handler.manage_subjects)
 
+    user_makhzan_handler = MessageHandler(filters.Regex("^مخزن فایل$"),
+                                          core.handlers.user_handlers.makhzan_handler.handle)
+
+    admin_makhzan_handler = ConversationHandler(
+        entry_points=[
+            MessageHandler(filters.Regex("^تنظیمات مخزن فایل$"),
+                           core.handlers.admin_handlers.makhzan_handler.handle)
+        ],
+        states={
+            'CHOOSING': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.Regex("^اضافه کردن دسته بندی$"),
+                               core.handlers.admin_handlers.makhzan_handler.new_category),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ],
+            'SEND_CAT_NAME': [
+                MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                               core.handlers.user_handlers.basic_settings_handler.return_home),
+                MessageHandler(filters.TEXT,
+                               core.handlers.admin_handlers.makhzan_handler.save_new_category),
+                MessageHandler(filters.ALL,
+                               core.handlers.user_handlers.basic_settings_handler.return_home)
+            ]
+        },
+        fallbacks=[
+            MessageHandler(filters.Regex('^🔙 | بازگشت به منوی اصلی$'),
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.COMMAND,
+                           core.handlers.user_handlers.basic_settings_handler.return_home),
+            MessageHandler(filters.ALL,
+                           core.handlers.user_handlers.basic_settings_handler.return_home)
+        ]
+    )
+
+    admin_csofim_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.data_bank_handler.csofim,
+        pattern="^admin-csofim"
+    )
+
+    admin_rem_mcat_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.makhzan_handler.remove_category,
+        pattern="^admin-rem-mcat"
+    )
+
+    show_foc_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.makhzan_handler.show_foc,
+        pattern="^show-foc"
+    )
+
+    makhzan_show_the_file_handler = CallbackQueryHandler(
+        core.handlers.user_handlers.makhzan_handler.show_the_file,
+        pattern="^show-the-file"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -631,7 +689,9 @@ def main():
         user_call_reservation_choose_day, user_call_confirm_reservation_handler, user_wallet_handler, user_sub_handler,
         user_new_payment_handler, user_confirm_payment, admin_wallet_handler, admin_show_reservations,
         admin_show_reservation_details, admin_manage_sub_handler, admin_change_free_status, user_buy_sub_handler,
-        admin_change_bot_is_free_status, new_report_handler, reports_settings_handler, admin_subject_manager
+        admin_change_bot_is_free_status, new_report_handler, reports_settings_handler, admin_subject_manager,
+        makhzan_show_the_file_handler, show_foc_handler, admin_rem_mcat_handler, admin_csofim_handler,
+        user_makhzan_handler, admin_makhzan_handler
     ]
 
     # Add Handlers To Application

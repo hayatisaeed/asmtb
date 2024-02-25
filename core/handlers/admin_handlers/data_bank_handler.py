@@ -127,6 +127,7 @@ async def show_file(update: Update, context: CallbackContext):
     delete_keyboard = [
         [InlineKeyboardButton("🔗 لینک این فایل 🔗", callback_data=f"show-link {message_id}")],
         [InlineKeyboardButton(motivation_button_text, callback_data=f"change-motivation-status {message_id}")],
+        [InlineKeyboardButton('اضافه به مخزن', callback_data=f"admin-add-to-makhzan {message_id}")],
         [InlineKeyboardButton("نکات مشاوره‌ای", callback_data=f"data-bank-advice {message_id}")],
         [InlineKeyboardButton("❌ حذف این فایل ❌", callback_data=f"delete-file {message_id}")]
     ]
@@ -251,3 +252,63 @@ async def add_file_to_advice_category(update: Update, context: CallbackContext):
         await core.data_handler.new_advice(category_hash, title, message_id)
 
     await show_advice_categories(update, context)
+
+
+async def add_file_to_makhzan(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+
+    makhzan_data = core.data_handler.edit_makhzan_data()
+
+    inline_keyboard = []
+
+    for category in makhzan_data:
+        if message_id in makhzan_data[category]['files']:
+            text = "✅ " + makhzan_data[category]['name']
+        else:
+            text = "➕ " + makhzan_data[category]['name']
+
+        inline_keyboard.append([
+            InlineKeyboardButton(text, callback_data=f'admin-csofim {message_id} {category}')
+            # csofim = change status of file in makhzan
+        ])
+
+    inline_markup = InlineKeyboardMarkup(inline_keyboard)
+
+    await query.edit_message_text(text="افزودن یا حذف این فایل از دسته بندی های زیر", reply_markup=inline_markup)
+    await query.answer()
+
+
+async def csofim(update: Update, context: CallbackContext):
+    query = update.callback_query
+    message_id = query.data.split()[1]
+    category_id = int(query.data.split()[2])
+
+    makhzan_data = core.data_handler.get_makhzan_data()
+    message_data = await core.data_handler.get_file_in_file_bank(message_id)
+    message_title = message_data["title"]
+
+    if message_id in makhzan_data[category_id]['files']:
+        makhzan_data[category_id]['files'].pop(message_id)
+    else:
+        makhzan_data[category_id]['files'][message_id] = message_title
+
+    core.data_handler.edit_makhzan_data(makhzan_data)
+
+    keyboard = []
+
+    for category in makhzan_data:
+        if message_id in makhzan_data[category]['files']:
+            text = "✅ " + makhzan_data[category]['name']
+        else:
+            text = "➕ " + makhzan_data[category]['name']
+
+        keyboard.append([
+            InlineKeyboardButton(text, callback_data=f'admin-csofim {message_id} {category}')
+            # csofim = change status of file in makhzan
+        ])
+
+    inline_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text(text="افزودن یا حذف این فایل از دسته بندی های زیر", reply_markup=inline_markup)
+    await query.answer("انجام شد")
