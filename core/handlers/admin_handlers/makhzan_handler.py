@@ -51,9 +51,14 @@ async def save_new_category(update: Update, context: CallbackContext):
     makhzan_data = core.data_handler.get_makhzan_data()
 
     if len(makhzan_data):
+        for i in makhzan_data:
+            temp = makhzan_data[i]
+            makhzan_data.pop(i)
+            makhzan_data[int(i)] = temp
         new_key = max(makhzan_data) + 1
     else:
         new_key = 1
+
     makhzan_data[new_key] = {'name': new_category_name, "files": {}}
     core.data_handler.edit_makhzan_data(makhzan_data)
 
