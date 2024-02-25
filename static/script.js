@@ -135,7 +135,7 @@ function addRow(subjects) {
     const hoursInput = document.createElement('input');
     hoursInput.type = 'number';
     hoursInput.name = `hours[${rowCount - 1}]`;
-    hoursInput.placeholder = 'ساعت';
+    hoursInput.placeholder = 'مقدار مطالعه (دقیقه)';
     hoursInput.min = 1;
     hoursInput.required = true;
 
