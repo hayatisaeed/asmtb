@@ -39,7 +39,7 @@ async def show_foc(update: Update, context: CallbackContext):
 
     for file_id in makhzan_data['files']:
         inline_keyboard.append([
-            InlineKeyboardButton(f"{makhzan_data['files'][file_id]}", callback_data=f" {file_id}")
+            InlineKeyboardButton(f"{makhzan_data['files'][file_id]}", callback_data=f"show-the-file {file_id}")
         ])
 
     inline_markup = InlineKeyboardMarkup(inline_keyboard)
