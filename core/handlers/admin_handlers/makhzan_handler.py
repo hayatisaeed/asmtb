@@ -77,7 +77,7 @@ async def remove_category(update: Update, context: CallbackContext):
     makhzan_data = core.data_handler.get_makhzan_data()
 
     try:
-        makhzan_data.pop(int(category_id))
+        makhzan_data.pop(category_id)
         core.data_handler.edit_makhzan_data(makhzan_data)
     except Exception as e:
         print("error in remove_category admin_handler/makhzan_handler.py: ", e)
