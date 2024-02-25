@@ -258,7 +258,7 @@ async def add_file_to_makhzan(update: Update, context: CallbackContext):
     query = update.callback_query
     message_id = query.data.split()[1]
 
-    makhzan_data = core.data_handler.edit_makhzan_data()
+    makhzan_data = core.data_handler.get_makhzan_data()
 
     inline_keyboard = []
 
