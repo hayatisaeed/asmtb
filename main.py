@@ -677,6 +677,11 @@ def main():
         pattern="^show-the-file"
     )
 
+    admin_add_to_makhzan_handler = CallbackQueryHandler(
+        core.handlers.admin_handlers.data_bank_handler.add_file_to_makhzan,
+        pattern="^admin-add-to-makhzan"
+    )
+
     handlers = [
         start_handler, joined_channel_handler, admin_bot_general_settings, admin_broadcast_message_handler,
         user_basic_settings_handler, admin_uploader_handler, data_bank_handler, previous_page_handler,
@@ -691,7 +696,7 @@ def main():
         admin_show_reservation_details, admin_manage_sub_handler, admin_change_free_status, user_buy_sub_handler,
         admin_change_bot_is_free_status, new_report_handler, reports_settings_handler, admin_subject_manager,
         makhzan_show_the_file_handler, show_foc_handler, admin_rem_mcat_handler, admin_csofim_handler,
-        user_makhzan_handler, admin_makhzan_handler
+        user_makhzan_handler, admin_makhzan_handler, admin_add_to_makhzan_handler
     ]
 
     # Add Handlers To Application
