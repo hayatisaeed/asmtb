@@ -164,7 +164,7 @@ link for file {data["title"]}:
 async def show_none(update: Update, context: CallbackContext):
     query = update.callback_query
     query_data = query.data.split()[1]
-    await query.answer(f"page {query_data}")
+    await query.answer(f"{query_data}")
 
 
 async def delete_file(update: Update, context: CallbackContext):
@@ -310,5 +310,5 @@ async def csofim(update: Update, context: CallbackContext):
 
     inline_markup = InlineKeyboardMarkup(keyboard)
 
-    await query.edit_message_text(text="افزودن یا حذف این فایل از دسته بندی های زیر", reply_markup=inline_markup)
+    await query.edit_message_reply_markup(reply_markup=inline_markup)
     await query.answer("انجام شد")
