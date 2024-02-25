@@ -275,7 +275,7 @@ async def add_file_to_makhzan(update: Update, context: CallbackContext):
 
     inline_markup = InlineKeyboardMarkup(inline_keyboard)
 
-    await query.edit_message_text(text="افزودن یا حذف این فایل از دسته بندی های زیر", reply_markup=inline_markup)
+    await query.edit_message_reply_markup(reply_markup=inline_markup)
     await query.answer()
 
 
