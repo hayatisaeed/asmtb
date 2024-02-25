@@ -29,7 +29,7 @@ async def handle(update: Update, context: CallbackContext):
 
 async def show_foc(update: Update, context: CallbackContext):
     query = update.callback_query
-    category_id = int(query.data.split()[1])
+    category_id = query.data.split()[1]
 
     makhzan_data = core.data_handler.get_makhzan_data()[category_id]
 
@@ -39,7 +39,7 @@ async def show_foc(update: Update, context: CallbackContext):
 
     for file_id in makhzan_data['files']:
         inline_keyboard.append([
-            InlineKeyboardButton(f"{makhzan_data['files'][file_id]}", callback_data=f"show-the-file {file_id}")
+            InlineKeyboardButton(f"{makhzan_data['files'][file_id]}", callback_data=f" {file_id}")
         ])
 
     inline_markup = InlineKeyboardMarkup(inline_keyboard)
