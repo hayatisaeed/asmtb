@@ -47,8 +47,7 @@ async def new_report(update: Update, context: CallbackContext):
         """
         keyboard = [
             [InlineKeyboardButton("ثبت گزارش جدید برای امروز",
-                                  url=f"http://103.75.197.206:5000/showReportForm?user_id={user_id}&\
-                                          user_name={user_name}&date={date}")]
+                                  url=f"http://103.75.197.206:5000/showReportForm?user_id={user_id}&user_name={user_name}&date={date}")]
         ]
 
     markup = InlineKeyboardMarkup(keyboard)
